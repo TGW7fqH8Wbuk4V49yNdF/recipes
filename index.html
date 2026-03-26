@@ -9,8 +9,6 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   :root { --bg: #f5f0e8; --paper: #fffdf8; --border: #e0d8cc; --gold: #b07d3a; --gold-light: #d4a45a; }
   body { font-family: 'Inter', sans-serif; background: var(--bg); min-height: 100vh; }
-
-  /* INDEX */
   .index-wrap { max-width: 580px; margin: 0 auto; padding: 48px 24px; }
   .index-header { margin-bottom: 24px; border-bottom: 2.5px solid #1a1a1a; padding-bottom: 16px; }
   .index-header h1 { font-family: 'Playfair Display', serif; font-size: 34px; color: #1a1a1a; }
@@ -24,20 +22,17 @@
   .category-heading { font-family: 'Playfair Display', serif; font-size: 14px; color: var(--gold); letter-spacing: 0.06em; text-transform: uppercase; margin: 20px 0 8px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
   .category-heading:first-child { margin-top: 0; }
   .recipe-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
-  .recipe-entry div:hover { background: #fff9f0 !important; border-color: var(--gold) !important; }
+  .recipe-entry div { display: flex; justify-content: space-between; align-items: center; background: var(--paper); border: 1px solid var(--border); padding: 16px 20px; cursor: pointer; transition: background 0.15s; }
+  .recipe-entry div:hover { background: #fff9f0; border-color: var(--gold); }
   .rl-name { font-size: 15px; font-weight: 600; color: #1a1a1a; }
-  .rl-meta { font-size: 12px; color: #999; margin-top: 3px; }
+  .rl-meta { font-size: 12px; color: #999; margin-top: 3px; flex: 1; }
   .rl-arrow { font-size: 20px; color: var(--gold-light); flex-shrink: 0; margin-left: 12px; }
-
-  /* PANELS */
   .recipe-panel { position: fixed; inset: 0; background: var(--bg); overflow-y: auto; -webkit-overflow-scrolling: touch; z-index: 10; }
   .topbar { position: sticky; top: 0; background: var(--paper); border-bottom: 1px solid var(--border); padding: 10px 20px; display: flex; align-items: center; gap: 12px; z-index: 20; }
   .back-btn { display: flex; align-items: center; gap: 6px; background: none; border: 1px solid var(--border); border-radius: 6px; padding: 7px 14px; font-size: 14px; font-weight: 500; color: #1a1a1a; cursor: pointer; white-space: nowrap; flex-shrink: 0; font-family: 'Inter', sans-serif; }
   .back-btn:hover { background: var(--bg); }
   .topbar-title { font-family: 'Playfair Display', serif; font-size: 16px; color: #1a1a1a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; }
   .recipe-wrap { max-width: 720px; margin: 0 auto; padding: 32px 24px 64px; }
-
-  /* RECIPE CONTENT */
   .r-header,.header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2.5px solid #1a1a1a; padding-bottom: 14px; margin-bottom: 28px; }
   .r-header h1,.header h1 { font-family: 'Playfair Display', serif; font-size: 30px; color: #1a1a1a; line-height: 1.1; }
   .r-meta,.header .meta { text-align: right; font-size: 12px; color: #666; line-height: 1.8; letter-spacing: 0.04em; text-transform: uppercase; }
@@ -64,7 +59,6 @@
   .header .subtitle { font-family: 'Playfair Display', serif; font-size: 14px; color: #999; font-style: italic; margin-top: 4px; }
   .note { background: #fdf6ec; border-left: 3px solid #d4a45a; padding: 12px 16px; font-size: 12.5px; color: #555; line-height: 1.6; margin-top: 16px; }
   .note strong { color: #1a1a1a; }
-
   @media (max-width: 600px) {
     .index-wrap { padding: 32px 16px; }
     .r-header,.header { flex-direction: column; align-items: flex-start; gap: 8px; }
@@ -76,7 +70,6 @@
 </style>
 </head>
 <body>
-
 <div class="index-wrap">
   <div class="index-header">
     <h1>My Recipes</h1>
@@ -89,203 +82,61 @@
         <button class="tab-btn" onclick="showTab('sides',this)">Sides</button>
         <button class="tab-btn" onclick="showTab('sauces',this)">Sauces</button>
         <button class="tab-btn" onclick="showTab('desserts',this)">Desserts</button>
-        <button class="tab-btn" onclick="showTab('baking',this)">Bread & Baking</button>
+        <button class="tab-btn" onclick="showTab('baking',this)">Bread and Baking</button>
   </div>
       <div class="category-section visible" id="cat-all"><ul class="recipe-list">
           <div class="category-heading">Breakfast</div>
-          <li class="recipe-entry">
-            <div onclick="showRecipe(1)" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--border);padding:16px 20px;transition:background 0.15s;">
-              <div><div class="rl-name">Blueberry Pancakes</div><div class="rl-meta">Serves 4 · ~45 min · America's Test Kitchen</div></div>
-              <span class="rl-arrow">›</span>
-            </div>
-          </li>
-          <li class="recipe-entry">
-            <div onclick="showRecipe(2)" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--border);padding:16px 20px;transition:background 0.15s;">
-              <div><div class="rl-name">Blueberry Pancakes — Single Serving</div><div class="rl-meta">Serves 1 · ~20 min · America's Test Kitchen</div></div>
-              <span class="rl-arrow">›</span>
-            </div>
-          </li>
+          <li class="recipe-entry"><div onclick="showRecipe(1)"><div class="rl-name">Blueberry Pancakes</div><div class="rl-meta">Serves 4 · ~45 min · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(2)"><div class="rl-name">Blueberry Pancakes — Single Serving</div><div class="rl-meta">Serves 1 · ~20 min · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
           <div class="category-heading">Mains</div>
-          <li class="recipe-entry">
-            <div onclick="showRecipe(6)" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--border);padding:16px 20px;transition:background 0.15s;">
-              <div><div class="rl-name">Breaded Chicken Fingers</div><div class="rl-meta">Makes 25–30 · America's Test Kitchen</div></div>
-              <span class="rl-arrow">›</span>
-            </div>
-          </li>
-          <li class="recipe-entry">
-            <div onclick="showRecipe(10)" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--border);padding:16px 20px;transition:background 0.15s;">
-              <div><div class="rl-name">Lemon-Thyme Pork Tenderloin Steaks</div><div class="rl-meta">Serves 4–6 · America's Test Kitchen</div></div>
-              <span class="rl-arrow">›</span>
-            </div>
-          </li>
+          <li class="recipe-entry"><div onclick="showRecipe(6)"><div class="rl-name">Breaded Chicken Fingers</div><div class="rl-meta">Makes 25-30 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(10)"><div class="rl-name">Lemon-Thyme Pork Tenderloin Steaks</div><div class="rl-meta">Serves 4-6 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
           <div class="category-heading">Sides</div>
-          <li class="recipe-entry">
-            <div onclick="showRecipe(5)" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--border);padding:16px 20px;transition:background 0.15s;">
-              <div><div class="rl-name">Caramelized Onions</div><div class="rl-meta">~50 min · Control Freak</div></div>
-              <span class="rl-arrow">›</span>
-            </div>
-          </li>
-          <li class="recipe-entry">
-            <div onclick="showRecipe(7)" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--border);padding:16px 20px;transition:background 0.15s;">
-              <div><div class="rl-name">French Fries</div><div class="rl-meta">Bouchon · Thomas Keller</div></div>
-              <span class="rl-arrow">›</span>
-            </div>
-          </li>
-          <li class="recipe-entry">
-            <div onclick="showRecipe(11)" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--border);padding:16px 20px;transition:background 0.15s;">
-              <div><div class="rl-name">Potato Pavé</div><div class="rl-meta">Serves 6 · Ad Hoc at Home</div></div>
-              <span class="rl-arrow">›</span>
-            </div>
-          </li>
+          <li class="recipe-entry"><div onclick="showRecipe(5)"><div class="rl-name">Caramelized Onions</div><div class="rl-meta">~50 min · Control Freak</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(7)"><div class="rl-name">French Fries</div><div class="rl-meta">Bouchon · Thomas Keller</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(11)"><div class="rl-name">Potato Pave</div><div class="rl-meta">Serves 6 · Ad Hoc at Home</div><span class="rl-arrow">&#8250;</span></div></li>
           <div class="category-heading">Sauces</div>
-          <li class="recipe-entry">
-            <div onclick="showRecipe(3)" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--border);padding:16px 20px;transition:background 0.15s;">
-              <div><div class="rl-name">Oven-Roasted Tomato Sauce</div><div class="rl-meta">Makes 2½ cups · Ad Hoc at Home</div></div>
-              <span class="rl-arrow">›</span>
-            </div>
-          </li>
+          <li class="recipe-entry"><div onclick="showRecipe(3)"><div class="rl-name">Oven-Roasted Tomato Sauce</div><div class="rl-meta">Makes 2½ cups · Ad Hoc at Home</div><span class="rl-arrow">&#8250;</span></div></li>
           <div class="category-heading">Desserts</div>
-          <li class="recipe-entry">
-            <div onclick="showRecipe(4)" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--border);padding:16px 20px;transition:background 0.15s;">
-              <div><div class="rl-name">Chocolate Chip Cookies — ATK</div><div class="rl-meta">Makes 16 · America's Test Kitchen</div></div>
-              <span class="rl-arrow">›</span>
-            </div>
-          </li>
-          <li class="recipe-entry">
-            <div onclick="showRecipe(12)" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--border);padding:16px 20px;transition:background 0.15s;">
-              <div><div class="rl-name">Chocolate Chip Cookies — Torres</div><div class="rl-meta">Makes 18 · New York Times</div></div>
-              <span class="rl-arrow">›</span>
-            </div>
-          </li>
-          <li class="recipe-entry">
-            <div onclick="showRecipe(8)" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--border);padding:16px 20px;transition:background 0.15s;">
-              <div><div class="rl-name">Lemon Posset with Berries</div><div class="rl-meta">Serves 6 · America's Test Kitchen</div></div>
-              <span class="rl-arrow">›</span>
-            </div>
-          </li>
-          <li class="recipe-entry">
-            <div onclick="showRecipe(9)" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--border);padding:16px 20px;transition:background 0.15s;">
-              <div><div class="rl-name">Lemon Posset with Berries — Half Batch</div><div class="rl-meta">Serves 3 · America's Test Kitchen</div></div>
-              <span class="rl-arrow">›</span>
-            </div>
-          </li>
-          <div class="category-heading">Bread & Baking</div>
-          <li class="recipe-entry">
-            <div onclick="showRecipe(13)" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--border);padding:16px 20px;transition:background 0.15s;">
-              <div><div class="rl-name">Cinnamon Raisin Bagels</div><div class="rl-meta">Makes 8 · Modernist Cuisine</div></div>
-              <span class="rl-arrow">›</span>
-            </div>
-          </li>
-          <li class="recipe-entry">
-            <div onclick="showRecipe(14)" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--border);padding:16px 20px;transition:background 0.15s;">
-              <div><div class="rl-name">Modernist Bagel</div><div class="rl-meta">Makes 7 · Modernist Cuisine</div></div>
-              <span class="rl-arrow">›</span>
-            </div>
-          </li>
+          <li class="recipe-entry"><div onclick="showRecipe(12)"><div class="rl-name">Chocolate Chip Cookies - Torres</div><div class="rl-meta">Makes 18 · New York Times</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(4)"><div class="rl-name">Chocolate Chip Cookies — ATK</div><div class="rl-meta">Makes 16 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(8)"><div class="rl-name">Lemon Posset with Berries</div><div class="rl-meta">Serves 6 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(9)"><div class="rl-name">Lemon Posset with Berries - Half Batch</div><div class="rl-meta">Serves 3 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <div class="category-heading">Bread and Baking</div>
+          <li class="recipe-entry"><div onclick="showRecipe(13)"><div class="rl-name">Cinnamon Raisin Bagels</div><div class="rl-meta">Makes 8 · Modernist Cuisine</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(14)"><div class="rl-name">Modernist Bagel</div><div class="rl-meta">Makes 7 · Modernist Cuisine</div><span class="rl-arrow">&#8250;</span></div></li>
       </ul></div>
       <div class="category-section" id="cat-breakfast"><ul class="recipe-list">
-          <li class="recipe-entry">
-            <div onclick="showRecipe(1)" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--border);padding:16px 20px;transition:background 0.15s;">
-              <div><div class="rl-name">Blueberry Pancakes</div><div class="rl-meta">Serves 4 · ~45 min · America's Test Kitchen</div></div>
-              <span class="rl-arrow">›</span>
-            </div>
-          </li>
-          <li class="recipe-entry">
-            <div onclick="showRecipe(2)" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--border);padding:16px 20px;transition:background 0.15s;">
-              <div><div class="rl-name">Blueberry Pancakes — Single Serving</div><div class="rl-meta">Serves 1 · ~20 min · America's Test Kitchen</div></div>
-              <span class="rl-arrow">›</span>
-            </div>
-          </li>
+          <li class="recipe-entry"><div onclick="showRecipe(1)"><div class="rl-name">Blueberry Pancakes</div><div class="rl-meta">Serves 4 · ~45 min · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(2)"><div class="rl-name">Blueberry Pancakes — Single Serving</div><div class="rl-meta">Serves 1 · ~20 min · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
       </ul></div>
       <div class="category-section" id="cat-mains"><ul class="recipe-list">
-          <li class="recipe-entry">
-            <div onclick="showRecipe(6)" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--border);padding:16px 20px;transition:background 0.15s;">
-              <div><div class="rl-name">Breaded Chicken Fingers</div><div class="rl-meta">Makes 25–30 · America's Test Kitchen</div></div>
-              <span class="rl-arrow">›</span>
-            </div>
-          </li>
-          <li class="recipe-entry">
-            <div onclick="showRecipe(10)" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--border);padding:16px 20px;transition:background 0.15s;">
-              <div><div class="rl-name">Lemon-Thyme Pork Tenderloin Steaks</div><div class="rl-meta">Serves 4–6 · America's Test Kitchen</div></div>
-              <span class="rl-arrow">›</span>
-            </div>
-          </li>
+          <li class="recipe-entry"><div onclick="showRecipe(6)"><div class="rl-name">Breaded Chicken Fingers</div><div class="rl-meta">Makes 25-30 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(10)"><div class="rl-name">Lemon-Thyme Pork Tenderloin Steaks</div><div class="rl-meta">Serves 4-6 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
       </ul></div>
       <div class="category-section" id="cat-sides"><ul class="recipe-list">
-          <li class="recipe-entry">
-            <div onclick="showRecipe(5)" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--border);padding:16px 20px;transition:background 0.15s;">
-              <div><div class="rl-name">Caramelized Onions</div><div class="rl-meta">~50 min · Control Freak</div></div>
-              <span class="rl-arrow">›</span>
-            </div>
-          </li>
-          <li class="recipe-entry">
-            <div onclick="showRecipe(7)" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--border);padding:16px 20px;transition:background 0.15s;">
-              <div><div class="rl-name">French Fries</div><div class="rl-meta">Bouchon · Thomas Keller</div></div>
-              <span class="rl-arrow">›</span>
-            </div>
-          </li>
-          <li class="recipe-entry">
-            <div onclick="showRecipe(11)" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--border);padding:16px 20px;transition:background 0.15s;">
-              <div><div class="rl-name">Potato Pavé</div><div class="rl-meta">Serves 6 · Ad Hoc at Home</div></div>
-              <span class="rl-arrow">›</span>
-            </div>
-          </li>
+          <li class="recipe-entry"><div onclick="showRecipe(5)"><div class="rl-name">Caramelized Onions</div><div class="rl-meta">~50 min · Control Freak</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(7)"><div class="rl-name">French Fries</div><div class="rl-meta">Bouchon · Thomas Keller</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(11)"><div class="rl-name">Potato Pave</div><div class="rl-meta">Serves 6 · Ad Hoc at Home</div><span class="rl-arrow">&#8250;</span></div></li>
       </ul></div>
       <div class="category-section" id="cat-sauces"><ul class="recipe-list">
-          <li class="recipe-entry">
-            <div onclick="showRecipe(3)" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--border);padding:16px 20px;transition:background 0.15s;">
-              <div><div class="rl-name">Oven-Roasted Tomato Sauce</div><div class="rl-meta">Makes 2½ cups · Ad Hoc at Home</div></div>
-              <span class="rl-arrow">›</span>
-            </div>
-          </li>
+          <li class="recipe-entry"><div onclick="showRecipe(3)"><div class="rl-name">Oven-Roasted Tomato Sauce</div><div class="rl-meta">Makes 2½ cups · Ad Hoc at Home</div><span class="rl-arrow">&#8250;</span></div></li>
       </ul></div>
       <div class="category-section" id="cat-desserts"><ul class="recipe-list">
-          <li class="recipe-entry">
-            <div onclick="showRecipe(4)" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--border);padding:16px 20px;transition:background 0.15s;">
-              <div><div class="rl-name">Chocolate Chip Cookies — ATK</div><div class="rl-meta">Makes 16 · America's Test Kitchen</div></div>
-              <span class="rl-arrow">›</span>
-            </div>
-          </li>
-          <li class="recipe-entry">
-            <div onclick="showRecipe(12)" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--border);padding:16px 20px;transition:background 0.15s;">
-              <div><div class="rl-name">Chocolate Chip Cookies — Torres</div><div class="rl-meta">Makes 18 · New York Times</div></div>
-              <span class="rl-arrow">›</span>
-            </div>
-          </li>
-          <li class="recipe-entry">
-            <div onclick="showRecipe(8)" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--border);padding:16px 20px;transition:background 0.15s;">
-              <div><div class="rl-name">Lemon Posset with Berries</div><div class="rl-meta">Serves 6 · America's Test Kitchen</div></div>
-              <span class="rl-arrow">›</span>
-            </div>
-          </li>
-          <li class="recipe-entry">
-            <div onclick="showRecipe(9)" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--border);padding:16px 20px;transition:background 0.15s;">
-              <div><div class="rl-name">Lemon Posset with Berries — Half Batch</div><div class="rl-meta">Serves 3 · America's Test Kitchen</div></div>
-              <span class="rl-arrow">›</span>
-            </div>
-          </li>
+          <li class="recipe-entry"><div onclick="showRecipe(12)"><div class="rl-name">Chocolate Chip Cookies - Torres</div><div class="rl-meta">Makes 18 · New York Times</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(4)"><div class="rl-name">Chocolate Chip Cookies — ATK</div><div class="rl-meta">Makes 16 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(8)"><div class="rl-name">Lemon Posset with Berries</div><div class="rl-meta">Serves 6 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(9)"><div class="rl-name">Lemon Posset with Berries - Half Batch</div><div class="rl-meta">Serves 3 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
       </ul></div>
       <div class="category-section" id="cat-baking"><ul class="recipe-list">
-          <li class="recipe-entry">
-            <div onclick="showRecipe(13)" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--border);padding:16px 20px;transition:background 0.15s;">
-              <div><div class="rl-name">Cinnamon Raisin Bagels</div><div class="rl-meta">Makes 8 · Modernist Cuisine</div></div>
-              <span class="rl-arrow">›</span>
-            </div>
-          </li>
-          <li class="recipe-entry">
-            <div onclick="showRecipe(14)" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--border);padding:16px 20px;transition:background 0.15s;">
-              <div><div class="rl-name">Modernist Bagel</div><div class="rl-meta">Makes 7 · Modernist Cuisine</div></div>
-              <span class="rl-arrow">›</span>
-            </div>
-          </li>
+          <li class="recipe-entry"><div onclick="showRecipe(13)"><div class="rl-name">Cinnamon Raisin Bagels</div><div class="rl-meta">Makes 8 · Modernist Cuisine</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(14)"><div class="rl-name">Modernist Bagel</div><div class="rl-meta">Makes 7 · Modernist Cuisine</div><span class="rl-arrow">&#8250;</span></div></li>
       </ul></div>
 
 </div>
-
-<div id="panels-container">
-    <div class="recipe-panel" id="panel1" style="display:none;">
-      <div class="topbar">
-      <button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button>
+<div id="panels">
+    <div class="recipe-panel" id="panel1" style="display:none;"><div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Blueberry Pancakes</div></div><div class="recipe-wrap"><div class="topbar">
+      <label for="r0" class="back-btn">&#8592; Recipes</label>
       <div class="topbar-title">Blueberry Pancakes</div>
     </div>
     <div class="recipe-wrap">
@@ -358,12 +209,9 @@
         </div>
       </div>
       <div class="r-footer">America's Test Kitchen · Deluxe Blueberry Pancakes · Andrea Geary, 2022</div>
-    </div>
-  </div>
-    </div>
-    <div class="recipe-panel" id="panel2" style="display:none;">
-      <div class="topbar">
-      <button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button>
+    </div></div></div>
+    <div class="recipe-panel" id="panel2" style="display:none;"><div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Blueberry Pancakes — Single Serving</div></div><div class="recipe-wrap"><div class="topbar">
+      <label for="r0" class="back-btn">&#8592; Recipes</label>
       <div class="topbar-title">Blueberry Pancakes — Single</div>
     </div>
     <div class="recipe-wrap">
@@ -434,12 +282,9 @@
         </div>
       </div>
       <div class="r-footer">America's Test Kitchen · Deluxe Blueberry Pancakes · Andrea Geary, 2022 · Single Serving (¼ batch)</div>
-    </div>
-  </div>
-    </div>
-    <div class="recipe-panel" id="panel3" style="display:none;">
-      <div class="topbar">
-      <button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button>
+    </div></div></div>
+    <div class="recipe-panel" id="panel3" style="display:none;"><div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Oven-Roasted Tomato Sauce</div></div><div class="recipe-wrap"><div class="topbar">
+      <label for="r0" class="back-btn">&#8592; Recipes</label>
       <div class="topbar-title">Oven-Roasted Tomato Sauce</div>
     </div>
     <div class="recipe-wrap">
@@ -519,12 +364,9 @@
         </div>
       </div>
       <div class="r-footer">Ad Hoc at Home · Thomas Keller · Oven-Roasted Tomato Sauce · Makes about 2½ cups</div>
-    </div>
-  </div>
-    </div>
-    <div class="recipe-panel" id="panel4" style="display:none;">
-      <div class="topbar">
-      <button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button>
+    </div></div></div>
+    <div class="recipe-panel" id="panel4" style="display:none;"><div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Perfect Chocolate Chip Cookies</div></div><div class="recipe-wrap"><div class="topbar">
+      <label for="r0" class="back-btn">&#8592; Recipes</label>
       <div class="topbar-title">Perfect Chocolate Chip Cookies</div>
     </div>
     <div class="recipe-wrap">
@@ -598,15 +440,8 @@
         </div>
       </div>
       <div class="r-footer">America's Test Kitchen · Perfect Chocolate Chip Cookies · Charles Kelsey, 2013</div>
-    </div>
-  </div>
-    </div>
-    <div class="recipe-panel" id="panel5" style="display:none;">
-      <div class="topbar">
-        <button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button>
-        <div class="topbar-title">Caramelized Onions</div>
-      </div>
-      <div class="recipe-wrap"><div class="header">
+    </div></div></div>
+    <div class="recipe-panel" id="panel5" style="display:none;"><div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Caramelized Onions</div></div><div class="recipe-wrap"><div class="header">
     <h1>Caramelized<br>Onions</h1>
     <div class="meta">
       <div><strong>Cook time</strong> &nbsp;50 minutes</div>
@@ -686,14 +521,8 @@
     </div>
   </div>
 
-  <div class="footer">Caramelized Onions · Control Freak · 275°F / 135°C · Medium Intensity</div>
-    </div>
-    <div class="recipe-panel" id="panel6" style="display:none;">
-      <div class="topbar">
-        <button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button>
-        <div class="topbar-title">Breaded Chicken Fingers</div>
-      </div>
-      <div class="recipe-wrap"><div class="header">
+  <div class="footer">Caramelized Onions · Control Freak · 275°F / 135°C · Medium Intensity</div></div></div>
+    <div class="recipe-panel" id="panel6" style="display:none;"><div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Breaded Chicken Fingers</div></div><div class="recipe-wrap"><div class="header">
     <h1>Breaded Chicken<br>Fingers</h1>
     <div class="meta">
       <div><strong>Yield</strong> &nbsp;25–30 pieces · serves 4</div>
@@ -791,14 +620,8 @@
     </div>
   </div>
 
-  <div class="footer">America's Test Kitchen · Breaded Chicken Fingers · Makes 25–30 pieces</div>
-    </div>
-    <div class="recipe-panel" id="panel7" style="display:none;">
-      <div class="topbar">
-        <button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button>
-        <div class="topbar-title">French Fries / Pommes Frites</div>
-      </div>
-      <div class="recipe-wrap"><div class="header">
+  <div class="footer">America's Test Kitchen · Breaded Chicken Fingers · Makes 25–30 pieces</div></div></div>
+    <div class="recipe-panel" id="panel7" style="display:none;"><div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">French Fries / Pommes Frites</div></div><div class="recipe-wrap"><div class="header">
     <div>
       <h1>French Fries</h1>
       <div class="subtitle">Pommes Frites</div>
@@ -886,14 +709,8 @@
     </div>
   </div>
 
-  <div class="footer">Bouchon · Thomas Keller · French Fries / Pommes Frites</div>
-    </div>
-    <div class="recipe-panel" id="panel8" style="display:none;">
-      <div class="topbar">
-        <button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button>
-        <div class="topbar-title">Lemon Posset with Berries</div>
-      </div>
-      <div class="recipe-wrap"><div class="header">
+  <div class="footer">Bouchon · Thomas Keller · French Fries / Pommes Frites</div></div></div>
+    <div class="recipe-panel" id="panel8" style="display:none;"><div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Lemon Posset with Berries</div></div><div class="recipe-wrap"><div class="header">
     <h1>Lemon Posset<br>with Berries</h1>
     <div class="meta">
       <div><strong>Yield</strong> &nbsp;serves 6</div>
@@ -981,14 +798,8 @@
     </div>
   </div>
 
-  <div class="footer">America's Test Kitchen · Lemon Posset with Berries · Annie Petito, 2016</div>
-    </div>
-    <div class="recipe-panel" id="panel9" style="display:none;">
-      <div class="topbar">
-        <button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button>
-        <div class="topbar-title">Lemon Posset — Half Batch</div>
-      </div>
-      <div class="recipe-wrap"><div class="header">
+  <div class="footer">America's Test Kitchen · Lemon Posset with Berries · Annie Petito, 2016</div></div></div>
+    <div class="recipe-panel" id="panel9" style="display:none;"><div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Lemon Posset - Half Batch</div></div><div class="recipe-wrap"><div class="header">
     <h1>Lemon Posset<br>with Berries</h1>
     <div class="meta">
       <div><strong>Yield</strong> &nbsp;serves 3</div>
@@ -1076,14 +887,8 @@
     </div>
   </div>
 
-  <div class="footer">America's Test Kitchen · Lemon Posset with Berries · Annie Petito, 2016 · ½ batch · serves 3</div>
-    </div>
-    <div class="recipe-panel" id="panel10" style="display:none;">
-      <div class="topbar">
-        <button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button>
-        <div class="topbar-title">Lemon-Thyme Pork Tenderloin Steaks</div>
-      </div>
-      <div class="recipe-wrap"><div class="header">
+  <div class="footer">America's Test Kitchen · Lemon Posset with Berries · Annie Petito, 2016 · ½ batch · serves 3</div></div></div>
+    <div class="recipe-panel" id="panel10" style="display:none;"><div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Lemon-Thyme Pork Tenderloin Steaks</div></div><div class="recipe-wrap"><div class="header">
     <h1>Lemon-Thyme Grilled<br>Pork Tenderloin Steaks</h1>
     <div class="meta">
       <div><strong>Yield</strong> &nbsp;serves 4–6</div>
@@ -1192,14 +997,8 @@
     </div>
   </div>
 
-  <div class="footer">America's Test Kitchen · Lemon-Thyme Grilled Pork Tenderloin Steaks · Dan Souza, 2014 · doubled sauce</div>
-    </div>
-    <div class="recipe-panel" id="panel11" style="display:none;">
-      <div class="topbar">
-        <button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button>
-        <div class="topbar-title">Potato Pavé</div>
-      </div>
-      <div class="recipe-wrap"><div class="header">
+  <div class="footer">America's Test Kitchen · Lemon-Thyme Grilled Pork Tenderloin Steaks · Dan Souza, 2014 · doubled sauce</div></div></div>
+    <div class="recipe-panel" id="panel11" style="display:none;"><div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Potato Pave</div></div><div class="recipe-wrap"><div class="header">
     <h1>Potato Pavé</h1>
     <div class="meta">
       <div><strong>Yield</strong> &nbsp;serves 6 (12 pieces)</div>
@@ -1314,14 +1113,8 @@
     </div>
   </div>
 
-  <div class="footer">Ad Hoc at Home · Thomas Keller · Potato Pavé · Serves 6</div>
-    </div>
-    <div class="recipe-panel" id="panel12" style="display:none;">
-      <div class="topbar">
-        <button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button>
-        <div class="topbar-title">Chocolate Chip Cookies — Torres</div>
-      </div>
-      <div class="recipe-wrap"><div class="header">
+  <div class="footer">Ad Hoc at Home · Thomas Keller · Potato Pavé · Serves 6</div></div></div>
+    <div class="recipe-panel" id="panel12" style="display:none;"><div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Chocolate Chip Cookies - Torres</div></div><div class="recipe-wrap"><div class="header">
     <h1>Chocolate Chip<br>Cookies</h1>
     <div class="meta">
       <div><strong>Yield</strong> &nbsp;18 cookies (5-inch)</div>
@@ -1429,14 +1222,8 @@
     </div>
   </div>
 
-  <div class="footer">Adapted from Jacques Torres · New York Times · Chocolate Chip Cookies · Makes 18 five-inch cookies</div>
-    </div>
-    <div class="recipe-panel" id="panel13" style="display:none;">
-      <div class="topbar">
-        <button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button>
-        <div class="topbar-title">Cinnamon Raisin Bagels</div>
-      </div>
-      <div class="recipe-wrap"><div class="header">
+  <div class="footer">Adapted from Jacques Torres · New York Times · Chocolate Chip Cookies · Makes 18 five-inch cookies</div></div></div>
+    <div class="recipe-panel" id="panel13" style="display:none;"><div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Cinnamon Raisin Bagels</div></div><div class="recipe-wrap"><div class="header">
     <h1>Cinnamon Raisin<br>Bagels</h1>
     <div class="meta">
       <div><strong>Yield</strong> &nbsp;8 bagels · ~140 g each</div>
@@ -1570,14 +1357,8 @@
     </div>
   </div>
 
-  <div class="footer">Modernist Cuisine · Kitchen Manual Vol. 6 · Cinnamon Raisin Bagels · Makes 8 · Ooni Mixer · Baking Steel · Convection 425°F</div>
-    </div>
-    <div class="recipe-panel" id="panel14" style="display:none;">
-      <div class="topbar">
-        <button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button>
-        <div class="topbar-title">Modernist Bagel</div>
-      </div>
-      <div class="recipe-wrap"><div class="header">
+  <div class="footer">Modernist Cuisine · Kitchen Manual Vol. 6 · Cinnamon Raisin Bagels · Makes 8 · Ooni Mixer · Baking Steel · Convection 425°F</div></div></div>
+    <div class="recipe-panel" id="panel14" style="display:none;"><div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Modernist Bagel</div></div><div class="recipe-wrap"><div class="header">
     <h1>Modernist Bagel</h1>
     <div class="meta">
       <div><strong>Yield</strong> &nbsp;7 bagels · 140 g each</div>
@@ -1740,31 +1521,22 @@
     </div>
   </div>
 
-  <div class="footer">Modernist Cuisine · Kitchen Manual Vol. 5 · Modernist Bagel · Makes 7 · Ooni Mixer · Baking Steel · Convection 425°F</div>
-    </div>
+  <div class="footer">Modernist Cuisine · Kitchen Manual Vol. 5 · Modernist Bagel · Makes 7 · Ooni Mixer · Baking Steel · Convection 425°F</div></div></div>
 
 </div>
-
 <script>
 function showRecipe(id) {
-  document.getElementById('panels-container').style.display = 'block';
-  var panel = document.getElementById('panel' + id);
-  if (panel) {
-    panel.style.display = 'block';
-    panel.scrollTop = 0;
-  }
+  var panel = document.getElementById("panel" + id);
+  if (panel) { panel.style.display = "block"; panel.scrollTop = 0; }
 }
-
 function hideRecipe() {
-  var panels = document.querySelectorAll('.recipe-panel');
-  panels.forEach(function(p) { p.style.display = 'none'; });
+  document.querySelectorAll(".recipe-panel").forEach(function(p) { p.style.display = "none"; });
 }
-
 function showTab(cat, btn) {
-  document.querySelectorAll('.category-section').forEach(function(s) { s.classList.remove('visible'); });
-  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
-  document.getElementById('cat-' + cat).classList.add('visible');
-  btn.classList.add('active');
+  document.querySelectorAll(".category-section").forEach(function(s) { s.classList.remove("visible"); });
+  document.querySelectorAll(".tab-btn").forEach(function(b) { b.classList.remove("active"); });
+  document.getElementById("cat-" + cat).classList.add("visible");
+  btn.classList.add("active");
 }
 </script>
 </body>
