@@ -1,0 +1,1866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Recipes</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg: #f5f0e8; --paper: #fffdf8; --border: #e0d8cc; --gold: #b07d3a; --gold-light: #d4a45a; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); min-height: 100vh; }
+  input[type="radio"] { display: none; }
+
+  /* INDEX */
+  .index-wrap { max-width: 580px; margin: 0 auto; padding: 48px 24px; }
+  .index-header { margin-bottom: 24px; border-bottom: 2.5px solid #1a1a1a; padding-bottom: 16px; }
+  .index-header h1 { font-family: 'Playfair Display', serif; font-size: 34px; color: #1a1a1a; }
+  .index-header p { font-size: 12px; color: #999; margin-top: 6px; letter-spacing: 0.06em; text-transform: uppercase; }
+
+  /* TABS */
+  .tabs-wrap { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
+  .tab-btn { background: var(--paper); border: 1px solid var(--border); border-radius: 20px; padding: 7px 16px; font-size: 13px; font-weight: 500; color: #666; cursor: pointer; transition: all 0.15s; white-space: nowrap; font-family: 'Inter', sans-serif; }
+  .tab-btn:hover { background: #fff9f0; border-color: var(--gold); color: #1a1a1a; }
+  .tab-btn.active { background: var(--gold); border-color: var(--gold); color: #fff; font-weight: 600; }
+  .category-section { display: none; }
+  .category-section.visible { display: block; }
+  .category-heading { font-family: 'Playfair Display', serif; font-size: 14px; color: var(--gold); letter-spacing: 0.06em; text-transform: uppercase; margin: 20px 0 8px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  .category-heading:first-child { margin-top: 0; }
+
+  /* RECIPE LIST */
+  .recipe-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .recipe-entry label { display: flex; justify-content: space-between; align-items: center; background: var(--paper); border: 1px solid var(--border); padding: 16px 20px; cursor: pointer; transition: background 0.15s, border-color 0.15s; }
+  .recipe-entry label:hover { background: #fff9f0; border-color: var(--gold); }
+  .rl-name { font-size: 15px; font-weight: 600; color: #1a1a1a; }
+  .rl-meta { font-size: 12px; color: #999; margin-top: 3px; }
+  .rl-arrow { font-size: 20px; color: var(--gold-light); flex-shrink: 0; margin-left: 12px; }
+
+  /* PANELS */
+  .recipe-panel { display: none; position: fixed; inset: 0; background: var(--bg); overflow-y: auto; -webkit-overflow-scrolling: touch; z-index: 10; }
+  #r1:checked ~ .panels #panel1,
+  #r2:checked ~ .panels #panel2,
+  #r3:checked ~ .panels #panel3,
+  #r4:checked ~ .panels #panel4,
+  #r5:checked ~ .panels #panel5,
+  #r6:checked ~ .panels #panel6,
+  #r7:checked ~ .panels #panel7,
+  #r8:checked ~ .panels #panel8,
+  #r9:checked ~ .panels #panel9,
+  #r10:checked ~ .panels #panel10,
+  #r11:checked ~ .panels #panel11,
+  #r12:checked ~ .panels #panel12,
+  #r13:checked ~ .panels #panel13,
+  #r14:checked ~ .panels #panel14 { display: block; }
+
+  /* TOPBAR */
+  .topbar { position: sticky; top: 0; background: var(--paper); border-bottom: 1px solid var(--border); padding: 10px 20px; display: flex; align-items: center; gap: 12px; z-index: 20; }
+  .back-btn { display: flex; align-items: center; gap: 6px; background: none; border: 1px solid var(--border); border-radius: 6px; padding: 7px 14px; font-size: 14px; font-weight: 500; color: #1a1a1a; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+  .back-btn:hover { background: var(--bg); }
+  .topbar-title { font-family: 'Playfair Display', serif; font-size: 16px; color: #1a1a1a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; }
+
+  /* RECIPE CONTENT */
+  .recipe-wrap { max-width: 720px; margin: 0 auto; padding: 32px 24px 64px; }
+  .r-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2.5px solid #1a1a1a; padding-bottom: 14px; margin-bottom: 28px; }
+  .r-header h1 { font-family: 'Playfair Display', serif; font-size: 30px; color: #1a1a1a; line-height: 1.1; }
+  .r-meta { text-align: right; font-size: 12px; color: #666; line-height: 1.8; letter-spacing: 0.04em; text-transform: uppercase; }
+  .r-meta strong { color: #1a1a1a; font-weight: 600; }
+  .r-section { margin-bottom: 28px; }
+  .r-section-label { font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+  .r-section-title { font-family: 'Playfair Display', serif; font-size: 18px; color: #1a1a1a; border-bottom: 1px solid #d9cfc0; padding-bottom: 8px; margin-bottom: 14px; }
+  .mise-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 0 40px; }
+  .mise-col-header { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #999; padding-bottom: 6px; border-bottom: 1px solid #ccc; margin-bottom: 4px; }
+  .mise-table { width: 100%; border-collapse: collapse; }
+  .mise-table td { font-size: 14px; color: #2a2a2a; padding: 5px 0; border-bottom: 1px dotted #ddd; vertical-align: baseline; }
+  .mise-table td.qty { font-weight: 600; color: #1a1a1a; white-space: nowrap; padding-right: 10px; width: 1%; }
+  .steps { display: flex; flex-direction: column; gap: 12px; }
+  .step { display: flex; gap: 14px; align-items: flex-start; }
+  .step-num { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--gold-light); min-width: 26px; line-height: 1.2; flex-shrink: 0; }
+  .step-text { font-size: 15px; color: #2a2a2a; line-height: 1.7; }
+  .step-text em { font-style: normal; font-weight: 600; color: #1a1a1a; }
+  .r-divider { border: none; border-top: 1px solid var(--border); margin: 4px 0 28px; }
+  .r-footer { margin-top: 24px; border-top: 1px solid var(--border); padding-top: 10px; font-size: 11px; color: #aaa; text-align: center; letter-spacing: 0.05em; }
+  .sachet-sub { margin-top: 14px; }
+  .sachet-sub-header { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #999; padding-bottom: 6px; border-bottom: 1px solid #ccc; margin-bottom: 4px; }
+  .warning { background: #fff8f0; border-left: 3px solid #c0392b; padding: 12px 16px; font-size: 12.5px; color: #555; line-height: 1.6; margin-bottom: 20px; }
+  .warning strong { color: #c0392b; }
+  .header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2.5px solid #1a1a1a; padding-bottom: 14px; margin-bottom: 28px; }
+  .header h1 { font-family: 'Playfair Display', serif; font-size: 32px; color: #1a1a1a; line-height: 1.1; }
+  .header .subtitle { font-family: 'Playfair Display', serif; font-size: 14px; color: #999; font-style: italic; margin-top: 4px; }
+  .header .meta { text-align: right; font-size: 12px; color: #666; line-height: 1.8; letter-spacing: 0.04em; text-transform: uppercase; }
+  .header .meta strong { color: #1a1a1a; font-weight: 600; }
+  .section { margin-bottom: 28px; }
+  .section-label { font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #b07d3a; margin-bottom: 6px; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 19px; color: #1a1a1a; border-bottom: 1px solid #d9cfc0; padding-bottom: 8px; margin-bottom: 14px; }
+  .divider { border: none; border-top: 1px solid #e0d8cc; margin: 4px 0 28px; }
+  .footer { margin-top: 24px; border-top: 1px solid #e0d8cc; padding-top: 10px; font-size: 11px; color: #aaa; text-align: center; letter-spacing: 0.05em; }
+  .note { background: #fdf6ec; border-left: 3px solid #d4a45a; padding: 12px 16px; font-size: 12.5px; color: #555; line-height: 1.6; margin-top: 16px; }
+  .note strong { color: #1a1a1a; }
+
+  @media (max-width: 600px) {
+    .index-wrap { padding: 32px 16px; }
+    .r-header, .header { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .r-meta, .header .meta { text-align: left; }
+    .mise-columns { grid-template-columns: 1fr; gap: 20px 0; }
+    .recipe-wrap { padding: 24px 16px 64px; }
+  }
+  @media print { .topbar { display: none; } }
+</style>
+</head>
+<body>
+
+<input type="radio" name="recipe" id="r0" checked>
+<input type="radio" name="recipe" id="r1">
+<input type="radio" name="recipe" id="r2">
+<input type="radio" name="recipe" id="r3">
+<input type="radio" name="recipe" id="r4">
+<input type="radio" name="recipe" id="r5">
+<input type="radio" name="recipe" id="r6">
+<input type="radio" name="recipe" id="r7">
+<input type="radio" name="recipe" id="r8">
+<input type="radio" name="recipe" id="r9">
+<input type="radio" name="recipe" id="r10">
+<input type="radio" name="recipe" id="r11">
+<input type="radio" name="recipe" id="r12">
+<input type="radio" name="recipe" id="r13">
+<input type="radio" name="recipe" id="r14">
+
+<div class="index-wrap">
+  <div class="index-header">
+    <h1>My Recipes</h1>
+    <p>Tap a category, then tap a recipe</p>
+  </div>
+  <div class="tabs-wrap">
+      <button class="tab-btn active" onclick="showTab('all', this)">All</button>
+      <button class="tab-btn" onclick="showTab('breakfast', this)">Breakfast</button>
+      <button class="tab-btn" onclick="showTab('mains', this)">Mains</button>
+      <button class="tab-btn" onclick="showTab('sides', this)">Sides</button>
+      <button class="tab-btn" onclick="showTab('sauces', this)">Sauces</button>
+      <button class="tab-btn" onclick="showTab('desserts', this)">Desserts</button>
+      <button class="tab-btn" onclick="showTab('baking', this)">Bread & Baking</button>
+  </div>
+      <div class="category-section visible" id="cat-all">
+        <ul class="recipe-list">
+          <div class="category-heading">Breakfast</div>
+        <li class="recipe-entry">
+          <label for="r1">
+            <div><div class="rl-name">Blueberry Pancakes</div><div class="rl-meta">Serves 4 · ~45 min · America's Test Kitchen</div></div>
+            <span class="rl-arrow">›</span>
+          </label>
+        </li>
+        <li class="recipe-entry">
+          <label for="r2">
+            <div><div class="rl-name">Blueberry Pancakes — Single Serving</div><div class="rl-meta">Serves 1 · ~20 min · America's Test Kitchen</div></div>
+            <span class="rl-arrow">›</span>
+          </label>
+        </li>
+          <div class="category-heading">Mains</div>
+        <li class="recipe-entry">
+          <label for="r6">
+            <div><div class="rl-name">Breaded Chicken Fingers</div><div class="rl-meta">Makes 25–30 · America's Test Kitchen</div></div>
+            <span class="rl-arrow">›</span>
+          </label>
+        </li>
+        <li class="recipe-entry">
+          <label for="r10">
+            <div><div class="rl-name">Lemon-Thyme Pork Tenderloin Steaks</div><div class="rl-meta">Serves 4–6 · America's Test Kitchen</div></div>
+            <span class="rl-arrow">›</span>
+          </label>
+        </li>
+          <div class="category-heading">Sides</div>
+        <li class="recipe-entry">
+          <label for="r5">
+            <div><div class="rl-name">Caramelized Onions</div><div class="rl-meta">~50 min · Control Freak</div></div>
+            <span class="rl-arrow">›</span>
+          </label>
+        </li>
+        <li class="recipe-entry">
+          <label for="r7">
+            <div><div class="rl-name">French Fries</div><div class="rl-meta">Bouchon · Thomas Keller</div></div>
+            <span class="rl-arrow">›</span>
+          </label>
+        </li>
+        <li class="recipe-entry">
+          <label for="r11">
+            <div><div class="rl-name">Potato Pavé</div><div class="rl-meta">Serves 6 · Ad Hoc at Home</div></div>
+            <span class="rl-arrow">›</span>
+          </label>
+        </li>
+          <div class="category-heading">Sauces</div>
+        <li class="recipe-entry">
+          <label for="r3">
+            <div><div class="rl-name">Oven-Roasted Tomato Sauce</div><div class="rl-meta">Makes 2½ cups · Ad Hoc at Home</div></div>
+            <span class="rl-arrow">›</span>
+          </label>
+        </li>
+          <div class="category-heading">Desserts</div>
+        <li class="recipe-entry">
+          <label for="r4">
+            <div><div class="rl-name">Chocolate Chip Cookies — ATK</div><div class="rl-meta">Makes 16 · America's Test Kitchen</div></div>
+            <span class="rl-arrow">›</span>
+          </label>
+        </li>
+        <li class="recipe-entry">
+          <label for="r12">
+            <div><div class="rl-name">Chocolate Chip Cookies — Torres</div><div class="rl-meta">Makes 18 · New York Times</div></div>
+            <span class="rl-arrow">›</span>
+          </label>
+        </li>
+        <li class="recipe-entry">
+          <label for="r8">
+            <div><div class="rl-name">Lemon Posset with Berries</div><div class="rl-meta">Serves 6 · America's Test Kitchen</div></div>
+            <span class="rl-arrow">›</span>
+          </label>
+        </li>
+        <li class="recipe-entry">
+          <label for="r9">
+            <div><div class="rl-name">Lemon Posset with Berries — Half Batch</div><div class="rl-meta">Serves 3 · America's Test Kitchen</div></div>
+            <span class="rl-arrow">›</span>
+          </label>
+        </li>
+          <div class="category-heading">Bread & Baking</div>
+        <li class="recipe-entry">
+          <label for="r13">
+            <div><div class="rl-name">Cinnamon Raisin Bagels</div><div class="rl-meta">Makes 8 · Modernist Cuisine</div></div>
+            <span class="rl-arrow">›</span>
+          </label>
+        </li>
+        <li class="recipe-entry">
+          <label for="r14">
+            <div><div class="rl-name">Modernist Bagel</div><div class="rl-meta">Makes 7 · Modernist Cuisine</div></div>
+            <span class="rl-arrow">›</span>
+          </label>
+        </li>
+        </ul>
+      </div>
+      <div class="category-section" id="cat-breakfast">
+        <ul class="recipe-list">
+        <li class="recipe-entry">
+          <label for="r1">
+            <div><div class="rl-name">Blueberry Pancakes</div><div class="rl-meta">Serves 4 · ~45 min · America's Test Kitchen</div></div>
+            <span class="rl-arrow">›</span>
+          </label>
+        </li>
+        <li class="recipe-entry">
+          <label for="r2">
+            <div><div class="rl-name">Blueberry Pancakes — Single Serving</div><div class="rl-meta">Serves 1 · ~20 min · America's Test Kitchen</div></div>
+            <span class="rl-arrow">›</span>
+          </label>
+        </li>
+        </ul>
+      </div>
+      <div class="category-section" id="cat-mains">
+        <ul class="recipe-list">
+        <li class="recipe-entry">
+          <label for="r6">
+            <div><div class="rl-name">Breaded Chicken Fingers</div><div class="rl-meta">Makes 25–30 · America's Test Kitchen</div></div>
+            <span class="rl-arrow">›</span>
+          </label>
+        </li>
+        <li class="recipe-entry">
+          <label for="r10">
+            <div><div class="rl-name">Lemon-Thyme Pork Tenderloin Steaks</div><div class="rl-meta">Serves 4–6 · America's Test Kitchen</div></div>
+            <span class="rl-arrow">›</span>
+          </label>
+        </li>
+        </ul>
+      </div>
+      <div class="category-section" id="cat-sides">
+        <ul class="recipe-list">
+        <li class="recipe-entry">
+          <label for="r5">
+            <div><div class="rl-name">Caramelized Onions</div><div class="rl-meta">~50 min · Control Freak</div></div>
+            <span class="rl-arrow">›</span>
+          </label>
+        </li>
+        <li class="recipe-entry">
+          <label for="r7">
+            <div><div class="rl-name">French Fries</div><div class="rl-meta">Bouchon · Thomas Keller</div></div>
+            <span class="rl-arrow">›</span>
+          </label>
+        </li>
+        <li class="recipe-entry">
+          <label for="r11">
+            <div><div class="rl-name">Potato Pavé</div><div class="rl-meta">Serves 6 · Ad Hoc at Home</div></div>
+            <span class="rl-arrow">›</span>
+          </label>
+        </li>
+        </ul>
+      </div>
+      <div class="category-section" id="cat-sauces">
+        <ul class="recipe-list">
+        <li class="recipe-entry">
+          <label for="r3">
+            <div><div class="rl-name">Oven-Roasted Tomato Sauce</div><div class="rl-meta">Makes 2½ cups · Ad Hoc at Home</div></div>
+            <span class="rl-arrow">›</span>
+          </label>
+        </li>
+        </ul>
+      </div>
+      <div class="category-section" id="cat-desserts">
+        <ul class="recipe-list">
+        <li class="recipe-entry">
+          <label for="r4">
+            <div><div class="rl-name">Chocolate Chip Cookies — ATK</div><div class="rl-meta">Makes 16 · America's Test Kitchen</div></div>
+            <span class="rl-arrow">›</span>
+          </label>
+        </li>
+        <li class="recipe-entry">
+          <label for="r12">
+            <div><div class="rl-name">Chocolate Chip Cookies — Torres</div><div class="rl-meta">Makes 18 · New York Times</div></div>
+            <span class="rl-arrow">›</span>
+          </label>
+        </li>
+        <li class="recipe-entry">
+          <label for="r8">
+            <div><div class="rl-name">Lemon Posset with Berries</div><div class="rl-meta">Serves 6 · America's Test Kitchen</div></div>
+            <span class="rl-arrow">›</span>
+          </label>
+        </li>
+        <li class="recipe-entry">
+          <label for="r9">
+            <div><div class="rl-name">Lemon Posset with Berries — Half Batch</div><div class="rl-meta">Serves 3 · America's Test Kitchen</div></div>
+            <span class="rl-arrow">›</span>
+          </label>
+        </li>
+        </ul>
+      </div>
+      <div class="category-section" id="cat-baking">
+        <ul class="recipe-list">
+        <li class="recipe-entry">
+          <label for="r13">
+            <div><div class="rl-name">Cinnamon Raisin Bagels</div><div class="rl-meta">Makes 8 · Modernist Cuisine</div></div>
+            <span class="rl-arrow">›</span>
+          </label>
+        </li>
+        <li class="recipe-entry">
+          <label for="r14">
+            <div><div class="rl-name">Modernist Bagel</div><div class="rl-meta">Makes 7 · Modernist Cuisine</div></div>
+            <span class="rl-arrow">›</span>
+          </label>
+        </li>
+        </ul>
+      </div>
+
+</div>
+
+<div class="panels">
+  <!-- PANEL 1 -->
+  <div class="recipe-panel" id="panel1">
+    <div class="topbar">
+      <label for="r0" class="back-btn">&#8592; Recipes</label>
+      <div class="topbar-title">Blueberry Pancakes</div>
+    </div>
+    <div class="recipe-wrap">
+      <div class="r-header">
+        <h1>Deluxe Blueberry<br>Pancakes</h1>
+        <div class="r-meta">
+          <div><strong>Yield</strong>&nbsp;12 pancakes · serves 4</div>
+          <div><strong>Total time</strong>&nbsp;~45 minutes</div>
+          <div style="margin-top:4px;color:#b07d3a;">America's Test Kitchen · Andrea Geary</div>
+        </div>
+      </div>
+      <div class="r-section">
+        <div class="r-section-label">Section 1</div>
+        <div class="r-section-title">Mise en Place — Ingredients &amp; Tools</div>
+        <div class="mise-columns">
+          <div>
+            <div class="mise-col-header">Ingredients</div>
+            <table class="mise-table">
+              <tr><td class="qty">5 tbsp</td><td>unsalted butter (divided)</td></tr>
+              <tr><td class="qty">490 g</td><td>buttermilk</td></tr>
+              <tr><td class="qty">1</td><td>large egg</td></tr>
+              <tr><td class="qty">213 g</td><td>blueberries</td></tr>
+              <tr><td class="qty"></td><td>all-purpose flour</td></tr>
+              <tr><td class="qty"></td><td>malted milk powder</td></tr>
+              <tr><td class="qty"></td><td>sugar</td></tr>
+              <tr><td class="qty"></td><td>baking powder</td></tr>
+              <tr><td class="qty"></td><td>baking soda</td></tr>
+              <tr><td class="qty"></td><td>table salt</td></tr>
+              <tr><td class="qty"></td><td>vegetable oil</td></tr>
+            </table>
+          </div>
+          <div>
+            <div class="mise-col-header">Tools</div>
+            <table class="mise-table">
+              <tr><td class="qty">1</td><td>medium mixing bowl</td></tr>
+              <tr><td class="qty">1</td><td>Pyrex quart measuring cup</td></tr>
+              <tr><td class="qty"></td><td>whisk &amp; rubber spatula</td></tr>
+              <tr><td class="qty"></td><td>⅓-cup dry measuring cup or #16 scoop</td></tr>
+              <tr><td class="qty"></td><td>kitchen scale (recommended)</td></tr>
+              <tr><td class="qty"></td><td>12-inch nonstick skillet</td></tr>
+              <tr><td class="qty"></td><td>thin, wide spatula (for flipping)</td></tr>
+              <tr><td class="qty"></td><td>paper towels</td></tr>
+              <tr><td class="qty"></td><td>rimmed baking sheet + wire rack (optional)</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <hr class="r-divider">
+      <div class="r-section">
+        <div class="r-section-label">Section 2</div>
+        <div class="r-section-title">Prep</div>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Melt &amp; cool butter.</em> Melt <em>3 tbsp butter</em> and set aside to cool slightly. Cut the remaining <em>2 tbsp butter</em> into ½-tbsp pieces; set aside for cooking.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Mix dry ingredients.</em> In a medium bowl, whisk together <em>283 g (2 cups) all-purpose flour</em>, <em>3 tbsp malted milk powder</em>, <em>2 tbsp sugar</em>, <em>2 tsp baking powder</em>, <em>½ tsp baking soda</em>, and <em>½ tsp salt</em>.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Mix wet ingredients.</em> In the Pyrex measuring cup, whisk together <em>490 g buttermilk</em>, <em>1 large egg</em>, and the <em>3 tbsp melted butter</em>. Butter clumps are fine.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Combine.</em> Make a well in the dry ingredients, pour in the wet mixture, and whisk until just combined — a few lumps should remain. Do not overmix. Fold in <em>213 g (1½ cups) blueberries</em>.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Warm oven (optional).</em> If serving all at once, set a wire rack on a rimmed baking sheet and heat oven to <em>200°F</em> to keep finished pancakes warm.</div></div>
+        </div>
+      </div>
+      <hr class="r-divider">
+      <div class="r-section">
+        <div class="r-section-label">Section 3</div>
+        <div class="r-section-title">Cook</div>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Season the skillet.</em> Heat a small splash of vegetable oil in the skillet over medium-low until shimmering. Wipe out with paper towels, leaving just a thin film.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Test the heat.</em> Drop <em>1 tbsp batter</em> into the center. After 1 minute it should be pale golden brown. Adjust heat up or down as needed, then discard this test pancake.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Cook in batches of 3.</em> Melt <em>½ tbsp butter</em> in the skillet and spread with a spatula. Once sizzling, scoop three <em>⅓-cup</em> portions of batter and gently spread each into a ~4½-inch round. Cook until edges are set and first side is deep golden brown, <em>3 minutes</em>.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Flip.</em> Flip each pancake with a thin spatula and cook <em>1 minute</em>. Slide pancakes around the pan to collect butter, then cook until the second side is deep golden brown, <em>2 minutes</em> more.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Repeat.</em> Serve immediately or transfer to the warm oven. Repeat with remaining <em>½ tbsp butter per batch</em> for 3 more batches. Serve with salted butter and maple syrup.</div></div>
+        </div>
+      </div>
+      <div class="r-footer">America's Test Kitchen · Deluxe Blueberry Pancakes · Andrea Geary, 2022</div>
+    </div>
+  </div>
+  </div>
+
+  <!-- PANEL 2 -->
+  <div class="recipe-panel" id="panel2">
+    <div class="topbar">
+      <label for="r0" class="back-btn">&#8592; Recipes</label>
+      <div class="topbar-title">Blueberry Pancakes — Single</div>
+    </div>
+    <div class="recipe-wrap">
+      <div class="r-header">
+        <h1>Deluxe Blueberry<br>Pancakes</h1>
+        <div class="r-meta">
+          <div><strong>Yield</strong>&nbsp;3 pancakes · serves 1</div>
+          <div><strong>Total time</strong>&nbsp;~20 minutes</div>
+          <div style="margin-top:4px;color:#b07d3a;">America's Test Kitchen · Andrea Geary</div>
+        </div>
+      </div>
+      <div class="r-section">
+        <div class="r-section-label">Section 1</div>
+        <div class="r-section-title">Mise en Place — Ingredients &amp; Tools</div>
+        <div class="mise-columns">
+          <div>
+            <div class="mise-col-header">Ingredients</div>
+            <table class="mise-table">
+              <tr><td class="qty">1¼ tbsp</td><td>unsalted butter (divided)</td></tr>
+              <tr><td class="qty">123 g</td><td>buttermilk</td></tr>
+              <tr><td class="qty">1</td><td>large egg yolk</td></tr>
+              <tr><td class="qty">65 g</td><td>blueberries</td></tr>
+              <tr><td class="qty"></td><td>all-purpose flour</td></tr>
+              <tr><td class="qty"></td><td>malted milk powder</td></tr>
+              <tr><td class="qty"></td><td>sugar</td></tr>
+              <tr><td class="qty"></td><td>baking powder</td></tr>
+              <tr><td class="qty"></td><td>baking soda</td></tr>
+              <tr><td class="qty"></td><td>table salt</td></tr>
+              <tr><td class="qty"></td><td>vegetable oil</td></tr>
+            </table>
+          </div>
+          <div>
+            <div class="mise-col-header">Tools</div>
+            <table class="mise-table">
+              <tr><td class="qty">1</td><td>medium mixing bowl</td></tr>
+              <tr><td class="qty">1</td><td>Pyrex quart measuring cup</td></tr>
+              <tr><td class="qty"></td><td>whisk &amp; rubber spatula</td></tr>
+              <tr><td class="qty"></td><td>⅓-cup dry measuring cup or #16 scoop</td></tr>
+              <tr><td class="qty"></td><td>kitchen scale (recommended)</td></tr>
+              <tr><td class="qty"></td><td>12-inch nonstick skillet</td></tr>
+              <tr><td class="qty"></td><td>thin, wide spatula (for flipping)</td></tr>
+              <tr><td class="qty"></td><td>paper towels</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <hr class="r-divider">
+      <div class="r-section">
+        <div class="r-section-label">Section 2</div>
+        <div class="r-section-title">Prep</div>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Melt &amp; cool butter.</em> Melt <em>¾ tbsp butter</em> and set aside to cool slightly. Cut the remaining <em>½ tbsp butter</em> into small pieces; set aside for cooking.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Mix dry ingredients.</em> In a medium bowl, whisk together <em>71 g (½ cup) all-purpose flour</em>, <em>¾ tbsp malted milk powder</em>, <em>½ tbsp sugar</em>, <em>½ tsp baking powder</em>, <em>⅛ tsp baking soda</em>, and <em>⅛ tsp salt</em>.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Mix wet ingredients.</em> In the Pyrex measuring cup, whisk together <em>123 g buttermilk</em>, <em>1 large egg yolk</em>, and the <em>¾ tbsp melted butter</em>. Butter clumps are fine.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Combine.</em> Make a well in the dry ingredients, pour in the wet mixture, and whisk until just combined — a few lumps should remain. Do not overmix. Fold in <em>65 g blueberries</em>.</div></div>
+        </div>
+      </div>
+      <hr class="r-divider">
+      <div class="r-section">
+        <div class="r-section-label">Section 3</div>
+        <div class="r-section-title">Cook</div>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Season the skillet.</em> Heat a small splash of vegetable oil in the skillet over medium-low until shimmering. Wipe out with paper towels, leaving just a thin film.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Test the heat.</em> Drop <em>1 tbsp batter</em> into the center. After 1 minute it should be pale golden brown. Adjust heat up or down as needed, then discard this test pancake.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Cook.</em> Melt <em>½ tbsp butter</em> in the skillet and spread with a spatula. Once sizzling, scoop three <em>⅓-cup</em> portions of batter and gently spread each into a ~4½-inch round. Cook until edges are set and first side is deep golden brown, <em>3 minutes</em>.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Flip.</em> Flip each pancake with a thin spatula and cook <em>1 minute</em>. Slide pancakes around the pan to collect butter, then cook until the second side is deep golden brown, <em>2 minutes</em> more.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Serve.</em> Plate immediately and serve with salted butter and maple syrup.</div></div>
+        </div>
+      </div>
+      <div class="r-footer">America's Test Kitchen · Deluxe Blueberry Pancakes · Andrea Geary, 2022 · Single Serving (¼ batch)</div>
+    </div>
+  </div>
+  </div>
+
+  <!-- PANEL 3 -->
+  <div class="recipe-panel" id="panel3">
+    <div class="topbar">
+      <label for="r0" class="back-btn">&#8592; Recipes</label>
+      <div class="topbar-title">Oven-Roasted Tomato Sauce</div>
+    </div>
+    <div class="recipe-wrap">
+      <div class="r-header">
+        <h1>Oven-Roasted<br>Tomato Sauce</h1>
+        <div class="r-meta">
+          <div><strong>Yield</strong>&nbsp;about 2½ cups</div>
+          <div><strong>Total time</strong>&nbsp;~2½ hours</div>
+          <div style="margin-top:4px;color:#b07d3a;">Ad Hoc at Home · Thomas Keller</div>
+        </div>
+      </div>
+      <div class="r-section">
+        <div class="r-section-label">Section 1</div>
+        <div class="r-section-title">Mise en Place — Ingredients &amp; Tools</div>
+        <div class="mise-columns">
+          <div>
+            <div class="mise-col-header">Ingredients</div>
+            <table class="mise-table">
+              <tr><td class="qty">2</td><td>28–32 oz cans San Marzano whole peeled tomatoes</td></tr>
+              <tr><td class="qty">1 cup</td><td>yellow onion</td></tr>
+              <tr><td class="qty">1 cup</td><td>leeks (white and pale green parts only)</td></tr>
+              <tr><td class="qty">1 cup</td><td>fennel</td></tr>
+              <tr><td class="qty"></td><td>garlic</td></tr>
+              <tr><td class="qty"></td><td>light brown sugar</td></tr>
+              <tr><td class="qty"></td><td>red wine vinegar</td></tr>
+              <tr><td class="qty"></td><td>canola oil</td></tr>
+              <tr><td class="qty"></td><td>kosher salt</td></tr>
+              <tr><td class="qty"></td><td>freshly ground black pepper</td></tr>
+              <tr><td class="qty">1</td><td>sachet <em style="font-weight:400;color:#888;">(see below)</em></td></tr>
+            </table>
+            <div class="sachet-sub">
+              <div class="sachet-sub-header">To Make the Sachet</div>
+              <table class="mise-table">
+                <tr><td class="qty">1</td><td>bay leaf</td></tr>
+                <tr><td class="qty">3</td><td>thyme sprigs</td></tr>
+                <tr><td class="qty">10</td><td>black peppercorns</td></tr>
+                <tr><td class="qty">1</td><td>garlic clove, smashed and peeled</td></tr>
+                <tr><td class="qty"></td><td>cheesecloth (7-inch square)</td></tr>
+                <tr><td class="qty"></td><td>kitchen twine</td></tr>
+              </table>
+            </div>
+          </div>
+          <div>
+            <div class="mise-col-header">Tools</div>
+            <table class="mise-table">
+              <tr><td class="qty"></td><td>cutting board &amp; knife</td></tr>
+              <tr><td class="qty"></td><td>large ovenproof Dutch oven or baking dish</td></tr>
+              <tr><td class="qty"></td><td>food processor</td></tr>
+              <tr><td class="qty"></td><td>colander or strainer</td></tr>
+              <tr><td class="qty"></td><td>wooden spoon or spatula</td></tr>
+              <tr><td class="qty"></td><td>covered storage container</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <hr class="r-divider">
+      <div class="r-section">
+        <div class="r-section-label">Section 2</div>
+        <div class="r-section-title">Prep</div>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Preheat oven</em> to <em>350°F</em>.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Make the sachet.</em> Lay out a <em>7-inch square of cheesecloth</em>. Place the <em>bay leaf</em>, <em>3 thyme sprigs</em>, <em>10 peppercorns</em>, and <em>1 smashed garlic clove</em> near the bottom edge. Fold the bottom up and over them, roll once, tuck in the two side edges, and continue rolling. Tie both ends securely with <em>kitchen twine</em>. Set aside.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Chop aromatics.</em> Finely chop <em>1 cup yellow onion</em>. Mince <em>1 cup leeks</em> (white and pale green parts only). Finely chop <em>1 cup fennel</em>. Mince <em>1 tbsp plus 1 tsp garlic</em>.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Assemble Dutch oven.</em> Combine <em>2 tbsp canola oil</em>, the onion, leeks, fennel, and garlic in the Dutch oven. Sprinkle generously with <em>kosher salt</em>.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Prep tomatoes.</em> Drain both cans of tomatoes and remove the seeds. Coarsely chop half the tomatoes. Puree the other half in a food processor. Keep chopped and pureed tomatoes separate until ready to add to the pot.</div></div>
+        </div>
+      </div>
+      <hr class="r-divider">
+      <div class="r-section">
+        <div class="r-section-label">Section 3</div>
+        <div class="r-section-title">Cook</div>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Roast aromatics.</em> Place the Dutch oven uncovered in the oven and cook for <em>45 minutes to 1 hour</em>, until the vegetables are tender and beginning to caramelize.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Add sugar and vinegar.</em> Stir in <em>2 tbsp light brown sugar</em> and <em>2 tbsp red wine vinegar</em>. Return to the oven for <em>20 minutes</em>, until the liquid is absorbed. Remove from oven.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Combine and roast.</em> Add the chopped and pureed tomatoes to the vegetables along with the <em>sachet</em>. Season with salt and pepper to taste. Return to the oven for <em>1½ hours</em>, stirring every 30 minutes, until the sauce is thick and full-flavored. To test: run the side of a spoon through the sauce — if it runs back together immediately, it needs more time.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Finish.</em> Discard the sachet. Let the sauce cool to room temperature. Refrigerate in a covered container for up to <em>1 week</em>.</div></div>
+        </div>
+      </div>
+      <div class="r-footer">Ad Hoc at Home · Thomas Keller · Oven-Roasted Tomato Sauce · Makes about 2½ cups</div>
+    </div>
+  </div>
+  </div>
+
+  <!-- PANEL 4 -->
+  <div class="recipe-panel" id="panel4">
+    <div class="topbar">
+      <label for="r0" class="back-btn">&#8592; Recipes</label>
+      <div class="topbar-title">Perfect Chocolate Chip Cookies</div>
+    </div>
+    <div class="recipe-wrap">
+      <div class="r-header">
+        <h1>Perfect Chocolate<br>Chip Cookies</h1>
+        <div class="r-meta">
+          <div><strong>Yield</strong>&nbsp;16 cookies</div>
+          <div><strong>Total time</strong>&nbsp;1 hour + 20 min cooling</div>
+          <div style="margin-top:4px;color:#b07d3a;">America's Test Kitchen · Charles Kelsey</div>
+        </div>
+      </div>
+      <div class="r-section">
+        <div class="r-section-label">Section 1</div>
+        <div class="r-section-title">Mise en Place — Ingredients &amp; Tools</div>
+        <div class="mise-columns">
+          <div>
+            <div class="mise-col-header">Ingredients</div>
+            <table class="mise-table">
+              <tr><td class="qty">14 tbsp</td><td>unsalted butter (divided)</td></tr>
+              <tr><td class="qty">1</td><td>large egg</td></tr>
+              <tr><td class="qty">1</td><td>large egg yolk</td></tr>
+              <tr><td class="qty">149 g</td><td>packed dark brown sugar</td></tr>
+              <tr><td class="qty">99 g</td><td>granulated sugar</td></tr>
+              <tr><td class="qty">248 g</td><td>unbleached all-purpose flour</td></tr>
+              <tr><td class="qty">300 g</td><td>semisweet chocolate chips or chunks</td></tr>
+              <tr><td class="qty">85 g</td><td>chopped pecans or walnuts, toasted (optional)</td></tr>
+              <tr><td class="qty"></td><td>baking soda</td></tr>
+              <tr><td class="qty"></td><td>table salt</td></tr>
+              <tr><td class="qty"></td><td>vanilla extract</td></tr>
+            </table>
+          </div>
+          <div>
+            <div class="mise-col-header">Tools</div>
+            <table class="mise-table">
+              <tr><td class="qty">2</td><td>large baking sheets (18 × 12-inch)</td></tr>
+              <tr><td class="qty"></td><td>parchment paper</td></tr>
+              <tr><td class="qty">1</td><td>10-inch skillet (not nonstick)</td></tr>
+              <tr><td class="qty">1</td><td>large heatproof bowl</td></tr>
+              <tr><td class="qty">1</td><td>medium bowl</td></tr>
+              <tr><td class="qty"></td><td>whisk</td></tr>
+              <tr><td class="qty"></td><td>heatproof spatula or wooden spoon</td></tr>
+              <tr><td class="qty"></td><td>#24 cookie scoop or 3-tbsp measure</td></tr>
+              <tr><td class="qty"></td><td>kitchen scale (recommended)</td></tr>
+              <tr><td class="qty"></td><td>wire rack</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <hr class="r-divider">
+      <div class="r-section">
+        <div class="r-section-label">Section 2</div>
+        <div class="r-section-title">Prep</div>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Preheat oven</em> to <em>350°F convection</em> or <em>375°F conventional</em>. Adjust rack to middle position. Line 2 large baking sheets with parchment paper.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Mix dry ingredients.</em> Whisk together <em>248 g all-purpose flour</em> and <em>½ tsp baking soda</em> in a medium bowl. Set aside.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Toast nuts (optional).</em> If using, toast <em>85 g chopped pecans or walnuts</em> in a dry skillet over medium heat until fragrant, 3–5 minutes. Set aside to cool.</div></div>
+        </div>
+      </div>
+      <hr class="r-divider">
+      <div class="r-section">
+        <div class="r-section-label">Section 3</div>
+        <div class="r-section-title">Cook</div>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Brown the butter.</em> Melt <em>10 tbsp butter</em> in a 10-inch skillet (not nonstick) over medium-high heat, about 2 minutes. Continue cooking, swirling the pan constantly, until butter is dark golden brown and smells nutty, <em>1–3 minutes</em>. Remove from heat immediately.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Melt remaining butter.</em> Transfer browned butter to a large heatproof bowl. Stir in the remaining <em>4 tbsp butter</em> until completely melted.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Add sugars and seasoning.</em> Whisk in <em>99 g granulated sugar</em>, <em>149 g dark brown sugar</em>, <em>1 tsp salt</em>, and <em>2 tsp vanilla extract</em> until fully incorporated.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Add eggs.</em> Whisk in <em>1 large egg</em> and <em>1 large egg yolk</em> until smooth with no sugar lumps, about <em>30 seconds</em>. Let stand <em>3 minutes</em>, then whisk <em>30 seconds</em>. Repeat resting and whisking 2 more times until mixture is thick, smooth, and shiny.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Add flour and mix-ins.</em> Stir in flour mixture with a spatula until just combined, about 1 minute. Stir in <em>300 g chocolate chips</em> and nuts if using. Give dough a final stir to ensure no flour pockets remain.</div></div>
+          <div class="step"><div class="step-num">6</div><div class="step-text"><em>Portion dough.</em> Divide into <em>16 portions</em> (~3 tbsp each, or use a #24 scoop). Arrange on prepared baking sheets, <em>8 per sheet</em>, spaced 2 inches apart.</div></div>
+          <div class="step"><div class="step-num">7</div><div class="step-text"><em>Bake.</em> Bake one sheet at a time until cookies are golden brown and still puffy, edges set but centers still soft, <em>10–14 minutes</em>, rotating the sheet halfway through. Transfer to wire rack and cool completely before serving.</div></div>
+        </div>
+      </div>
+      <div class="r-footer">America's Test Kitchen · Perfect Chocolate Chip Cookies · Charles Kelsey, 2013</div>
+    </div>
+  </div>
+  </div>
+
+  <!-- PANEL 5 -->
+  <div class="recipe-panel" id="panel5">
+    <div class="topbar">
+      <label for="r0" class="back-btn">&#8592; Recipes</label>
+      <div class="topbar-title">Caramelized Onions</div>
+    </div>
+    <div class="recipe-wrap">
+      <div class="header">
+    <h1>Caramelized<br>Onions</h1>
+    <div class="meta">
+      <div><strong>Cook time</strong> &nbsp;50 minutes</div>
+      <div><strong>Temp</strong> &nbsp;275°F / 135°C</div>
+      <div style="margin-top:4px;color:#b07d3a;">Control Freak · Medium Intensity</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <div class="section-label">Section 1</div>
+    <div class="section-title">Mise en Place — Ingredients &amp; Tools</div>
+    <div class="mise-columns">
+      <div>
+        <div class="mise-col-header">Ingredients</div>
+        <table class="mise-table">
+          <tr><td class="qty">1000 g</td><td>yellow onion, thinly sliced</td></tr>
+          <tr><td class="qty">100 g</td><td>unsalted butter</td></tr>
+          <tr><td class="qty">10 g</td><td>kosher salt</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="mise-col-header">Tools</div>
+        <table class="mise-table">
+          <tr><td class="qty"></td><td>Control Freak induction burner</td></tr>
+          <tr><td class="qty"></td><td>wide pan with lid</td></tr>
+          <tr><td class="qty"></td><td>cutting board &amp; knife or mandoline</td></tr>
+          <tr><td class="qty"></td><td>wooden spoon or spatula</td></tr>
+          <tr><td class="qty"></td><td>kitchen scale</td></tr>
+          <tr><td class="qty"></td><td>timer</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <div class="section-label">Section 2</div>
+    <div class="section-title">Prep</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><em>Slice onions.</em> Thinly slice <em>1000 g yellow onion</em>. Uniform thickness ensures even caramelization.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><em>Set up burner.</em> Set the Control Freak to <em>275°F / 135°C</em>, <em>Medium Intensity</em>.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <div class="section-label">Section 3</div>
+    <div class="section-title">Cook</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><em>Melt butter.</em> Place the pan on the burner. Once it reaches temperature, melt <em>100 g butter</em>.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><em>Add onions.</em> Add the sliced onions and season with <em>10 g kosher salt</em>. Stir to coat thoroughly in the butter.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><em>Cook covered.</em> Cover with a lid and cook for <em>50 minutes</em>, stirring every <em>10 minutes</em> to ensure even caramelization.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text"><em>Finish.</em> After 50 minutes the onions should be deeply caramelized and jammy. Cool and reserve.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">Caramelized Onions · Control Freak · 275°F / 135°C · Medium Intensity
+    </div>
+  </div>
+
+  <!-- PANEL 6 -->
+  <div class="recipe-panel" id="panel6">
+    <div class="topbar">
+      <label for="r0" class="back-btn">&#8592; Recipes</label>
+      <div class="topbar-title">Breaded Chicken Fingers</div>
+    </div>
+    <div class="recipe-wrap">
+      <div class="header">
+    <h1>Breaded Chicken<br>Fingers</h1>
+    <div class="meta">
+      <div><strong>Yield</strong> &nbsp;25–30 pieces · serves 4</div>
+      <div><strong>Fry temp</strong> &nbsp;350°F</div>
+      <div style="margin-top:4px;color:#b07d3a;">America's Test Kitchen</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <div class="section-label">Section 1</div>
+    <div class="section-title">Mise en Place — Ingredients &amp; Tools</div>
+    <div class="mise-columns">
+      <div>
+        <div class="mise-col-header">Ingredients</div>
+        <table class="mise-table">
+          <tr><td class="qty">1 lb</td><td>boneless, skinless chicken breasts</td></tr>
+          <tr><td class="qty">2</td><td>large eggs</td></tr>
+          <tr><td class="qty">1 cup</td><td>unbleached all-purpose flour</td></tr>
+          <tr><td class="qty">3 cups</td><td>panko bread crumbs</td></tr>
+          <tr><td class="qty">1 cup + 1 tbsp</td><td>vegetable oil (divided)</td></tr>
+          <tr><td class="qty">1</td><td>lemon, cut into wedges</td></tr>
+          <tr><td class="qty"></td><td>salt</td></tr>
+          <tr><td class="qty"></td><td>ground black pepper</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="mise-col-header">Tools</div>
+        <table class="mise-table">
+          <tr><td class="qty">3</td><td>shallow dishes (for breading station)</td></tr>
+          <tr><td class="qty">1</td><td>heavy-bottomed 12-inch skillet</td></tr>
+          <tr><td class="qty">2</td><td>rimmed baking sheets</td></tr>
+          <tr><td class="qty"></td><td>wire rack</td></tr>
+          <tr><td class="qty"></td><td>paper towels</td></tr>
+          <tr><td class="qty"></td><td>tongs</td></tr>
+          <tr><td class="qty"></td><td>instant-read or fry thermometer</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <div class="section-label">Section 2</div>
+    <div class="section-title">Prep</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><em>Preheat oven</em> to <em>200°F</em> with rack in the middle position. This keeps the first batch warm while the second fries.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><em>Prep chicken.</em> Trim any white or yellow fat from the breasts. Pat thoroughly dry with paper towels. Slice crosswise into <em>½-inch strips</em>.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><em>Set up breading station.</em> Spread <em>1 cup flour</em> in a shallow dish. Spread <em>3 cups panko</em> in a second shallow dish. In a third shallow dish, lightly beat <em>2 large eggs</em>, <em>1 tbsp vegetable oil</em>, <em>1 tsp salt</em>, and <em>½ tsp pepper</em>.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text"><em>Bread the chicken.</em> Working with several pieces at a time: drop into flour and shake the dish to coat, shake off excess. Using tongs, dip into the egg mixture, turning to coat and letting excess drip off. Drop into panko and press crumbs lightly onto the chicken. Shake off excess and place on a wire rack set over a rimmed baking sheet. Repeat with all remaining chicken.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <div class="section-label">Section 3</div>
+    <div class="section-title">Cook</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><em>Heat oil.</em> Heat <em>1 cup vegetable oil</em> in a heavy-bottomed 12-inch skillet over medium-high heat until it reaches <em>350°F</em>, about 3–4 minutes. The oil will shimmer but should not smoke.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><em>Fry first batch.</em> Gently place <em>half the chicken</em> in the skillet. Cook until golden brown and crisp on the first side, about <em>2 minutes</em>. Flip with tongs and cook until the second side is deep golden brown and crisp and the chicken is no longer pink in the center, about <em>2 minutes</em> more.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><em>Keep warm.</em> Transfer to a clean rimmed baking sheet lined with paper towels and place in the <em>200°F oven</em>.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text"><em>Fry second batch.</em> Return skillet to medium heat and repeat with the remaining chicken.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-text"><em>Serve</em> immediately with <em>lemon wedges</em> or dipping sauce.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">America's Test Kitchen · Breaded Chicken Fingers · Makes 25–30 pieces
+    </div>
+  </div>
+
+  <!-- PANEL 7 -->
+  <div class="recipe-panel" id="panel7">
+    <div class="topbar">
+      <label for="r0" class="back-btn">&#8592; Recipes</label>
+      <div class="topbar-title">French Fries / Pommes Frites</div>
+    </div>
+    <div class="recipe-wrap">
+      <div class="header">
+    <div>
+      <h1>French Fries</h1>
+      <div class="subtitle">Pommes Frites</div>
+    </div>
+    <div class="meta">
+      <div><strong>Yield</strong> &nbsp;2 potatoes per person</div>
+      <div><strong>First fry</strong> &nbsp;320°F · 5–6 min</div>
+      <div><strong>Second fry</strong> &nbsp;375°F · 2–3 min</div>
+      <div style="margin-top:4px;color:#b07d3a;">Bouchon · Thomas Keller</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <div class="section-label">Section 1</div>
+    <div class="section-title">Mise en Place — Ingredients &amp; Tools</div>
+    <div class="mise-columns">
+      <div>
+        <div class="mise-col-header">Ingredients</div>
+        <table class="mise-table">
+          <tr><td class="qty">2 per person</td><td>large russet potatoes, washed</td></tr>
+          <tr><td class="qty">3–4 inches</td><td>peanut oil (for deep frying)</td></tr>
+          <tr><td class="qty"></td><td>kosher salt</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="mise-col-header">Tools</div>
+        <table class="mise-table">
+          <tr><td class="qty">1</td><td>deep fryer or large heavy pot</td></tr>
+          <tr><td class="qty">1</td><td>large bowl of cold water</td></tr>
+          <tr><td class="qty"></td><td>potato cutter, mandoline, or knife</td></tr>
+          <tr><td class="qty"></td><td>fry/candy thermometer</td></tr>
+          <tr><td class="qty"></td><td>basket insert (if available)</td></tr>
+          <tr><td class="qty"></td><td>paper towels</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <div class="section-label">Section 2</div>
+    <div class="section-title">Prep</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><em>Cut potatoes.</em> Set out a large bowl of cold water. Cut each potato into sticks <em>¼ inch thick</em> and <em>4½ inches long</em>. Place in the water as you go. Discard any irregular cuts — they will cook unevenly.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><em>Rinse starch.</em> Change the water several times until it runs clear and all starch has been rinsed from the potatoes. Potatoes can be refrigerated in the cold water for several hours at this point.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><em>Heat oil for first fry.</em> Fill the deep fryer or heavy pot with <em>3–4 inches of peanut oil</em> and heat to <em>320°F</em>.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <div class="section-label">Section 3</div>
+    <div class="section-title">Cook</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><em>Dry potatoes.</em> Remove potatoes from the water and drain well on paper towels.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><em>First fry — blanch.</em> Working in batches, place a handful of potatoes in the oil (use a basket insert if available). Do not crowd — there should be at least twice as much oil as potatoes. Shake or stir a few times. Fry until cooked through, <em>5–6 minutes</em>. They should be no darker than pale gold. Drain on paper towels and repeat with remaining potatoes. Blanched fries can be held at room temperature for <em>2–3 hours</em>. Reserve the oil.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><em>Reheat oil.</em> Bring the reserved oil back up to <em>375°F</em>.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text"><em>Second fry — finish.</em> Fry one portion at a time for <em>2–3 minutes</em>, until deep gold with a crisp exterior. Drain quickly on paper towels, sprinkle immediately with <em>kosher salt</em>, and serve.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">Bouchon · Thomas Keller · French Fries / Pommes Frites
+    </div>
+  </div>
+
+  <!-- PANEL 8 -->
+  <div class="recipe-panel" id="panel8">
+    <div class="topbar">
+      <label for="r0" class="back-btn">&#8592; Recipes</label>
+      <div class="topbar-title">Lemon Posset with Berries</div>
+    </div>
+    <div class="recipe-wrap">
+      <div class="header">
+    <h1>Lemon Posset<br>with Berries</h1>
+    <div class="meta">
+      <div><strong>Yield</strong> &nbsp;serves 6</div>
+      <div><strong>Active time</strong> &nbsp;35 minutes</div>
+      <div><strong>Chill time</strong> &nbsp;3½ hours minimum</div>
+      <div style="margin-top:4px;color:#b07d3a;">America's Test Kitchen · Annie Petito</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <div class="section-label">Section 1</div>
+    <div class="section-title">Mise en Place — Ingredients &amp; Tools</div>
+    <div class="mise-columns">
+      <div>
+        <div class="mise-col-header">Ingredients</div>
+        <table class="mise-table">
+          <tr><td class="qty">2 cups</td><td>heavy cream</td></tr>
+          <tr><td class="qty">2</td><td>lemons</td></tr>
+          <tr><td class="qty">1½ cups</td><td>blueberries or raspberries</td></tr>
+          <tr><td class="qty">132 g</td><td>granulated sugar</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="mise-col-header">Tools</div>
+        <table class="mise-table">
+          <tr><td class="qty">6</td><td>ramekins or serving glasses</td></tr>
+          <tr><td class="qty">1</td><td>medium saucepan</td></tr>
+          <tr><td class="qty">1</td><td>2-cup heatproof liquid measuring cup</td></tr>
+          <tr><td class="qty"></td><td>fine-mesh strainer</td></tr>
+          <tr><td class="qty"></td><td>microplane or zester</td></tr>
+          <tr><td class="qty"></td><td>citrus juicer</td></tr>
+          <tr><td class="qty"></td><td>kitchen scale</td></tr>
+          <tr><td class="qty"></td><td>plastic wrap (for storage)</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <div class="section-label">Section 2</div>
+    <div class="section-title">Prep</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><em>Zest and juice lemons.</em> Grate <em>1 tbsp lemon zest</em> and squeeze <em>6 tbsp lemon juice</em> from 2 lemons. Keep separate.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><em>Set out ramekins.</em> Arrange <em>6 ramekins or serving glasses</em> on a tray that will fit in the refrigerator.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <div class="section-label">Section 3</div>
+    <div class="section-title">Cook</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><em>Boil and reduce.</em> Combine <em>2 cups heavy cream</em>, <em>132 g sugar</em>, and <em>1 tbsp lemon zest</em> in a medium saucepan. Bring to a boil over medium heat, stirring frequently to dissolve the sugar. Do not leave unattended — it can boil over easily; if it does, briefly remove from heat. Cook until reduced to exactly <em>2 cups</em>, <em>8–12 minutes</em>. Check volume by transferring to the 2-cup measuring cup once or twice during cooking.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><em>Add lemon juice and cool.</em> Remove from heat and stir in <em>6 tbsp lemon juice</em>. Let sit until slightly cooled and a skin forms on top, about <em>20 minutes</em>.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><em>Strain and portion.</em> Pour through a fine-mesh strainer into a bowl; discard zest. Divide evenly among the <em>6 ramekins</em>.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text"><em>Chill.</em> Refrigerate uncovered until set, at least <em>3 hours</em>. Once set, possets can be wrapped in plastic wrap and refrigerated for up to <em>2 days</em>.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-text"><em>Serve.</em> Unwrap and let sit at room temperature for <em>10 minutes</em> before serving. Top each with <em>blueberries or raspberries</em> and serve.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">America's Test Kitchen · Lemon Posset with Berries · Annie Petito, 2016
+    </div>
+  </div>
+
+  <!-- PANEL 9 -->
+  <div class="recipe-panel" id="panel9">
+    <div class="topbar">
+      <label for="r0" class="back-btn">&#8592; Recipes</label>
+      <div class="topbar-title">Lemon Posset — Half Batch</div>
+    </div>
+    <div class="recipe-wrap">
+      <div class="header">
+    <h1>Lemon Posset<br>with Berries</h1>
+    <div class="meta">
+      <div><strong>Yield</strong> &nbsp;serves 3</div>
+      <div><strong>Active time</strong> &nbsp;35 minutes</div>
+      <div><strong>Chill time</strong> &nbsp;3½ hours minimum</div>
+      <div style="margin-top:4px;color:#b07d3a;">America's Test Kitchen · Annie Petito · ½ batch</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <div class="section-label">Section 1</div>
+    <div class="section-title">Mise en Place — Ingredients &amp; Tools</div>
+    <div class="mise-columns">
+      <div>
+        <div class="mise-col-header">Ingredients</div>
+        <table class="mise-table">
+          <tr><td class="qty">1 cup</td><td>heavy cream</td></tr>
+          <tr><td class="qty">1</td><td>lemon</td></tr>
+          <tr><td class="qty">¾ cup</td><td>blueberries or raspberries</td></tr>
+          <tr><td class="qty">66 g</td><td>granulated sugar</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="mise-col-header">Tools</div>
+        <table class="mise-table">
+          <tr><td class="qty">3</td><td>ramekins or serving glasses</td></tr>
+          <tr><td class="qty">1</td><td>small saucepan</td></tr>
+          <tr><td class="qty">1</td><td>2-cup heatproof liquid measuring cup</td></tr>
+          <tr><td class="qty"></td><td>fine-mesh strainer</td></tr>
+          <tr><td class="qty"></td><td>microplane or zester</td></tr>
+          <tr><td class="qty"></td><td>citrus juicer</td></tr>
+          <tr><td class="qty"></td><td>kitchen scale</td></tr>
+          <tr><td class="qty"></td><td>plastic wrap (for storage)</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <div class="section-label">Section 2</div>
+    <div class="section-title">Prep</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><em>Zest and juice lemon.</em> Grate <em>½ tbsp lemon zest</em> and squeeze <em>3 tbsp lemon juice</em> from 1 lemon. Keep separate.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><em>Set out ramekins.</em> Arrange <em>3 ramekins or serving glasses</em> on a tray that will fit in the refrigerator.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <div class="section-label">Section 3</div>
+    <div class="section-title">Cook</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><em>Boil and reduce.</em> Combine <em>1 cup heavy cream</em>, <em>66 g sugar</em>, and <em>½ tbsp lemon zest</em> in a small saucepan. Bring to a boil over medium heat, stirring frequently to dissolve the sugar. Do not leave unattended — it can boil over easily; if it does, briefly remove from heat. Cook until reduced to exactly <em>1 cup</em>, <em>6–10 minutes</em>. Check volume using the measuring cup once or twice during cooking.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><em>Add lemon juice and cool.</em> Remove from heat and stir in <em>3 tbsp lemon juice</em>. Let sit until slightly cooled and a skin forms on top, about <em>20 minutes</em>.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><em>Strain and portion.</em> Pour through a fine-mesh strainer into a bowl; discard zest. Divide evenly among the <em>3 ramekins</em>.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text"><em>Chill.</em> Refrigerate uncovered until set, at least <em>3 hours</em>. Once set, possets can be wrapped in plastic wrap and refrigerated for up to <em>2 days</em>.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-text"><em>Serve.</em> Unwrap and let sit at room temperature for <em>10 minutes</em> before serving. Top each with <em>blueberries or raspberries</em> and serve.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">America's Test Kitchen · Lemon Posset with Berries · Annie Petito, 2016 · ½ batch · serves 3
+    </div>
+  </div>
+
+  <!-- PANEL 10 -->
+  <div class="recipe-panel" id="panel10">
+    <div class="topbar">
+      <label for="r0" class="back-btn">&#8592; Recipes</label>
+      <div class="topbar-title">Lemon-Thyme Pork Tenderloin Steaks</div>
+    </div>
+    <div class="recipe-wrap">
+      <div class="header">
+    <h1>Lemon-Thyme Grilled<br>Pork Tenderloin Steaks</h1>
+    <div class="meta">
+      <div><strong>Yield</strong> &nbsp;serves 4–6</div>
+      <div><strong>Total time</strong> &nbsp;1¼ hours</div>
+      <div><strong>Marinate</strong> &nbsp;45 minutes</div>
+      <div style="margin-top:4px;color:#b07d3a;">America's Test Kitchen · Dan Souza</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <div class="section-label">Section 1</div>
+    <div class="section-title">Mise en Place — Ingredients &amp; Tools</div>
+    <div class="mise-columns">
+      <div>
+        <div class="mise-col-header">Ingredients</div>
+        <table class="mise-table">
+          <tr><td class="qty">2 lbs</td><td>pork tenderloins (2 loins), trimmed</td></tr>
+          <tr><td class="qty">2</td><td>lemons</td></tr>
+          <tr><td class="qty">8</td><td>garlic cloves</td></tr>
+          <tr><td class="qty">1 cup</td><td>vegetable oil</td></tr>
+          <tr><td class="qty">8 tsp</td><td>honey</td></tr>
+          <tr><td class="qty">4 tsp</td><td>fish sauce</td></tr>
+          <tr><td class="qty">8 tsp</td><td>mayonnaise</td></tr>
+          <tr><td class="qty"></td><td>fresh thyme</td></tr>
+          <tr><td class="qty"></td><td>salt</td></tr>
+          <tr><td class="qty"></td><td>pepper</td></tr>
+          <tr><td class="qty"></td><td>flaky sea salt (optional, for serving)</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="mise-col-header">Tools</div>
+        <table class="mise-table">
+          <tr><td class="qty"></td><td>charcoal or gas grill</td></tr>
+          <tr><td class="qty">1</td><td>large bowl</td></tr>
+          <tr><td class="qty">1</td><td>small bowl</td></tr>
+          <tr><td class="qty">1</td><td>large zipper-lock bag</td></tr>
+          <tr><td class="qty"></td><td>meat pounder or rolling pin</td></tr>
+          <tr><td class="qty"></td><td>sharp knife</td></tr>
+          <tr><td class="qty"></td><td>microplane or zester</td></tr>
+          <tr><td class="qty"></td><td>citrus juicer</td></tr>
+          <tr><td class="qty"></td><td>instant-read thermometer</td></tr>
+          <tr><td class="qty"></td><td>carving board</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <div class="section-label">Section 2</div>
+    <div class="section-title">Prep</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><em>Prep lemons.</em> Grate <em>2 tbsp (12 g) lemon zest</em> and squeeze <em>½ cup (120 g) lemon juice</em> from 2 lemons. Mince <em>8 garlic cloves</em>. Mince enough fresh thyme to yield <em>2 tbsp</em>.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><em>Prep steaks.</em> Slice each tenderloin in half crosswise to create <em>4 steaks total</em>. Pound each to <em>¾-inch thickness</em>. Using a sharp knife, cut <em>⅛-inch-deep slits spaced ½ inch apart</em> in a crosshatch pattern on both sides of each steak.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><em>Make marinade.</em> Whisk together the lemon zest and juice, garlic, <em>8 tsp (113 g) honey</em>, <em>4 tsp (24 g) fish sauce</em>, thyme, <em>1½ tsp salt</em>, and <em>1 tsp pepper</em> in a large bowl. Whisking constantly, slowly drizzle in <em>1 cup (218 g) vegetable oil</em> until smooth and slightly thickened.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text"><em>Set aside sauce.</em> Transfer <em>1 cup</em> of the lemon mixture to a small bowl and whisk in <em>8 tsp (75 g) mayonnaise</em>. Set aside as the serving sauce.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-text"><em>Marinate.</em> Add steaks to the bowl with the remaining marinade and toss thoroughly to coat. Transfer steaks and marinade to a large zipper-lock bag, press out as much air as possible, and seal. Let sit at room temperature for <em>45 minutes</em>.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <div class="section-label">Section 3</div>
+    <div class="section-title">Grill</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><em>Heat grill.</em> For charcoal: open bottom vent completely, light a full chimney (6 quarts of briquettes), and when top coals are partially covered with ash pour evenly over half the grill. Set grate in place, cover, and open lid vent fully. Heat until hot, about <em>5 minutes</em>. For gas: turn all burners to high, cover, and heat until hot, about <em>15 minutes</em>. Leave primary burner on high and turn off other burner(s).</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><em>Clean and oil grate.</em> Remove steaks from marinade — do not pat dry. Place over the hotter part of the grill.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><em>Sear.</em> Cook uncovered until well browned on the first side, <em>3–4 minutes</em>. Flip and cook until well browned on the second side, <em>3–4 minutes</em> more.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text"><em>Finish on cool side.</em> Transfer steaks to the cooler part of the grill, with the wider end of each steak facing the hotter side. Cover and cook until meat registers <em>140°F</em>, <em>3–8 minutes</em> longer. Remove steaks as they reach temperature. Transfer to a carving board and rest for <em>5 minutes</em>.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-text"><em>Serve.</em> While steaks rest, microwave reserved sauce until warm, <em>15–30 seconds</em>. Slice steaks against the grain into <em>½-inch-thick slices</em>. Drizzle with half the sauce, sprinkle with flaky sea salt if using, and serve with remaining sauce on the side.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">America's Test Kitchen · Lemon-Thyme Grilled Pork Tenderloin Steaks · Dan Souza, 2014 · doubled sauce
+    </div>
+  </div>
+
+  <!-- PANEL 11 -->
+  <div class="recipe-panel" id="panel11">
+    <div class="topbar">
+      <label for="r0" class="back-btn">&#8592; Recipes</label>
+      <div class="topbar-title">Potato Pavé</div>
+    </div>
+    <div class="recipe-wrap">
+      <div class="header">
+    <h1>Potato Pavé</h1>
+    <div class="meta">
+      <div><strong>Yield</strong> &nbsp;serves 6 (12 pieces)</div>
+      <div><strong>Bake time</strong> &nbsp;1 hr 50 min</div>
+      <div><strong>Chill time</strong> &nbsp;6 hrs minimum, up to 2 days</div>
+      <div style="margin-top:4px;color:#b07d3a;">Ad Hoc at Home · Thomas Keller</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <div class="section-label">Section 1</div>
+    <div class="section-title">Mise en Place — Ingredients &amp; Tools</div>
+    <div class="mise-columns">
+      <div>
+        <div class="mise-col-header">Ingredients</div>
+        <table class="mise-table">
+          <tr><td class="qty">3 lbs</td><td>russet potatoes (three 1-lb potatoes if possible)</td></tr>
+          <tr><td class="qty">5 tbsp</td><td>unsalted butter (divided — 1 tbsp softened, 4 tbsp cubed)</td></tr>
+          <tr><td class="qty">1 cup</td><td>heavy cream</td></tr>
+          <tr><td class="qty">2</td><td>garlic cloves, lightly crushed, skin left on</td></tr>
+          <tr><td class="qty">2</td><td>thyme sprigs</td></tr>
+          <tr><td class="qty"></td><td>canola oil</td></tr>
+          <tr><td class="qty"></td><td>kosher salt</td></tr>
+          <tr><td class="qty"></td><td>freshly ground black pepper</td></tr>
+          <tr><td class="qty"></td><td>minced chives (for serving)</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="mise-col-header">Tools</div>
+        <table class="mise-table">
+          <tr><td class="qty">1</td><td>10 × 6½ × 3-inch deep baking pan</td></tr>
+          <tr><td class="qty"></td><td>parchment paper (with 5-inch overhang on long sides)</td></tr>
+          <tr><td class="qty"></td><td>aluminum foil</td></tr>
+          <tr><td class="qty"></td><td>Japanese mandoline or vegetable slicer</td></tr>
+          <tr><td class="qty">1</td><td>large bowl</td></tr>
+          <tr><td class="qty"></td><td>palette knife</td></tr>
+          <tr><td class="qty"></td><td>large frying pan</td></tr>
+          <tr><td class="qty"></td><td>cardboard + foil (for weighting — see note)</td></tr>
+          <tr><td class="qty"></td><td>cans or weights</td></tr>
+          <tr><td class="qty"></td><td>wire cake tester or paring knife</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <div class="section-label">Section 2</div>
+    <div class="section-title">Prep</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><em>Preheat oven</em> to <em>350°F</em>.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><em>Prepare cream.</em> Pour <em>1 cup heavy cream</em> into a large bowl and season with <em>1 tsp kosher salt</em> and <em>½ tsp pepper</em>.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><em>Slice potatoes.</em> Peel the potatoes. Cut a thin lengthwise slice off one side of each potato so it rests flat on the mandoline. Lay the mandoline over the bowl of cream and slice each potato lengthwise into very thin slices (about <em>1⁄16 inch</em>), letting them drop into the cream. Toss the slices in the cream periodically to keep them coated and prevent oxidizing.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text"><em>Prepare pan.</em> Brush a <em>10 × 6½ × 3-inch pan</em> with half the <em>softened butter</em>. Line with parchment paper, leaving a <em>5-inch overhang</em> on the two long sides — these will cover the potatoes during baking and serve as handles when unmolding. Brush parchment with remaining softened butter and sprinkle with salt and pepper.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-text"><em>Prepare weight.</em> Cut a piece of cardboard just smaller than the top of the pan. Wrap tightly in aluminum foil. Set aside with cans or weights for after baking.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <div class="section-label">Section 3</div>
+    <div class="section-title">Cook</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><em>Layer potatoes.</em> Trim slices to fit and lay them in the pan to form a solid, even first layer. Add a second layer. Dot with a few <em>cubes of butter</em> and sprinkle lightly with salt and pepper. Continue layering, adding butter and seasoning after every two layers, until all potatoes are used.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><em>Cover and bake.</em> Fold the parchment overhang over the top of the potatoes. Cover tightly with aluminum foil. Bake until completely tender when pierced with a knife or cake tester, <em>1 hour 50 minutes</em>.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><em>Weight and chill.</em> Remove from oven and cool for <em>15 minutes</em>. Place the foil-wrapped cardboard on top and set cans or weights on it for even pressure. Cool to room temperature, then wrap well and refrigerate for at least <em>6 hours</em>, or up to <em>2 days</em>.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text"><em>Unmold and cut.</em> Run a palette knife along the two long sides to release the pavé. Use the parchment handles to lift it out, or invert onto a cutting surface. Trim all four sides. Cut into <em>12 equal pieces</em> and let sit at room temperature for <em>30 minutes</em>.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-text"><em>Sauté.</em> Heat a generous splash of <em>canola oil</em> in a large frying pan over medium-high heat. Add the pieces <em>cut-side-down</em>. Add the <em>2 thyme sprigs</em> and <em>2 garlic cloves</em>. Cook, basting with the pan juices, until deep golden brown on the first side, then turn carefully and brown the opposite side.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-text"><em>Serve.</em> Arrange browned-side-up on a serving platter. Place a small piece of butter on each piece to melt. Sprinkle with <em>minced chives</em> and serve.</div>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>Weighting the pavé:</strong> Cut a piece of cardboard just smaller than the top of the pan so it covers the pavé without resting on the pan sides. Wrap in foil, set on top of the pavé, and place cans or other weights on it for even distribution.
+    </div>
+  </div>
+
+  <div class="footer">Ad Hoc at Home · Thomas Keller · Potato Pavé · Serves 6
+    </div>
+  </div>
+
+  <!-- PANEL 12 -->
+  <div class="recipe-panel" id="panel12">
+    <div class="topbar">
+      <label for="r0" class="back-btn">&#8592; Recipes</label>
+      <div class="topbar-title">Chocolate Chip Cookies — Torres</div>
+    </div>
+    <div class="recipe-wrap">
+      <div class="header">
+    <h1>Chocolate Chip<br>Cookies</h1>
+    <div class="meta">
+      <div><strong>Yield</strong> &nbsp;18 cookies (5-inch)</div>
+      <div><strong>Active time</strong> &nbsp;45 minutes</div>
+      <div><strong>Chill time</strong> &nbsp;24–36 hours</div>
+      <div style="margin-top:4px;color:#b07d3a;">Adapted from Jacques Torres · New York Times</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <div class="section-label">Section 1</div>
+    <div class="section-title">Mise en Place — Ingredients &amp; Tools</div>
+    <div class="mise-columns">
+      <div>
+        <div class="mise-col-header">Ingredients</div>
+        <table class="mise-table">
+          <tr><td class="qty">2½ sticks</td><td>unsalted butter (1¼ cups), room temperature</td></tr>
+          <tr><td class="qty">2</td><td>large eggs, room temperature</td></tr>
+          <tr><td class="qty">250 g</td><td>light brown sugar, packed</td></tr>
+          <tr><td class="qty">225 g</td><td>granulated sugar</td></tr>
+          <tr><td class="qty">240 g</td><td>cake flour (2 cups minus 2 tbsp)</td></tr>
+          <tr><td class="qty">240 g</td><td>bread flour (1⅔ cups)</td></tr>
+          <tr><td class="qty">567 g</td><td>bittersweet chocolate disks or fèves, 60%+ cacao <em style="font-weight:400;color:#888;">(Guittard chips work well too)</em></td></tr>
+          <tr><td class="qty"></td><td>baking soda</td></tr>
+          <tr><td class="qty"></td><td>baking powder</td></tr>
+          <tr><td class="qty"></td><td>coarse salt</td></tr>
+          <tr><td class="qty"></td><td>natural vanilla extract</td></tr>
+          <tr><td class="qty"></td><td>flaky sea salt (for topping)</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="mise-col-header">Tools</div>
+        <table class="mise-table">
+          <tr><td class="qty"></td><td>stand mixer with paddle attachment</td></tr>
+          <tr><td class="qty"></td><td>large bowl</td></tr>
+          <tr><td class="qty"></td><td>sifter or fine-mesh strainer</td></tr>
+          <tr><td class="qty"></td><td>baking sheets</td></tr>
+          <tr><td class="qty"></td><td>parchment paper or nonstick baking mat</td></tr>
+          <tr><td class="qty"></td><td>99 g scoop or scale</td></tr>
+          <tr><td class="qty">2</td><td>wire racks</td></tr>
+          <tr><td class="qty"></td><td>plastic wrap</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <div class="section-label">Section 2</div>
+    <div class="section-title">Prep</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><em>Sift dry ingredients.</em> Sift together both flours, <em>1¼ tsp baking soda</em>, <em>1½ tsp baking powder</em>, and <em>1½ tsp coarse salt</em> into a bowl. Set aside.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><em>Cream butter and sugars.</em> Using a stand mixer fitted with the paddle attachment, cream <em>2½ sticks butter</em>, <em>250 g brown sugar</em>, and <em>225 g granulated sugar</em> together until very light, about <em>5 minutes</em>.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><em>Add eggs and vanilla.</em> Add <em>2 eggs</em> one at a time, mixing well after each addition. Stir in <em>2 tsp vanilla extract</em>.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text"><em>Add flour.</em> Reduce mixer speed to low. Add the dry ingredients and mix until just combined, about <em>10 seconds</em>.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-text"><em>Fold in chocolate.</em> Drop in <em>567 g chocolate disks or fèves</em> and incorporate without breaking them.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-text"><em>Chill dough.</em> Press plastic wrap directly against the surface of the dough and refrigerate for <em>24–36 hours</em>. Dough may be baked in batches and kept refrigerated for up to <em>72 hours</em>.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <div class="section-label">Section 3</div>
+    <div class="section-title">Bake</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><em>Preheat oven</em> to <em>350°F</em>. Line a baking sheet with parchment paper or a nonstick baking mat.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><em>Scoop and arrange.</em> Scoop <em>6 mounds of 99 g each</em> (generous golf ball size) onto the baking sheet. Turn any chocolate pieces poking up horizontally — it makes for a more attractive cookie. Sprinkle lightly with <em>flaky sea salt</em>.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><em>Bake.</em> Bake until golden brown but still soft, <em>18–20 minutes</em>. Transfer sheet to a wire rack for <em>10 minutes</em>, then slip cookies onto a second rack to cool a bit more.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text"><em>Repeat.</em> Bake remaining dough in batches. Reserved dough can be refrigerated and baked the next day. Eat warm, with a big napkin.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">Adapted from Jacques Torres · New York Times · Chocolate Chip Cookies · Makes 18 five-inch cookies
+    </div>
+  </div>
+
+  <!-- PANEL 13 -->
+  <div class="recipe-panel" id="panel13">
+    <div class="topbar">
+      <label for="r0" class="back-btn">&#8592; Recipes</label>
+      <div class="topbar-title">Cinnamon Raisin Bagels</div>
+    </div>
+    <div class="recipe-wrap">
+      <div class="header">
+    <h1>Cinnamon Raisin<br>Bagels</h1>
+    <div class="meta">
+      <div><strong>Yield</strong> &nbsp;8 bagels · ~140 g each</div>
+      <div><strong>Active time</strong> &nbsp;~40 minutes</div>
+      <div><strong>Cold proof</strong> &nbsp;12–16 hours</div>
+      <div><strong>Bake</strong> &nbsp;220°C / 425°F convection · 12 min</div>
+      <div style="margin-top:4px;color:#b07d3a;">Kitchen Manual Vol. 6 · Modernist Cuisine</div>
+    </div>
+  </div>
+
+  <div class="warning">
+    <strong>⚠ Lye Safety.</strong> Lye is caustic and can severely burn skin and eyes. Always wear <strong>gloves and protective eyewear</strong> during any step involving lye. Never use aluminum cookware with lye. Keep children away.
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <div class="section-label">Section 1</div>
+    <div class="section-title">Mise en Place — Ingredients &amp; Tools</div>
+    <div class="mise-columns">
+      <div>
+        <div class="mise-col-header">Dough</div>
+        <table class="mise-table">
+          <tr><td class="qty">625 g</td><td>bread flour</td></tr>
+          <tr><td class="qty">305 g</td><td>water</td></tr>
+          <tr><td class="qty">100 g</td><td>black raisins</td></tr>
+          <tr><td class="qty">150 g</td><td>boiling water (for soaking raisins)</td></tr>
+          <tr><td class="qty">25 g</td><td>sugar</td></tr>
+          <tr><td class="qty">17 g</td><td>vegetable oil</td></tr>
+          <tr><td class="qty">13 g</td><td>fine salt</td></tr>
+          <tr><td class="qty">12 g</td><td>malt syrup</td></tr>
+          <tr><td class="qty">10 g</td><td>cinnamon <em style="font-weight:400;color:#888;">(inhibits yeast — increased yeast compensates)</em></td></tr>
+          <tr><td class="qty">9 g</td><td>SAF Red instant dry yeast</td></tr>
+        </table>
+        <div style="margin-top:14px;">
+          <div class="mise-col-header">Lye Solution</div>
+          <table class="mise-table">
+            <tr><td class="qty">4 kg</td><td>water</td></tr>
+            <tr><td class="qty">6 g</td><td>lye (food-grade sodium hydroxide)</td></tr>
+          </table>
+        </div>
+      </div>
+      <div>
+        <div class="mise-col-header">Tools</div>
+        <table class="mise-table">
+          <tr><td class="qty">1</td><td>Ooni mixer</td></tr>
+          <tr><td class="qty">1</td><td>lightly oiled tub or bowl (for bulk ferment)</td></tr>
+          <tr><td class="qty">2</td><td>sheet pans lined with parchment, dusted with cornmeal</td></tr>
+          <tr><td class="qty">1</td><td>large non-aluminum pot (for lye boil)</td></tr>
+          <tr><td class="qty">1</td><td>baking steel (preheat in oven)</td></tr>
+          <tr><td class="qty"></td><td>kitchen scale</td></tr>
+          <tr><td class="qty"></td><td>bench scraper</td></tr>
+          <tr><td class="qty"></td><td>slotted spoon or spider</td></tr>
+          <tr><td class="qty"></td><td>gloves &amp; protective eyewear (for lye)</td></tr>
+          <tr><td class="qty"></td><td>instant-read thermometer</td></tr>
+          <tr><td class="qty"></td><td>plastic wrap</td></tr>
+          <tr><td class="qty"></td><td>airtight container (for raisin soak)</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <div class="section-label">Section 2</div>
+    <div class="section-title">Prep — Day Before</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><em>Soak raisins.</em> Combine <em>100 g black raisins</em> and <em>150 g boiling water</em> in an airtight container. Soak for <em>2 hours</em>. Drain any excess water and set aside.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><em>Mix dough.</em> In the Ooni mixer bowl, dissolve <em>9 g SAF Red yeast</em> in <em>305 g water</em>. Add <em>625 g bread flour</em>, <em>25 g sugar</em>, <em>17 g vegetable oil</em>, <em>12 g malt syrup</em>, and <em>13 g fine salt</em>. Mix on low speed with the hook until homogeneous, <em>5 minutes</em>. Increase to medium speed and mix to full gluten development, <em>4–6 minutes</em>. Dough should be stiff and smooth. Perform the windowpane test to confirm full gluten development.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><em>Add raisins and cinnamon.</em> Turn mixer off. Add the soaked raisins and <em>10 g cinnamon</em>. Mix on low speed until just incorporated — do not overmix.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text"><em>Bulk ferment.</em> Transfer dough to a lightly oiled tub or bowl and cover well with plastic wrap or a lid. Ferment at room temperature until a small piece of dough dropped in a glass of cold water <em>floats within 10 seconds</em> — approximately <em>1–1.5 hours</em> with SAF Red at 9g, though cinnamon's yeast inhibition means it may take longer. This is the only point in the process where the float test is used — once divided and shaped, the dough is degassed by handling and will not float regardless of fermentation state. No folds; keep covered throughout.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-text"><em>Divide.</em> Turn dough onto a clean worktable. Divide into <em>8 pieces of ~140 g each</em>. Keep dough covered as you work — it dries out easily.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-text"><em>Preshape.</em> Roll each piece into a tight round ball. Cover and rest for <em>20 minutes</em>.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">7</div>
+        <div class="step-text"><em>Shape bagels.</em> Shape each ball into a bagel ring. Place on sheet pans lined with parchment paper dusted with <em>cornmeal</em>. Do not cover — the exposed surface will form a skin that helps create a brittle crust.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">8</div>
+        <div class="step-text"><em>Cold proof.</em> Refrigerate uncovered at <em>4°C / 39°F</em> for <em>12–16 hours</em>.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <div class="section-label">Section 3</div>
+    <div class="section-title">Bake — Day Of</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><em>Preheat oven and steel.</em> Place baking steel on the middle shelf. Preheat convection oven to <em>220°C / 425°F</em>. Allow at least <em>45–60 minutes</em> for the steel to fully saturate with heat.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><em>Prepare lye solution.</em> Wearing gloves and protective eyewear, add <em>6 g lye</em> to <em>4 kg water</em> in a large non-aluminum pot. Stir to dissolve. Bring to a <em>gentle boil</em> — not a rolling boil.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><em>Boil bagels straight from the refrigerator.</em> Do not bring to room temperature first — the cold, firm dough holds its shape better in the boiling water, and the skin formed during cold proofing needs to go in intact. Working in batches of 3–4, gently lower bagels directly from the refrigerator into the lye solution. Boil <em>30 seconds</em> on the first side, flip, and boil <em>30 seconds</em> on the second side (<em>1 minute total</em>). The bagels may sink initially then float as they heat — this is normal. Remove with a slotted spoon and return to the cornmeal-dusted parchment-lined sheet pans, bottom side down.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text"><em>Bake.</em> Slide the sheet pan onto the baking steel. Bake at <em>220°C / 425°F convection</em> until deep golden brown, <em>12 minutes</em>. The boiling drives the final expansion and sets the crust; the lye gives a shiny, slightly brittle finish.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-text"><em>Cool.</em> Transfer to a wire rack and cool completely. If not eating the same day, cool fully, then wrap and freeze immediately. To refresh: wrap in foil and bake at <em>175°C / 350°F</em> until the crumb reaches <em>77°C / 170°F</em>.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">Modernist Cuisine · Kitchen Manual Vol. 6 · Cinnamon Raisin Bagels · Makes 8 · Ooni Mixer · Baking Steel · Convection 425°F
+    </div>
+  </div>
+
+  <!-- PANEL 14 -->
+  <div class="recipe-panel" id="panel14">
+    <div class="topbar">
+      <label for="r0" class="back-btn">&#8592; Recipes</label>
+      <div class="topbar-title">Modernist Bagel</div>
+    </div>
+    <div class="recipe-wrap">
+      <div class="header">
+    <h1>Modernist Bagel</h1>
+    <div class="meta">
+      <div><strong>Yield</strong> &nbsp;7 bagels · 140 g each</div>
+      <div><strong>Active time</strong> &nbsp;~25 minutes</div>
+      <div><strong>MC prep</strong> &nbsp;12 hours ahead</div>
+      <div><strong>Cold proof</strong> &nbsp;12–16 hours</div>
+      <div><strong>Bake</strong> &nbsp;220°C / 425°F convection · 10–12 min</div>
+      <div style="margin-top:4px;color:#b07d3a;">Modernist Cuisine · Kitchen Manual Vol. 5</div>
+    </div>
+  </div>
+
+  <div class="warning">
+    <strong>⚠ Lye Safety.</strong> Lye is caustic and can severely burn skin and eyes. Always wear <strong>gloves and protective eyewear</strong> during any step involving lye. Never use aluminum cookware with lye. Keep children away.
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <div class="section-label">Section 1</div>
+    <div class="section-title">Mise en Place — Ingredients &amp; Tools</div>
+    <div class="mise-columns">
+      <div>
+        <div class="mise-col-header">Methylcellulose Solution</div>
+        <table class="mise-table">
+          <tr><td class="qty">325 g</td><td>water <em style="font-weight:400;color:#888;">(makes extra to account for loss — use 308 g in dough)</em></td></tr>
+          <tr><td class="qty">3.25 g</td><td>methylcellulose powder (F50)</td></tr>
+        </table>
+
+        <div style="margin-top:14px;">
+          <div class="mise-col-header">Dough</div>
+          <table class="mise-table">
+            <tr><td class="qty">625 g</td><td>bread flour</td></tr>
+            <tr><td class="qty">308 g</td><td>methylcellulose solution (all from above)</td></tr>
+            <tr><td class="qty">25 g</td><td>sugar</td></tr>
+            <tr><td class="qty">17 g</td><td>vegetable oil</td></tr>
+            <tr><td class="qty">13 g</td><td>fine salt</td></tr>
+            <tr><td class="qty">12 g</td><td>malt syrup</td></tr>
+            <tr><td class="qty">6.25 g</td><td>polydextrose</td></tr>
+            <tr><td class="qty">9 g</td><td>SAF Red instant dry yeast</td></tr>
+            <tr><td class="qty"></td><td>dough relaxer — <em style="font-weight:600;color:#1a1a1a;">Adolph's meat tenderizer</em> or <em style="font-weight:600;color:#1a1a1a;">fresh pineapple juice</em> <em style="font-weight:400;color:#888;">(see relaxer options for amounts)</em></td></tr>
+          </table>
+        </div>
+
+        <div style="margin-top:14px;">
+          <div class="mise-col-header">Lye Solution</div>
+          <table class="mise-table">
+            <tr><td class="qty">4 kg</td><td>water</td></tr>
+            <tr><td class="qty">6 g</td><td>lye (food-grade sodium hydroxide)</td></tr>
+          </table>
+        </div>
+
+        <div style="margin-top:14px;">
+          <div class="mise-col-header">Dough Relaxer Options</div>
+          <table class="mise-table">
+            <tr><td class="qty">0.0625 g</td><td><strong>Adolph's meat tenderizer</strong> — easiest to find</td></tr>
+            <tr><td class="qty">~6 drops</td><td><strong>fresh pineapple juice</strong> — widely available (0.3125 g)</td></tr>
+            <tr><td class="qty">0.0005%</td><td>bromelain (liquid — add after full gluten dev.)</td></tr>
+            <tr><td class="qty">0.01%</td><td>fresh kiwi juice (liquid — add after full gluten dev.)</td></tr>
+            <tr><td class="qty">0.01%</td><td>papain, powdered (dry — add with dry ingredients)</td></tr>
+            <tr><td class="qty">0.03%</td><td>fresh papaya juice (liquid — add after full gluten dev.)</td></tr>
+          </table>
+          <div style="font-size:11.5px;color:#888;margin-top:8px;font-style:italic;">Adolph's and pineapple juice amounts are based on 625 g flour. Percentages for other options are also based on flour weight. Dry relaxers add with dry ingredients; liquid relaxers add after full gluten development.</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="mise-col-header">Tools</div>
+        <table class="mise-table">
+          <tr><td class="qty">1</td><td>immersion blender (for MC solution)</td></tr>
+          <tr><td class="qty">1</td><td>Ooni mixer</td></tr>
+          <tr><td class="qty">1</td><td>lightly oiled tub or bowl (for bulk ferment)</td></tr>
+          <tr><td class="qty">2</td><td>sheet pans lined with parchment, dusted with cornmeal</td></tr>
+          <tr><td class="qty">1</td><td>large non-aluminum pot (for lye boil)</td></tr>
+          <tr><td class="qty">1</td><td>baking steel (preheat in oven)</td></tr>
+          <tr><td class="qty"></td><td>kitchen scale (precise — 0.001 g for bromelain)</td></tr>
+          <tr><td class="qty"></td><td>bench scraper</td></tr>
+          <tr><td class="qty"></td><td>slotted spoon or spider</td></tr>
+          <tr><td class="qty"></td><td>gloves &amp; protective eyewear (for lye)</td></tr>
+          <tr><td class="qty"></td><td>instant-read thermometer</td></tr>
+          <tr><td class="qty"></td><td>plastic wrap</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <div class="section-label">Section 2</div>
+    <div class="section-title">Prep — Day Before</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><em>Make methylcellulose solution.</em> Combine <em>325 g water</em> and <em>3.25 g methylcellulose powder (F50)</em> in a container. Mix thoroughly with an immersion blender until fully combined with no clumps. Allow to hydrate at room temperature for at least <em>12 hours</em>. The solution will thicken as it hydrates. Making slightly more than needed accounts for what sticks to the container — use exactly <em>308 g</em> when mixing the dough and discard the rest.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <div class="section-label">Section 3</div>
+    <div class="section-title">Prep — Once MC Solution Is Ready</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><em>Mix dough.</em> In the Ooni mixer bowl, dissolve <em>9 g SAF Red yeast</em> in the <em>308 g methylcellulose solution</em>. Add <em>625 g bread flour</em>, <em>25 g sugar</em>, <em>17 g vegetable oil</em>, <em>12 g malt syrup</em>, <em>13 g fine salt</em>, and <em>6.25 g polydextrose</em>. If using Adolph's meat tenderizer, add <em>0.0625 g</em> now; or if using fresh pineapple juice, add <em>~6 drops</em> now. Mix on low speed with the hook until homogeneous, <em>5 minutes</em>. Increase to medium speed and mix to full gluten development, <em>4–6 minutes</em>. Confirm full gluten development with the windowpane test.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><em>Bulk ferment.</em> Transfer dough to a lightly oiled tub or bowl and cover well with plastic wrap or a lid. Ferment at room temperature until a small piece of dough dropped in a glass of cold water <em>floats within 10 seconds</em> — approximately <em>1–1.5 hours</em>. This is the only point where the float test is used — once the dough is divided and shaped it is degassed by handling and will not float regardless of fermentation state. No folds; keep covered throughout.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><em>Divide.</em> Turn dough onto a clean worktable. Divide into <em>7 pieces of 140 g each</em>. Keep dough covered as you work — it dries out easily due to low hydration.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text"><em>Preshape.</em> Roll each piece into a tight round ball. Cover and rest for <em>20 minutes</em>.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-text"><em>Shape bagels.</em> Shape each ball into a bagel ring. The relaxer makes extension easier — if the dough springs back, rest it a few minutes longer before continuing. Place on sheet pans lined with parchment dusted with <em>cornmeal</em>. Do not cover — the exposed surface forms a skin that helps create a brittle crust.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-text"><em>Cold proof.</em> Refrigerate uncovered at <em>4°C / 39°F</em> for <em>12–16 hours</em>.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <div class="section-label">Section 4</div>
+    <div class="section-title">Bake — Day Of</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><em>Preheat oven and steel.</em> Place baking steel on the middle shelf. Preheat convection oven to <em>220°C / 425°F</em>. Allow at least <em>45–60 minutes</em> for the steel to fully saturate with heat.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><em>Prepare lye solution.</em> Wearing gloves and protective eyewear, add <em>6 g lye</em> to <em>4 kg water</em> in a large non-aluminum pot. Stir to dissolve. Begin bringing to a gentle boil about <em>10 minutes before</em> the bagels are ready to boil.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><em>Boil bagels straight from the refrigerator.</em> Do not bring to room temperature first — the cold, firm dough holds its shape better in the boiling water, and the skin formed during cold proofing needs to go in intact. The boiling is the final expansion event, not a proof readiness check. Working in batches of 3–4, gently lower bagels directly from the refrigerator into the <em>gently boiling</em> lye solution. Boil <em>30 seconds</em> on the first side, flip, and boil <em>30 seconds</em> on the second side (<em>1 minute total</em>). Bagels may sink initially then float as they heat — this is normal. Remove with a slotted spoon and return to the cornmeal-dusted parchment-lined sheet pans, bottom side down.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text"><em>Bake.</em> Slide the sheet pan onto the baking steel. Bake at <em>220°C / 425°F convection</em> until deep golden brown, <em>10–12 minutes</em>. The methylcellulose holds the dough at maximum expansion giving a taut, smooth surface; the lye produces a shiny, slightly brittle crust.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-text"><em>Cool.</em> Transfer to a wire rack and cool completely. Consume within <em>1 day</em> or wrap and freeze for up to <em>2 months</em>. To refresh: wrap in foil and bake at <em>175°C / 350°F</em> until the crumb reaches <em>77°C / 170°F</em>.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">Modernist Cuisine · Kitchen Manual Vol. 5 · Modernist Bagel · Makes 7 · Ooni Mixer · Baking Steel · Convection 425°F
+    </div>
+  </div>
+
+
+</div><!-- end .panels -->
+
+<script>
+function showTab(cat, btn) {
+  document.querySelectorAll('.category-section').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('cat-' + cat).classList.add('visible');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
