@@ -59,8 +59,18 @@
   .header .subtitle { font-family: 'Playfair Display', serif; font-size: 14px; color: #999; font-style: italic; margin-top: 4px; }
   .note { background: #fdf6ec; border-left: 3px solid #d4a45a; padding: 12px 16px; font-size: 12.5px; color: #555; line-height: 1.6; margin-top: 16px; }
   .note strong { color: #1a1a1a; }
-  @media (max-width: 600px) {
-    .index-wrap { padding: 32px 16px; }
+  .subcat-list { display: flex; flex-direction: column; gap: 6px; }
+  .subcat-entry { display: flex; justify-content: space-between; align-items: center; background: var(--paper); border: 1px solid var(--border); padding: 18px 20px; cursor: pointer; transition: background 0.15s; }
+  .subcat-entry:hover { background: #fff9f0; border-color: var(--gold); }
+  .subcat-name { font-family: 'Playfair Display', serif; font-size: 18px; color: #1a1a1a; }
+  .subcat-count { font-size: 12px; color: #999; margin-top: 3px; }
+  .subcat-arrow { font-size: 20px; color: var(--gold-light); flex-shrink: 0; margin-left: 12px; }
+  .subcat-panel { display: none; }
+  .subcat-panel.visible { display: block; }
+  .subcat-back { display: flex; align-items: center; gap: 6px; background: none; border: none; padding: 0 0 16px 0; font-size: 13px; font-weight: 500; color: var(--gold); cursor: pointer; font-family: 'Inter', sans-serif; letter-spacing: 0.03em; }
+  .subcat-back:hover { color: #1a1a1a; }
+  @media (max-width: 600px) { .subcat-entry { padding: 16px; } }
+
     .r-header,.header { flex-direction: column; align-items: flex-start; gap: 8px; }
     .r-meta,.header .meta { text-align: left; }
     .mise-columns { grid-template-columns: 1fr; gap: 20px 0; }
@@ -79,6 +89,7 @@
         <button class="tab-btn active" onclick="showTab('all',this)">All</button>
         <button class="tab-btn" onclick="showTab('breakfast',this)">Breakfast</button>
         <button class="tab-btn" onclick="showTab('mains',this)">Mains</button>
+        <button class="tab-btn" onclick="showTab('soups',this)">Soups</button>
         <button class="tab-btn" onclick="showTab('sides',this)">Sides</button>
         <button class="tab-btn" onclick="showTab('sauces',this)">Sauces</button>
         <button class="tab-btn" onclick="showTab('desserts',this)">Desserts</button>
@@ -88,20 +99,50 @@
           <div class="category-heading">Breakfast</div>
           <li class="recipe-entry"><div onclick="showRecipe(1)"><div class="rl-name">Blueberry Pancakes</div><div class="rl-meta">Serves 4 · ~45 min · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
           <li class="recipe-entry"><div onclick="showRecipe(2)"><div class="rl-name">Blueberry Pancakes — Single Serving</div><div class="rl-meta">Serves 1 · ~20 min · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
-          <div class="category-heading">Mains</div>
-          <li class="recipe-entry"><div onclick="showRecipe(6)"><div class="rl-name">Breaded Chicken Fingers</div><div class="rl-meta">Makes 25-30 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(26)"><div class="rl-name">Best Buttermilk Waffles</div><div class="rl-meta">Makes 8 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(34)"><div class="rl-name">Corned Beef Hash</div><div class="rl-meta">Serves 1 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(35)"><div class="rl-name">Classic Blueberry Muffins</div><div class="rl-meta">Makes 12 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <div class="category-heading">Mains — Beef</div>
+          <li class="recipe-entry"><div onclick="showRecipe(23)"><div class="rl-name">Best Beef Stew</div><div class="rl-meta">Serves 6–8 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(29)"><div class="rl-name">Crispy Tacos (Tacos Dorados)</div><div class="rl-meta">Serves 4 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(32)"><div class="rl-name">Best Ground Beef Chili</div><div class="rl-meta">Serves 8–10 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(36)"><div class="rl-name">Classic Stuffed Bell Peppers</div><div class="rl-meta">Serves 4 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <div class="category-heading">Mains — Pork</div>
           <li class="recipe-entry"><div onclick="showRecipe(10)"><div class="rl-name">Lemon-Thyme Pork Tenderloin Steaks</div><div class="rl-meta">Serves 4-6 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(17)"><div class="rl-name">Pan-Seared Thick-Cut Bone-In Pork Chops</div><div class="rl-meta">Serves 4 · 30 min · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(38)"><div class="rl-name">Charcoal-Grilled Sausages with Peppers and Onions</div><div class="rl-meta">Serves 2 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <div class="category-heading">Mains — Chicken</div>
+          <li class="recipe-entry"><div onclick="showRecipe(6)"><div class="rl-name">Breaded Chicken Fingers</div><div class="rl-meta">Makes 25-30 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(16)"><div class="rl-name">Sweet and Tangy Barbecued Chicken</div><div class="rl-meta">Serves 6–8 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(21)"><div class="rl-name">Chicken Tikka Masala</div><div class="rl-meta">Serves 4 · Joshua Wiseman</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(33)"><div class="rl-name">Chicken Enchiladas with Red Chile Sauce</div><div class="rl-meta">Serves 4–5 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(37)"><div class="rl-name">Chicken Piccata</div><div class="rl-meta">Serves 2 · Cook's Illustrated</div><span class="rl-arrow">&#8250;</span></div></li>
+          <div class="category-heading">Mains — Seafood</div>
+          <div class="category-heading">Mains — Pasta</div>
+          <li class="recipe-entry"><div onclick="showRecipe(20)"><div class="rl-name">Hearty Beef Lasagna</div><div class="rl-meta">Serves 10–12 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(39)"><div class="rl-name">Cheese and Tomato Lasagna</div><div class="rl-meta">Serves 8 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(30)"><div class="rl-name">Risotto with Tomatoes and Basil</div><div class="rl-meta">Serves 4–6 · Modernist Cuisine</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(31)"><div class="rl-name">Risotto with Tomatoes and Basil — 2 Serving</div><div class="rl-meta">Serves 2 · Modernist Cuisine</div><span class="rl-arrow">&#8250;</span></div></li>
+          <div class="category-heading">Soups</div>
+          <li class="recipe-entry"><div onclick="showRecipe(22)"><div class="rl-name">Black Bean Soup</div><div class="rl-meta">Serves 6 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
           <div class="category-heading">Sides</div>
           <li class="recipe-entry"><div onclick="showRecipe(5)"><div class="rl-name">Caramelized Onions</div><div class="rl-meta">~50 min · Control Freak</div><span class="rl-arrow">&#8250;</span></div></li>
           <li class="recipe-entry"><div onclick="showRecipe(7)"><div class="rl-name">French Fries</div><div class="rl-meta">Bouchon · Thomas Keller</div><span class="rl-arrow">&#8250;</span></div></li>
           <li class="recipe-entry"><div onclick="showRecipe(11)"><div class="rl-name">Potato Pave</div><div class="rl-meta">Serves 6 · Ad Hoc at Home</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(24)"><div class="rl-name">Beer-Battered Onion Rings</div><div class="rl-meta">Serves 2–3 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(25)"><div class="rl-name">Fluffy White Rice</div><div class="rl-meta">Serves 4 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(27)"><div class="rl-name">Scalloped Potatoes</div><div class="rl-meta">Serves 4–6 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
           <div class="category-heading">Sauces</div>
           <li class="recipe-entry"><div onclick="showRecipe(3)"><div class="rl-name">Oven-Roasted Tomato Sauce</div><div class="rl-meta">Makes 2½ cups · Ad Hoc at Home</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(15)"><div class="rl-name">Cocktail Sauce</div><div class="rl-meta">Makes 1 cup · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(18)"><div class="rl-name">Maple Agrodolce</div><div class="rl-meta">Makes ~⅓ cup · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(19)"><div class="rl-name">Creamy Apple-Mustard Sauce</div><div class="rl-meta">Makes ½ cup · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
           <div class="category-heading">Desserts</div>
           <li class="recipe-entry"><div onclick="showRecipe(12)"><div class="rl-name">Chocolate Chip Cookies - Torres</div><div class="rl-meta">Makes 18 · New York Times</div><span class="rl-arrow">&#8250;</span></div></li>
           <li class="recipe-entry"><div onclick="showRecipe(4)"><div class="rl-name">Chocolate Chip Cookies — ATK</div><div class="rl-meta">Makes 16 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
           <li class="recipe-entry"><div onclick="showRecipe(8)"><div class="rl-name">Lemon Posset with Berries</div><div class="rl-meta">Serves 6 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
           <li class="recipe-entry"><div onclick="showRecipe(9)"><div class="rl-name">Lemon Posset with Berries - Half Batch</div><div class="rl-meta">Serves 3 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(28)"><div class="rl-name">Mom's Chocolate Cake</div><div class="rl-meta">Serves 10 · Family Recipe</div><span class="rl-arrow">&#8250;</span></div></li>
           <div class="category-heading">Bread and Baking</div>
           <li class="recipe-entry"><div onclick="showRecipe(13)"><div class="rl-name">Cinnamon Raisin Bagels</div><div class="rl-meta">Makes 8 · Modernist Cuisine</div><span class="rl-arrow">&#8250;</span></div></li>
           <li class="recipe-entry"><div onclick="showRecipe(14)"><div class="rl-name">Modernist Bagel</div><div class="rl-meta">Makes 7 · Modernist Cuisine</div><span class="rl-arrow">&#8250;</span></div></li>
@@ -109,24 +150,100 @@
       <div class="category-section" id="cat-breakfast"><ul class="recipe-list">
           <li class="recipe-entry"><div onclick="showRecipe(1)"><div class="rl-name">Blueberry Pancakes</div><div class="rl-meta">Serves 4 · ~45 min · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
           <li class="recipe-entry"><div onclick="showRecipe(2)"><div class="rl-name">Blueberry Pancakes — Single Serving</div><div class="rl-meta">Serves 1 · ~20 min · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(26)"><div class="rl-name">Best Buttermilk Waffles</div><div class="rl-meta">Makes 8 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(34)"><div class="rl-name">Corned Beef Hash</div><div class="rl-meta">Serves 1 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(35)"><div class="rl-name">Classic Blueberry Muffins</div><div class="rl-meta">Makes 12 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
       </ul></div>
-      <div class="category-section" id="cat-mains"><ul class="recipe-list">
-          <li class="recipe-entry"><div onclick="showRecipe(6)"><div class="rl-name">Breaded Chicken Fingers</div><div class="rl-meta">Makes 25-30 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
-          <li class="recipe-entry"><div onclick="showRecipe(10)"><div class="rl-name">Lemon-Thyme Pork Tenderloin Steaks</div><div class="rl-meta">Serves 4-6 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+      <div class="category-section" id="cat-mains">
+        <!-- Subcategory menu -->
+        <div id="mains-menu" class="subcat-list">
+          <div class="subcat-entry" onclick="showSubcat('beef')">
+            <div><div class="subcat-name">Beef</div><div class="subcat-count">4 recipes</div></div><span class="subcat-arrow">&#8250;</span>
+          </div>
+          <div class="subcat-entry" onclick="showSubcat('pork')">
+            <div><div class="subcat-name">Pork</div><div class="subcat-count">3 recipes</div></div><span class="subcat-arrow">&#8250;</span>
+          </div>
+          <div class="subcat-entry" onclick="showSubcat('chicken')">
+            <div><div class="subcat-name">Chicken</div><div class="subcat-count">5 recipes</div></div><span class="subcat-arrow">&#8250;</span>
+          </div>
+          <div class="subcat-entry" onclick="showSubcat('seafood')">
+            <div><div class="subcat-name">Seafood</div><div class="subcat-count">coming soon</div></div><span class="subcat-arrow">&#8250;</span>
+          </div>
+          <div class="subcat-entry" onclick="showSubcat('pasta')">
+            <div><div class="subcat-name">Pasta</div><div class="subcat-count">4 recipes</div></div><span class="subcat-arrow">&#8250;</span>
+          </div>
+        </div>
+        <!-- Beef -->
+        <div id="subcat-beef" class="subcat-panel">
+          <button class="subcat-back" onclick="hideSubcat()">&#8592; Mains</button>
+          <ul class="recipe-list">
+            <li class="recipe-entry"><div onclick="showRecipe(23)"><div class="rl-name">Best Beef Stew</div><div class="rl-meta">Serves 6–8 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+            <li class="recipe-entry"><div onclick="showRecipe(29)"><div class="rl-name">Crispy Tacos (Tacos Dorados)</div><div class="rl-meta">Serves 4 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+            <li class="recipe-entry"><div onclick="showRecipe(32)"><div class="rl-name">Best Ground Beef Chili</div><div class="rl-meta">Serves 8–10 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+            <li class="recipe-entry"><div onclick="showRecipe(36)"><div class="rl-name">Classic Stuffed Bell Peppers</div><div class="rl-meta">Serves 4 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          </ul>
+        </div>
+        <!-- Pork -->
+        <div id="subcat-pork" class="subcat-panel">
+          <button class="subcat-back" onclick="hideSubcat()">&#8592; Mains</button>
+          <ul class="recipe-list">
+            <li class="recipe-entry"><div onclick="showRecipe(10)"><div class="rl-name">Lemon-Thyme Pork Tenderloin Steaks</div><div class="rl-meta">Serves 4-6 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+            <li class="recipe-entry"><div onclick="showRecipe(17)"><div class="rl-name">Pan-Seared Thick-Cut Bone-In Pork Chops</div><div class="rl-meta">Serves 4 · 30 min · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+            <li class="recipe-entry"><div onclick="showRecipe(38)"><div class="rl-name">Charcoal-Grilled Sausages with Peppers and Onions</div><div class="rl-meta">Serves 2 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          </ul>
+        </div>
+        <!-- Chicken -->
+        <div id="subcat-chicken" class="subcat-panel">
+          <button class="subcat-back" onclick="hideSubcat()">&#8592; Mains</button>
+          <ul class="recipe-list">
+            <li class="recipe-entry"><div onclick="showRecipe(6)"><div class="rl-name">Breaded Chicken Fingers</div><div class="rl-meta">Makes 25-30 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+            <li class="recipe-entry"><div onclick="showRecipe(16)"><div class="rl-name">Sweet and Tangy Barbecued Chicken</div><div class="rl-meta">Serves 6–8 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+            <li class="recipe-entry"><div onclick="showRecipe(21)"><div class="rl-name">Chicken Tikka Masala</div><div class="rl-meta">Serves 4 · Joshua Wiseman</div><span class="rl-arrow">&#8250;</span></div></li>
+            <li class="recipe-entry"><div onclick="showRecipe(33)"><div class="rl-name">Chicken Enchiladas with Red Chile Sauce</div><div class="rl-meta">Serves 4–5 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+            <li class="recipe-entry"><div onclick="showRecipe(37)"><div class="rl-name">Chicken Piccata</div><div class="rl-meta">Serves 2 · Cook's Illustrated</div><span class="rl-arrow">&#8250;</span></div></li>
+          </ul>
+        </div>
+        <!-- Seafood -->
+        <div id="subcat-seafood" class="subcat-panel">
+          <button class="subcat-back" onclick="hideSubcat()">&#8592; Mains</button>
+          <ul class="recipe-list">
+            <li style="padding: 16px 0; font-size: 13px; color: #999; font-style: italic;">No recipes yet.</li>
+          </ul>
+        </div>
+        <!-- Pasta -->
+        <div id="subcat-pasta" class="subcat-panel">
+          <button class="subcat-back" onclick="hideSubcat()">&#8592; Mains</button>
+          <ul class="recipe-list">
+            <li class="recipe-entry"><div onclick="showRecipe(20)"><div class="rl-name">Hearty Beef Lasagna</div><div class="rl-meta">Serves 10–12 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+            <li class="recipe-entry"><div onclick="showRecipe(39)"><div class="rl-name">Cheese and Tomato Lasagna</div><div class="rl-meta">Serves 8 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+            <li class="recipe-entry"><div onclick="showRecipe(30)"><div class="rl-name">Risotto with Tomatoes and Basil</div><div class="rl-meta">Serves 4–6 · Modernist Cuisine</div><span class="rl-arrow">&#8250;</span></div></li>
+            <li class="recipe-entry"><div onclick="showRecipe(31)"><div class="rl-name">Risotto with Tomatoes and Basil — 2 Serving</div><div class="rl-meta">Serves 2 · Modernist Cuisine</div><span class="rl-arrow">&#8250;</span></div></li>
+          </ul>
+        </div>
+      </div>
+      <div class="category-section" id="cat-soups"><ul class="recipe-list">
+          <li class="recipe-entry"><div onclick="showRecipe(22)"><div class="rl-name">Black Bean Soup</div><div class="rl-meta">Serves 6 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
       </ul></div>
       <div class="category-section" id="cat-sides"><ul class="recipe-list">
           <li class="recipe-entry"><div onclick="showRecipe(5)"><div class="rl-name">Caramelized Onions</div><div class="rl-meta">~50 min · Control Freak</div><span class="rl-arrow">&#8250;</span></div></li>
           <li class="recipe-entry"><div onclick="showRecipe(7)"><div class="rl-name">French Fries</div><div class="rl-meta">Bouchon · Thomas Keller</div><span class="rl-arrow">&#8250;</span></div></li>
           <li class="recipe-entry"><div onclick="showRecipe(11)"><div class="rl-name">Potato Pave</div><div class="rl-meta">Serves 6 · Ad Hoc at Home</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(24)"><div class="rl-name">Beer-Battered Onion Rings</div><div class="rl-meta">Serves 2–3 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(25)"><div class="rl-name">Fluffy White Rice</div><div class="rl-meta">Serves 4 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(27)"><div class="rl-name">Scalloped Potatoes</div><div class="rl-meta">Serves 4–6 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
       </ul></div>
       <div class="category-section" id="cat-sauces"><ul class="recipe-list">
           <li class="recipe-entry"><div onclick="showRecipe(3)"><div class="rl-name">Oven-Roasted Tomato Sauce</div><div class="rl-meta">Makes 2½ cups · Ad Hoc at Home</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(15)"><div class="rl-name">Cocktail Sauce</div><div class="rl-meta">Makes 1 cup · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(18)"><div class="rl-name">Maple Agrodolce</div><div class="rl-meta">Makes ~⅓ cup · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(19)"><div class="rl-name">Creamy Apple-Mustard Sauce</div><div class="rl-meta">Makes ½ cup · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
       </ul></div>
       <div class="category-section" id="cat-desserts"><ul class="recipe-list">
           <li class="recipe-entry"><div onclick="showRecipe(12)"><div class="rl-name">Chocolate Chip Cookies - Torres</div><div class="rl-meta">Makes 18 · New York Times</div><span class="rl-arrow">&#8250;</span></div></li>
           <li class="recipe-entry"><div onclick="showRecipe(4)"><div class="rl-name">Chocolate Chip Cookies — ATK</div><div class="rl-meta">Makes 16 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
           <li class="recipe-entry"><div onclick="showRecipe(8)"><div class="rl-name">Lemon Posset with Berries</div><div class="rl-meta">Serves 6 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
           <li class="recipe-entry"><div onclick="showRecipe(9)"><div class="rl-name">Lemon Posset with Berries - Half Batch</div><div class="rl-meta">Serves 3 · America's Test Kitchen</div><span class="rl-arrow">&#8250;</span></div></li>
+          <li class="recipe-entry"><div onclick="showRecipe(28)"><div class="rl-name">Mom's Chocolate Cake</div><div class="rl-meta">Serves 10 · Family Recipe</div><span class="rl-arrow">&#8250;</span></div></li>
       </ul></div>
       <div class="category-section" id="cat-baking"><ul class="recipe-list">
           <li class="recipe-entry"><div onclick="showRecipe(13)"><div class="rl-name">Cinnamon Raisin Bagels</div><div class="rl-meta">Makes 8 · Modernist Cuisine</div><span class="rl-arrow">&#8250;</span></div></li>
@@ -1523,6 +1640,1470 @@
 
   <div class="footer">Modernist Cuisine · Kitchen Manual Vol. 5 · Modernist Bagel · Makes 7 · Ooni Mixer · Baking Steel · Convection 425°F</div></div></div>
 
+    <!-- PANEL 15: Cocktail Sauce -->
+    <div class="recipe-panel" id="panel15" style="display:none;">
+      <div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Cocktail Sauce</div></div>
+      <div class="recipe-wrap">
+        <div class="r-header"><h1>Cocktail Sauce</h1><div class="r-meta"><div><strong>Yield</strong>&nbsp;1 cup · serves 4</div><div><strong>Total time</strong>&nbsp;10 minutes</div><div style="margin-top:4px;color:#b07d3a;">America's Test Kitchen · 2007</div></div></div>
+        <div class="note"><strong>Before you begin:</strong> Use horseradish from a fresh bottle and mild chili powder for the best flavor.</div>
+        <div class="r-section"><div class="r-section-label">Section 1</div><div class="r-section-title">Mise en Place — Ingredients &amp; Tools</div>
+          <div class="mise-columns"><div>
+            <div class="mise-col-header">Ingredients</div>
+            <table class="mise-table">
+              <tr><td class="qty">240 g</td><td>ketchup (1 cup)</td></tr>
+              <tr><td class="qty">12 g</td><td>prepared horseradish, from a fresh bottle (2½ tsp)</td></tr>
+              <tr><td class="qty">15 g</td><td>lemon juice, from 1 small lemon (1 tbsp)</td></tr>
+              <tr><td class="qty">1 tsp</td><td>ancho chili powder or other mild chili powder</td></tr>
+              <tr><td class="qty">¼ tsp</td><td>table salt</td></tr>
+              <tr><td class="qty">¼ tsp</td><td>ground black pepper</td></tr>
+              <tr><td class="qty">pinch</td><td>cayenne pepper</td></tr>
+            </table>
+          </div><div>
+            <div class="mise-col-header">Tools</div>
+            <table class="mise-table">
+              <tr><td class="qty">1</td><td>small bowl</td></tr>
+              <tr><td class="qty"></td><td>spoon or whisk</td></tr>
+              <tr><td class="qty"></td><td>citrus juicer</td></tr>
+            </table>
+          </div></div>
+        </div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 2</div><div class="r-section-title">Make</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Combine.</em> Stir <em>240 g ketchup</em>, <em>12 g prepared horseradish</em>, <em>15 g lemon juice</em>, <em>1 tsp ancho chili powder</em>, <em>¼ tsp salt</em>, <em>¼ tsp black pepper</em>, and a <em>pinch of cayenne</em> together in a small bowl.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Adjust and serve.</em> Taste and adjust seasonings as needed — more horseradish for heat, more lemon for brightness. Serve immediately or refrigerate until ready to use.</div></div>
+        </div></div>
+        <div class="r-footer">America's Test Kitchen · Cocktail Sauce · Makes 1 cup · Serves 4 · 2007</div>
+      </div>
+    </div>
+
+    <!-- PANEL 16: Sweet and Tangy Barbecued Chicken -->
+    <div class="recipe-panel" id="panel16" style="display:none;">
+      <div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Sweet and Tangy Barbecued Chicken</div></div>
+      <div class="recipe-wrap">
+        <div class="r-header"><h1>Sweet and Tangy<br>Barbecued Chicken</h1><div class="r-meta"><div><strong>Yield</strong>&nbsp;serves 6–8</div><div><strong>Total time</strong>&nbsp;~2¼ hours + 6 hours brining</div><div style="margin-top:4px;color:#b07d3a;">America's Test Kitchen · Lan Lam</div></div></div>
+        <div class="note"><strong>Before you begin:</strong> When browning the chicken over the hotter side of the grill, move it away from any flare-ups.</div>
+        <div class="r-section"><div class="r-section-label">Section 1</div><div class="r-section-title">Mise en Place — Ingredients &amp; Tools</div>
+          <div class="mise-columns"><div>
+            <div class="mise-col-header">Spice Rub &amp; Chicken</div>
+            <table class="mise-table">
+              <tr><td class="qty">6 lb</td><td>bone-in chicken pieces (split breasts and/or leg quarters), trimmed</td></tr>
+              <tr><td class="qty">25 g</td><td>packed dark brown sugar (2 tbsp)</td></tr>
+              <tr><td class="qty">13.5 g</td><td>kosher salt, Diamond Crystal (4½ tsp)</td></tr>
+              <tr><td class="qty">1½ tsp</td><td>onion powder</td></tr>
+              <tr><td class="qty">1½ tsp</td><td>garlic powder</td></tr>
+              <tr><td class="qty">1½ tsp</td><td>paprika</td></tr>
+              <tr><td class="qty">¼ tsp</td><td>cayenne pepper</td></tr>
+            </table>
+            <div style="margin-top:14px;"><div class="mise-col-header">Sauce</div>
+            <table class="mise-table">
+              <tr><td class="qty">240 g</td><td>ketchup (1 cup)</td></tr>
+              <tr><td class="qty">100 g</td><td>molasses (5 tbsp)</td></tr>
+              <tr><td class="qty">45 g</td><td>cider vinegar (3 tbsp)</td></tr>
+              <tr><td class="qty">30 g</td><td>Worcestershire sauce (2 tbsp)</td></tr>
+              <tr><td class="qty">30 g</td><td>Dijon mustard (2 tbsp)</td></tr>
+              <tr><td class="qty">28 g</td><td>vegetable oil (2 tbsp)</td></tr>
+              <tr><td class="qty">75 g</td><td>grated onion (⅓ cup)</td></tr>
+              <tr><td class="qty">1</td><td>garlic clove, minced</td></tr>
+              <tr><td class="qty">1 tsp</td><td>chili powder</td></tr>
+              <tr><td class="qty">¼ tsp</td><td>cayenne pepper</td></tr>
+              <tr><td class="qty">¼ tsp</td><td>pepper</td></tr>
+            </table></div>
+          </div><div>
+            <div class="mise-col-header">Tools</div>
+            <table class="mise-table">
+              <tr><td class="qty">1</td><td>rimmed baking sheet</td></tr>
+              <tr><td class="qty">1</td><td>medium saucepan</td></tr>
+              <tr><td class="qty">1</td><td>medium bowl</td></tr>
+              <tr><td class="qty">1</td><td>whisk</td></tr>
+              <tr><td class="qty">1</td><td>instant-read thermometer</td></tr>
+              <tr><td class="qty"></td><td>plastic wrap</td></tr>
+              <tr><td class="qty"></td><td>aluminum foil</td></tr>
+              <tr><td class="qty"></td><td>tongs</td></tr>
+              <tr><td class="qty"></td><td>basting brush</td></tr>
+              <tr><td class="qty">1</td><td>large disposable aluminum roasting pan <em style="font-weight:400;color:#888;">(charcoal)</em> or 2 disposable pie plates <em style="font-weight:400;color:#888;">(gas)</em></td></tr>
+            </table>
+          </div></div>
+        </div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 2</div><div class="r-section-title">Brine — Day Before (or 6–24 hrs ahead)</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Apply spice rub.</em> Combine <em>25 g brown sugar</em>, <em>13.5 g kosher salt</em>, <em>1½ tsp onion powder</em>, <em>1½ tsp garlic powder</em>, <em>1½ tsp paprika</em>, and <em>¼ tsp cayenne</em> in a bowl. Arrange <em>6 lb chicken pieces</em> on a rimmed baking sheet and sprinkle both sides evenly with the spice rub. Cover with plastic wrap and refrigerate for at least <em>6 hours</em> or up to <em>24 hours</em>.</div></div>
+        </div></div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 3</div><div class="r-section-title">Make the Sauce</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Whisk base.</em> In a medium bowl, whisk together <em>240 g ketchup</em>, <em>100 g molasses</em>, <em>45 g cider vinegar</em>, <em>30 g Worcestershire</em>, <em>30 g Dijon mustard</em>, and <em>¼ tsp pepper</em>. Set aside.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Cook aromatics.</em> Heat <em>28 g vegetable oil</em> in a medium saucepan over medium heat until shimmering. Add <em>75 g grated onion</em> and <em>1 minced garlic clove</em>; cook until onion is softened, <em>2–4 minutes</em>. Add <em>1 tsp chili powder</em> and <em>¼ tsp cayenne</em> and cook until fragrant, about <em>30 seconds</em>.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Simmer.</em> Whisk in the ketchup mixture and bring to a boil. Reduce heat to medium-low and simmer gently for <em>5 minutes</em>. Set aside <em>⅔ cup sauce</em> for basting and reserve the remainder for serving. Sauce can be refrigerated for up to <em>1 week</em>.</div></div>
+        </div></div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 4</div><div class="r-section-title">Set Up the Grill</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Charcoal grill.</em> Open bottom vent halfway and place a <em>disposable roasting pan filled with 3 cups water</em> on one side of the grill. Light a large chimney starter filled with charcoal briquettes (<em>6 quarts</em>). When top coals are partially covered with ash, pour evenly over the other half of the grill (opposite the pan). Set cooking grate in place, cover, and open lid vent halfway. Heat until hot, about <em>5 minutes</em>.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Gas grill.</em> Place <em>2 disposable pie plates, each filled with 1½ cups water</em>, directly on one burner (opposite the primary burner). Turn all burners to high, cover, and heat until hot, about <em>15 minutes</em>. Turn primary burner to medium-high and turn off other burner(s). Adjust primary burner as needed to maintain <em>325–350°F</em>.</div></div>
+        </div></div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 5</div><div class="r-section-title">Grill</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Brown the chicken.</em> Clean and oil the cooking grate. Place chicken <em>skin side down</em> over the hotter part of the grill. Cook until browned and blistered in spots, <em>2–5 minutes</em>. Flip and cook until the second side is browned, <em>4–6 minutes</em>. Move to the cooler part of the grill.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>First baste and covered cook.</em> Brush both sides of chicken with <em>⅓ cup of the basting sauce</em>. Arrange skin side up, with leg quarters closest to the fire and breasts farthest away. Cover (positioning lid vent over chicken if using charcoal) and cook for <em>25 minutes</em>.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Second baste and finish.</em> Brush both sides of chicken with the remaining <em>⅓ cup basting sauce</em>. Continue to cook covered until breasts register <em>160°F</em> and leg quarters register <em>175°F</em>, <em>25–35 minutes</em> longer.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Rest and serve.</em> Transfer chicken to a serving platter, tent loosely with aluminum foil, and let rest for <em>10 minutes</em>. Serve, passing the reserved sauce separately.</div></div>
+        </div></div>
+        <div class="r-footer">America's Test Kitchen · Sweet and Tangy Barbecued Chicken · Lan Lam, 2013 · Serves 6–8</div>
+      </div>
+    </div>
+
+    <!-- PANEL 17: Pan-Seared Thick-Cut Bone-In Pork Chops -->
+    <div class="recipe-panel" id="panel17" style="display:none;">
+      <div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Pan-Seared Thick-Cut Bone-In Pork Chops</div></div>
+      <div class="recipe-wrap">
+        <div class="r-header"><h1>Pan-Seared Thick-Cut<br>Bone-In Pork Chops</h1><div class="r-meta"><div><strong>Yield</strong>&nbsp;serves 4 · 2 chops</div><div><strong>Total time</strong>&nbsp;30 minutes</div><div><strong>Optional dry brine</strong>&nbsp;1–24 hours ahead</div><div style="margin-top:4px;color:#b07d3a;">America's Test Kitchen · Annie Petito, 2021</div></div></div>
+        <div class="r-section"><div class="r-section-label">Section 1</div><div class="r-section-title">Mise en Place — Ingredients &amp; Tools</div>
+          <div class="mise-columns"><div>
+            <div class="mise-col-header">Ingredients</div>
+            <table class="mise-table">
+              <tr><td class="qty">2</td><td>bone-in pork rib chops, 14–16 oz each, 1½ inches thick, trimmed</td></tr>
+              <tr><td class="qty">½ tsp</td><td>ground black pepper</td></tr>
+              <tr><td class="qty"></td><td>coarse or flake sea salt (for finishing)</td></tr>
+            </table>
+            <div style="margin-top:14px;"><div class="mise-col-header">Optional Dry Brine</div>
+            <table class="mise-table"><tr><td class="qty">1½ tsp</td><td>Diamond Crystal kosher salt per chop (or 1⅛ tsp Morton — denser)</td></tr></table>
+            <div style="font-size:11.5px;color:#888;margin-top:8px;font-style:italic;">Do not dry brine if pork is enhanced (injected with salt solution).</div></div>
+            <div style="margin-top:14px;"><div class="mise-col-header">For Serving</div>
+            <table class="mise-table">
+              <tr><td class="qty"></td><td>Creamy Apple-Mustard Sauce (optional)</td></tr>
+              <tr><td class="qty"></td><td>Maple Agrodolce (optional)</td></tr>
+            </table></div>
+          </div><div>
+            <div class="mise-col-header">Tools</div>
+            <table class="mise-table">
+              <tr><td class="qty">1</td><td>12-inch nonstick or carbon-steel skillet</td></tr>
+              <tr><td class="qty">1</td><td>carving board</td></tr>
+              <tr><td class="qty">1</td><td>instant-read thermometer</td></tr>
+              <tr><td class="qty"></td><td>paper towels</td></tr>
+              <tr><td class="qty"></td><td>tongs</td></tr>
+            </table>
+          </div></div>
+        </div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 2</div><div class="r-section-title">Prep</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Dry brine (optional, 1–24 hours ahead).</em> Sprinkle each chop with <em>1½ tsp Diamond Crystal kosher salt</em> (or 1⅛ tsp Morton). Refrigerate uncovered. Pat dry with paper towels before cooking.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Season.</em> Pat chops dry with paper towels. Sprinkle both sides with <em>½ tsp pepper</em>.</div></div>
+        </div></div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 3</div><div class="r-section-title">Cook</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Start in cold pan.</em> Place chops <em>1 inch apart</em> in a cold 12-inch nonstick or carbon-steel skillet, arranging so the narrow part of one chop is opposite the wider part of the second. Place over <em>high heat</em> and cook for <em>2 minutes</em>. Flip and cook on the second side for <em>2 minutes</em>. Neither side will be browned at this point — that's expected.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Reduce heat and continue flipping.</em> Flip chops, reduce heat to <em>medium</em>, and continue cooking, flipping every <em>2 minutes</em>, until the exterior is well browned and an instant-read thermometer registers <em>140°F</em>, <em>10–15 minutes</em> more. Chops should be actively sizzling — increase heat slightly if not. Reduce heat if the skillet starts to smoke.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Rest and carve.</em> Transfer chops to a carving board and rest for <em>5 minutes</em>. Carve meat from bone and slice <em>½ inch thick</em>. Note: meat near the tapered end at the bone may retain a slightly pink hue even when fully cooked. Season with <em>coarse or flake sea salt</em> to taste. Serve with the bones — they're great for nibbling.</div></div>
+        </div>
+        <div class="note"><strong>Serving suggestions:</strong> Plain, with Creamy Apple-Mustard Sauce, or Maple Agrodolce.</div>
+        </div>
+        <div class="r-footer">America's Test Kitchen · Pan-Seared Thick-Cut Bone-In Pork Chops · Annie Petito, 2021 · Serves 4</div>
+      </div>
+    </div>
+
+    <!-- PANEL 18: Maple Agrodolce -->
+    <div class="recipe-panel" id="panel18" style="display:none;">
+      <div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Maple Agrodolce</div></div>
+      <div class="recipe-wrap">
+        <div class="r-header"><h1>Maple Agrodolce</h1><div class="r-meta"><div><strong>Yield</strong>&nbsp;~⅓ cup</div><div><strong>Total time</strong>&nbsp;20 minutes</div><div style="margin-top:4px;color:#b07d3a;">America's Test Kitchen · Annie Petito, 2021</div></div></div>
+        <div class="r-section"><div class="r-section-label">Section 1</div><div class="r-section-title">Mise en Place — Ingredients &amp; Tools</div>
+          <div class="mise-columns"><div>
+            <div class="mise-col-header">Ingredients</div>
+            <table class="mise-table">
+              <tr><td class="qty">60 g</td><td>balsamic vinegar (¼ cup)</td></tr>
+              <tr><td class="qty">30 g</td><td>maple syrup (2 tbsp)</td></tr>
+              <tr><td class="qty">2 tbsp</td><td>shallot, minced</td></tr>
+              <tr><td class="qty">2 tbsp</td><td>golden raisins, chopped</td></tr>
+              <tr><td class="qty">pinch</td><td>red pepper flakes</td></tr>
+              <tr><td class="qty">pinch</td><td>table salt</td></tr>
+            </table>
+          </div><div>
+            <div class="mise-col-header">Tools</div>
+            <table class="mise-table">
+              <tr><td class="qty">1</td><td>small saucepan</td></tr>
+              <tr><td class="qty"></td><td>kitchen scale</td></tr>
+            </table>
+          </div></div>
+        </div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 2</div><div class="r-section-title">Make</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Prep.</em> Mince <em>2 tbsp shallot</em>. Chop <em>2 tbsp golden raisins</em>.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Simmer.</em> Combine all ingredients in a small saucepan and bring to a boil over medium heat. Reduce heat to low and simmer until reduced and slightly thickened, <em>8–10 minutes</em>. The sauce will continue to thicken as it cools.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Serve.</em> Use immediately or cover to keep warm until ready to serve.</div></div>
+        </div></div>
+        <div class="r-footer">America's Test Kitchen · Maple Agrodolce · Annie Petito, 2021 · Makes ~⅓ cup</div>
+      </div>
+    </div>
+
+    <!-- PANEL 19: Creamy Apple-Mustard Sauce -->
+    <div class="recipe-panel" id="panel19" style="display:none;">
+      <div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Creamy Apple-Mustard Sauce</div></div>
+      <div class="recipe-wrap">
+        <div class="r-header"><h1>Creamy Apple-Mustard Sauce</h1><div class="r-meta"><div><strong>Yield</strong>&nbsp;½ cup</div><div><strong>Total time</strong>&nbsp;10 minutes</div><div style="margin-top:4px;color:#b07d3a;">America's Test Kitchen · Annie Petito, 2021</div></div></div>
+        <div class="r-section"><div class="r-section-label">Section 1</div><div class="r-section-title">Mise en Place — Ingredients &amp; Tools</div>
+          <div class="mise-columns"><div>
+            <div class="mise-col-header">Ingredients</div>
+            <table class="mise-table">
+              <tr><td class="qty">60 g</td><td>whole-grain mustard (¼ cup)</td></tr>
+              <tr><td class="qty">45 g</td><td>unsweetened applesauce (3 tbsp)</td></tr>
+              <tr><td class="qty">30 g</td><td>Dijon mustard (2 tbsp)</td></tr>
+              <tr><td class="qty">20 g</td><td>cider vinegar (4 tsp)</td></tr>
+              <tr><td class="qty">21 g</td><td>honey (1 tbsp)</td></tr>
+              <tr><td class="qty">¼ tsp</td><td>table salt</td></tr>
+              <tr><td class="qty">1 tbsp</td><td>fresh chives, minced (optional)</td></tr>
+            </table>
+          </div><div>
+            <div class="mise-col-header">Tools</div>
+            <table class="mise-table">
+              <tr><td class="qty">1</td><td>small bowl</td></tr>
+            </table>
+          </div></div>
+        </div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 2</div><div class="r-section-title">Make</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Combine.</em> Stir all ingredients together in a small bowl, including chives if using. Refrigerate until ready to serve.</div></div>
+        </div></div>
+        <div class="r-footer">America's Test Kitchen · Creamy Apple-Mustard Sauce · Annie Petito, 2021 · Makes ½ cup</div>
+      </div>
+    </div>
+
+    <!-- PANEL 20: Hearty Beef Lasagna -->
+    <div class="recipe-panel" id="panel20" style="display:none;">
+      <div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Hearty Beef Lasagna</div></div>
+      <div class="recipe-wrap">
+        <div class="r-header"><h1>Hearty Beef Lasagna</h1><div class="r-meta"><div><strong>Yield</strong>&nbsp;serves 10–12</div><div><strong>Total time</strong>&nbsp;2½ hours + 30 min cooling</div><div style="margin-top:4px;color:#b07d3a;">America's Test Kitchen · Katie Leaird, 2016</div></div></div>
+        <div class="r-section"><div class="r-section-label">Section 1</div><div class="r-section-title">Mise en Place — Ingredients &amp; Tools</div>
+          <div class="mise-columns"><div>
+            <div class="mise-col-header">Lasagna</div>
+            <table class="mise-table">
+              <tr><td class="qty">17</td><td>curly-edged lasagna noodles (not no-boil) — 1 lb box has ~20</td></tr>
+              <tr><td class="qty">340 g</td><td>mozzarella cheese, shredded (3 cups)</td></tr>
+              <tr><td class="qty">28 g</td><td>Pecorino Romano, grated (¼ cup)</td></tr>
+              <tr><td class="qty">1 tbsp</td><td>salt (for pasta water)</td></tr>
+              <tr><td class="qty"></td><td>vegetable oil spray</td></tr>
+            </table>
+            <div style="margin-top:14px;"><div class="mise-col-header">Meat Sauce</div>
+            <table class="mise-table">
+              <tr><td class="qty">680 g</td><td>90% lean ground beef (1½ lbs)</td></tr>
+              <tr><td class="qty">1</td><td>28-oz can crushed tomatoes</td></tr>
+              <tr><td class="qty">1</td><td>onion, chopped fine</td></tr>
+              <tr><td class="qty">6</td><td>garlic cloves, minced</td></tr>
+              <tr><td class="qty">2</td><td>slices hearty white sandwich bread, torn into small pieces</td></tr>
+              <tr><td class="qty">60 g</td><td>milk (¼ cup)</td></tr>
+              <tr><td class="qty">1 tbsp</td><td>extra-virgin olive oil</td></tr>
+              <tr><td class="qty">1 tsp</td><td>dried oregano</td></tr>
+              <tr><td class="qty">¼ tsp</td><td>red pepper flakes</td></tr>
+              <tr><td class="qty">¾ tsp</td><td>salt</td></tr>
+              <tr><td class="qty">½ tsp</td><td>pepper</td></tr>
+            </table></div>
+            <div style="margin-top:14px;"><div class="mise-col-header">Cream Sauce</div>
+            <table class="mise-table">
+              <tr><td class="qty">227 g</td><td>cottage cheese (1 cup)</td></tr>
+              <tr><td class="qty">113 g</td><td>Pecorino Romano, grated (2 cups)</td></tr>
+              <tr><td class="qty">240 g</td><td>heavy cream (1 cup)</td></tr>
+              <tr><td class="qty">2</td><td>garlic cloves, minced</td></tr>
+              <tr><td class="qty">1 tsp</td><td>cornstarch</td></tr>
+              <tr><td class="qty">¼ tsp</td><td>salt</td></tr>
+              <tr><td class="qty">¼ tsp</td><td>pepper</td></tr>
+            </table></div>
+          </div><div>
+            <div class="mise-col-header">Tools</div>
+            <table class="mise-table">
+              <tr><td class="qty">1</td><td>large Dutch oven</td></tr>
+              <tr><td class="qty">1</td><td>13 × 9-inch baking dish, sprayed</td></tr>
+              <tr><td class="qty">1</td><td>rimmed baking sheet, sprayed</td></tr>
+              <tr><td class="qty">1</td><td>medium bowl (meat mixture)</td></tr>
+              <tr><td class="qty">1</td><td>medium bowl (cream sauce)</td></tr>
+              <tr><td class="qty"></td><td>tongs</td></tr>
+              <tr><td class="qty"></td><td>wooden spoon</td></tr>
+              <tr><td class="qty"></td><td>aluminum foil</td></tr>
+              <tr><td class="qty"></td><td>whisk</td></tr>
+              <tr><td class="qty"></td><td>kitchen scale</td></tr>
+            </table>
+            <div style="margin-top:14px;font-size:12px;color:#888;line-height:1.6;"><strong style="color:#1a1a1a;">Make ahead:</strong> After assembling (Step 7), cover with greased foil and refrigerate up to 24 hours. Increase covered bake time to 55 minutes.</div>
+          </div></div>
+        </div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 2</div><div class="r-section-title">Prep</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Preheat oven</em> to <em>375°F</em> with rack in the middle position. Spray both the rimmed baking sheet and the 13 × 9-inch baking dish with oil spray.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Prep aromatics.</em> Chop <em>1 onion fine</em>. Mince <em>6 garlic cloves</em> (keep 4 cloves separate for meat sauce, 2 for cream sauce).</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Make meat mixture.</em> Mash <em>2 slices torn bread</em> with <em>60 g milk</em> in a bowl until smooth. Add <em>680 g ground beef</em>, <em>¾ tsp salt</em>, and <em>½ tsp pepper</em> and knead with your hands until well combined. Set aside.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Make cream sauce.</em> Whisk together in a bowl: <em>227 g cottage cheese</em>, <em>113 g Pecorino Romano</em>, <em>240 g heavy cream</em>, <em>2 minced garlic cloves</em>, <em>1 tsp cornstarch</em>, <em>¼ tsp salt</em>, and <em>¼ tsp pepper</em>. Set aside.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Cook noodles.</em> Bring <em>4 quarts water</em> to a boil in the Dutch oven. Add noodles and <em>1 tbsp salt</em> and cook, stirring often, until al dente. Drain and transfer to the oiled baking sheet. Turn noodles with tongs to coat lightly with oil spray. Cut <em>2 noodles in half crosswise</em>.</div></div>
+        </div></div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 3</div><div class="r-section-title">Make Meat Sauce</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Cook aromatics.</em> Heat <em>1 tbsp olive oil</em> in the now-empty Dutch oven over medium heat until shimmering. Add the onion and cook until softened, about <em>5 minutes</em>. Stir in <em>4 minced garlic cloves</em>, <em>1 tsp oregano</em>, and <em>¼ tsp red pepper flakes</em> and cook until fragrant, about <em>1 minute</em>.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Brown beef.</em> Add the beef mixture, breaking into small pieces with a wooden spoon, and cook until no longer pink, about <em>4 minutes</em>. Stir in the <em>crushed tomatoes</em> and bring to a simmer, scraping up any browned bits. Reduce heat to medium-low and simmer until flavors have melded, about <em>5 minutes</em>.</div></div>
+        </div></div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 4</div><div class="r-section-title">Assemble &amp; Bake</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Layer 1 — base.</em> Lay <em>3 noodles lengthwise</em> in the baking dish with ends touching one short side, leaving a gap at the far end. Lay <em>1 half noodle crosswise</em> to fill the gap. Spread <em>1½ cups meat sauce</em>, then <em>½ cup cream sauce</em>, then <em>½ cup mozzarella</em>.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Layers 2, 3, and 4.</em> Repeat the noodle, meat sauce, cream sauce, and mozzarella layering <em>3 more times</em>, switching the half noodle to the opposite end of the dish each time to prevent buckling.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Top layer.</em> Lay the remaining <em>3 noodles</em> over the top — no half noodle for this layer. Spread the remaining <em>cream sauce</em> over noodles, then the remaining <em>1 cup mozzarella</em>. Sprinkle <em>28 g Pecorino Romano</em> over the top.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Bake covered.</em> Spray a sheet of foil with oil spray and cover the lasagna. Set the baking dish on the rimmed baking sheet. Bake for <em>30 minutes</em>.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Bake uncovered.</em> Discard foil and continue baking until the top is spotty brown, <em>25–30 minutes</em> more.</div></div>
+          <div class="step"><div class="step-num">6</div><div class="step-text"><em>Rest and serve.</em> Cool for <em>30 minutes</em> before slicing and serving.</div></div>
+        </div></div>
+        <div class="r-footer">America's Test Kitchen · Hearty Beef Lasagna · Katie Leaird, 2016 · Serves 10–12</div>
+      </div>
+    </div>
+
+    <!-- PANEL 21: Chicken Tikka Masala -->
+    <div class="recipe-panel" id="panel21" style="display:none;">
+      <div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Chicken Tikka Masala</div></div>
+      <div class="recipe-wrap">
+        <div class="r-header"><h1>Chicken Tikka Masala</h1><div class="r-meta"><div><strong>Yield</strong>&nbsp;serves 4</div><div><strong>Total time</strong>&nbsp;1¼ hours</div><div style="margin-top:4px;color:#b07d3a;">Joshua Wiseman · adapted</div></div></div>
+        <div class="r-section"><div class="r-section-label">Section 1</div><div class="r-section-title">Mise en Place — Ingredients &amp; Tools</div>
+          <div class="mise-columns"><div>
+            <div class="mise-col-header">Marinade</div>
+            <table class="mise-table">
+              <tr><td class="qty">900 g</td><td>boneless skinless chicken thighs (2 lbs), cut into 2-inch pieces</td></tr>
+              <tr><td class="qty">240 g</td><td>full-fat yogurt (1 cup)</td></tr>
+              <tr><td class="qty">11 g</td><td>garam masala (1¼ tbsp)</td></tr>
+              <tr><td class="qty">6 g</td><td>kosher salt (2 tsp)</td></tr>
+              <tr><td class="qty">3 g</td><td>paprika (1 tsp)</td></tr>
+              <tr><td class="qty">3 g</td><td>cumin (1 tsp)</td></tr>
+              <tr><td class="qty">5</td><td>garlic cloves, finely chopped</td></tr>
+              <tr><td class="qty">1</td><td>2-inch knob fresh ginger, grated</td></tr>
+            </table>
+            <div style="margin-top:14px;"><div class="mise-col-header">Masala Sauce</div>
+            <table class="mise-table">
+              <tr><td class="qty">425 g</td><td>crushed tomatoes (1 can / 15 oz)</td></tr>
+              <tr><td class="qty">237 g</td><td>heavy cream (1 cup)</td></tr>
+              <tr><td class="qty">1</td><td>large yellow onion, thinly sliced</td></tr>
+              <tr><td class="qty">3</td><td>garlic cloves, thinly sliced</td></tr>
+              <tr><td class="qty">1</td><td>2-inch knob fresh ginger, grated</td></tr>
+              <tr><td class="qty">9 g</td><td>garam masala (1 tbsp)</td></tr>
+              <tr><td class="qty">3 g</td><td>paprika (1 tsp)</td></tr>
+              <tr><td class="qty">2 g</td><td>cayenne (1 tsp) — reduced from original</td></tr>
+              <tr><td class="qty">9 g</td><td>sugar (2 tsp)</td></tr>
+              <tr><td class="qty">3 tbsp</td><td>safflower or vegetable oil (plus more for chicken)</td></tr>
+              <tr><td class="qty"></td><td>salt</td></tr>
+            </table></div>
+            <div style="margin-top:14px;"><div class="mise-col-header">For Serving</div>
+            <table class="mise-table">
+              <tr><td class="qty"></td><td>steamed white rice</td></tr>
+              <tr><td class="qty"></td><td>fresh cilantro leaves (optional)</td></tr>
+            </table></div>
+          </div><div>
+            <div class="mise-col-header">Tools</div>
+            <table class="mise-table">
+              <tr><td class="qty">1</td><td>10-inch high-sided pan or cast iron skillet</td></tr>
+              <tr><td class="qty">1</td><td>blender</td></tr>
+              <tr><td class="qty">1</td><td>medium bowl (marinade)</td></tr>
+              <tr><td class="qty">2</td><td>small bowls (onion/ginger/garlic · spices)</td></tr>
+              <tr><td class="qty">1</td><td>small bowl (crushed tomatoes)</td></tr>
+              <tr><td class="qty">1</td><td>small bowl (heavy cream)</td></tr>
+              <tr><td class="qty"></td><td>microplane (for ginger)</td></tr>
+              <tr><td class="qty"></td><td>precision scale</td></tr>
+              <tr><td class="qty"></td><td>tongs</td></tr>
+            </table>
+            <div style="margin-top:14px;font-size:12px;color:#888;line-height:1.6;"><strong style="color:#1a1a1a;">Timing:</strong> Chicken sears 15–20 min. Post-chicken sauce takes 30–35 min. Start rice partway through chicken cooking for perfect timing.<br><br><strong style="color:#1a1a1a;">Advance work:</strong> Marinate chicken overnight in the refrigerator for best flavor — 15 min active prep the night before.</div>
+          </div></div>
+        </div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 2</div><div class="r-section-title">Prep</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Marinate chicken.</em> Whisk together in a medium bowl: <em>240 g yogurt</em>, <em>6 g salt</em>, <em>11 g garam masala</em>, <em>3 g paprika</em>, <em>3 g cumin</em>, <em>5 chopped garlic cloves</em>, and <em>grated ginger</em>. Cut chicken into <em>2-inch pieces</em>, add to bowl, and toss to coat thoroughly. Marinate for <em>10 minutes</em> at room temperature or refrigerate <em>overnight</em>.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Prep onion bowl.</em> Thinly slice <em>1 large onion</em>. Thinly slice <em>3 garlic cloves</em>. Grate the second <em>2-inch knob of ginger</em>. Combine in a small bowl.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Prep spice bowl.</em> Combine in a small bowl: <em>9 g garam masala</em>, <em>3 g paprika</em>, <em>2 g cayenne</em>, and <em>9 g sugar</em>.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Stage remaining bowls.</em> Pour <em>425 g crushed tomatoes</em> into a bowl. Measure <em>237 g heavy cream</em> into a bowl.</div></div>
+        </div></div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 3</div><div class="r-section-title">Cook</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Sear chicken.</em> Heat the pan over medium-high heat and add enough oil (~3 tbsp) to coat the bottom. Once hot and nearly smoking, sear chicken in batches for <em>2–3 minutes per side</em> until nicely browned. Remove and set aside.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Start rice.</em> Begin steamed white rice now — it will be ready when the sauce is done.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Cook aromatics.</em> Add additional oil if needed and reduce heat to medium. Add the <em>onion, ginger, and garlic bowl</em>. Season lightly with salt and sauté, stirring occasionally, until softened, <em>3–5 minutes</em>. Add the <em>spice bowl</em> and sauté until fragrant, about <em>30 seconds</em>.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Build sauce.</em> Add <em>crushed tomatoes</em>, stir, and reduce for <em>5 minutes</em>. If the sauce gets too thick, add a splash of water. Pour into blender and blend on high until as smooth as possible. Return to the pan.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Simmer chicken.</em> Reduce heat to low. Add all the <em>seared chicken</em> and simmer, stirring occasionally, for <em>10 minutes</em> or until chicken is cooked through and sauce is reduced.</div></div>
+          <div class="step"><div class="step-num">6</div><div class="step-text"><em>Add cream and finish.</em> Stir in <em>237 g heavy cream</em> and reduce for <em>7–8 minutes</em> until the sauce is thick and velvety. Adjust salt. Serve over steamed white rice, garnished with cilantro if desired.</div></div>
+        </div></div>
+        <div class="r-footer">Joshua Wiseman · Chicken Tikka Masala · adapted · Serves 4</div>
+      </div>
+    </div>
+
+    <!-- PANEL 22: Black Bean Soup -->
+    <div class="recipe-panel" id="panel22" style="display:none;">
+      <div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Black Bean Soup</div></div>
+      <div class="recipe-wrap">
+        <div class="r-header"><h1>Black Bean Soup</h1><div class="r-meta"><div><strong>Yield</strong>&nbsp;serves 6 · ~9 cups</div><div><strong>Total time</strong>&nbsp;3 hours</div><div style="margin-top:4px;color:#b07d3a;">America's Test Kitchen · Rebecca Hays, 2011</div></div></div>
+        <div class="r-section"><div class="r-section-label">Section 1</div><div class="r-section-title">Mise en Place — Ingredients &amp; Tools</div>
+          <div class="mise-columns"><div>
+            <div class="mise-col-header">Beans</div>
+            <table class="mise-table">
+              <tr><td class="qty">450 g</td><td>dried black beans (1 lb / 2½ cups), rinsed and picked over</td></tr>
+              <tr><td class="qty">113 g</td><td>ham steak (4 oz), trimmed of rind</td></tr>
+              <tr><td class="qty">5 cups</td><td>water</td></tr>
+              <tr><td class="qty">2</td><td>bay leaves</td></tr>
+              <tr><td class="qty">⅛ tsp</td><td>baking soda</td></tr>
+              <tr><td class="qty">1 tsp</td><td>table salt</td></tr>
+            </table>
+            <div style="margin-top:14px;"><div class="mise-col-header">Soup</div>
+            <table class="mise-table">
+              <tr><td class="qty">3 tbsp</td><td>olive oil</td></tr>
+              <tr><td class="qty">2</td><td>large onions, chopped fine (~3 cups)</td></tr>
+              <tr><td class="qty">1</td><td>large carrot, chopped fine (~½ cup)</td></tr>
+              <tr><td class="qty">3</td><td>ribs celery, chopped fine (~1 cup)</td></tr>
+              <tr><td class="qty">5–6</td><td>garlic cloves, minced (1½ tbsp)</td></tr>
+              <tr><td class="qty">1½ tbsp</td><td>ground cumin</td></tr>
+              <tr><td class="qty">½ tsp</td><td>red pepper flakes</td></tr>
+              <tr><td class="qty">½ tsp</td><td>table salt</td></tr>
+              <tr><td class="qty">6 cups</td><td>low-sodium chicken broth</td></tr>
+              <tr><td class="qty">2 tbsp</td><td>cornstarch</td></tr>
+              <tr><td class="qty">2 tbsp</td><td>water (for cornstarch)</td></tr>
+              <tr><td class="qty">2 tbsp</td><td>fresh lime juice (1–2 limes)</td></tr>
+            </table></div>
+            <div style="margin-top:14px;"><div class="mise-col-header">Garnishes (choose at least 2)</div>
+            <table class="mise-table">
+              <tr><td class="qty"></td><td>lime wedges</td></tr>
+              <tr><td class="qty"></td><td>minced fresh cilantro</td></tr>
+              <tr><td class="qty"></td><td>red onion, finely diced</td></tr>
+              <tr><td class="qty"></td><td>avocado, diced</td></tr>
+              <tr><td class="qty"></td><td>sour cream</td></tr>
+            </table></div>
+          </div><div>
+            <div class="mise-col-header">Tools</div>
+            <table class="mise-table">
+              <tr><td class="qty">1</td><td>large saucepan with tight-fitting lid (for beans)</td></tr>
+              <tr><td class="qty">1</td><td>8-quart Dutch oven (for soup)</td></tr>
+              <tr><td class="qty">1</td><td>food processor or blender</td></tr>
+              <tr><td class="qty">1</td><td>small bowl (cornstarch slurry)</td></tr>
+              <tr><td class="qty"></td><td>large spoon (for skimming)</td></tr>
+              <tr><td class="qty"></td><td>ladle</td></tr>
+              <tr><td class="qty"></td><td>kitchen scale</td></tr>
+            </table>
+            <div style="margin-top:14px;font-size:12px;color:#888;line-height:1.6;"><strong style="color:#1a1a1a;">Timing tip:</strong> Prep soup ingredients while beans simmer. Prep garnishes while soup simmers.<br><br><strong style="color:#1a1a1a;">Make ahead:</strong> Refrigerate in an airtight container for 3–4 days. Reheat over medium heat, adding chicken broth if it has thickened.</div>
+          </div></div>
+        </div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 2</div><div class="r-section-title">Prep</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Rinse and pick beans.</em> Rinse <em>450 g dried black beans</em> and pick over for any stones or debris.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Prep soup vegetables.</em> Chop <em>2 large onions fine</em>. Chop <em>1 large carrot fine</em>. Chop <em>3 celery ribs fine</em>. Mince <em>5–6 garlic cloves</em>.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Combine spices and aromatics.</em> Measure into a small bowl: <em>1½ tbsp cumin</em>, <em>½ tsp red pepper flakes</em>, and minced garlic.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Make cornstarch slurry.</em> Stir together <em>2 tbsp cornstarch</em> and <em>2 tbsp water</em> in a small bowl until combined. Set aside.</div></div>
+        </div></div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 3</div><div class="r-section-title">Cook</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Cook beans.</em> Place <em>beans</em>, <em>ham steak</em>, <em>bay leaves</em>, <em>5 cups water</em>, and <em>⅛ tsp baking soda</em> in a large saucepan with a tight-fitting lid. Bring to a boil over medium-high heat, skimming any scum that rises. Stir in <em>1 tsp salt</em>, reduce heat to low, cover, and simmer briskly until beans are tender, <em>1¼–1½ hours</em>. Taste several beans — they cook unevenly. Add up to 1 cup more water if needed to keep beans submerged. Do not drain. Discard bay leaves. Remove ham steak, cut into ¼-inch cubes, and set aside.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Build soup base.</em> Heat <em>3 tbsp olive oil</em> in the Dutch oven over medium-high heat until shimmering. Add <em>onions</em>, <em>carrot</em>, <em>celery</em>, and <em>½ tsp salt</em>. Cook, stirring occasionally, until vegetables are soft and lightly browned, <em>12–15 minutes</em>. Reduce heat to medium-low, add the <em>spice and garlic bowl</em>, and cook, stirring constantly, until fragrant, about <em>3 minutes</em>.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Simmer soup.</em> Stir in the <em>beans and all their cooking liquid</em> and <em>6 cups chicken broth</em>. Increase heat to medium-high and bring to a boil, then reduce to low and simmer uncovered, stirring occasionally, for about <em>30 minutes</em> to blend flavors.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Blend and thicken.</em> Ladle <em>1½ cups beans</em> and <em>2 cups liquid</em> into a blender or food processor. Process until smooth and return to the pot. Gradually stir in about <em>half the cornstarch slurry</em> and bring to a boil over medium-high heat, stirring occasionally, until fully thickened. If still thinner than desired, stir the remaining slurry to recombine and gradually add it; return to boil to thicken.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Finish and serve.</em> Off heat, stir in <em>2 tbsp lime juice</em> and the reserved <em>ham cubes</em>. Ladle into bowls and serve immediately, passing garnishes separately.</div></div>
+        </div></div>
+        <div class="r-footer">America's Test Kitchen · Black Bean Soup · Rebecca Hays, 2011 · Serves 6</div>
+      </div>
+    </div>
+
+    <!-- PANEL 23: Best Beef Stew -->
+    <div class="recipe-panel" id="panel23" style="display:none;">
+      <div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Best Beef Stew</div></div>
+      <div class="recipe-wrap">
+        <div class="r-header"><h1>Best Beef Stew</h1><div class="r-meta"><div><strong>Yield</strong>&nbsp;serves 6–8</div><div><strong>Total time</strong>&nbsp;3¾ hours</div><div style="margin-top:4px;color:#b07d3a;">America's Test Kitchen · J. Kenji Lopez-Alt, 2012</div></div></div>
+        <div class="r-section"><div class="r-section-label">Section 1</div><div class="r-section-title">Mise en Place — Ingredients &amp; Tools</div>
+          <div class="mise-columns"><div>
+            <div class="mise-col-header">Stew</div>
+            <table class="mise-table">
+              <tr><td class="qty">~1.8 kg</td><td>boneless beef chuck-eye roast (~4 lbs), trimmed, cut into 1½-inch pieces</td></tr>
+              <tr><td class="qty">4</td><td>anchovy fillets, finely minced</td></tr>
+              <tr><td class="qty">2</td><td>garlic cloves, minced</td></tr>
+              <tr><td class="qty">1 tbsp</td><td>tomato paste</td></tr>
+              <tr><td class="qty">2 tbsp</td><td>vegetable oil (divided)</td></tr>
+              <tr><td class="qty">1</td><td>large onion, halved, sliced pole to pole ⅛-inch thick</td></tr>
+              <tr><td class="qty">4</td><td>medium carrots, peeled, cut into 1-inch pieces</td></tr>
+              <tr><td class="qty">¼ cup</td><td>all-purpose flour</td></tr>
+              <tr><td class="qty">2 cups</td><td>red wine (Côtes du Rhône or Pinot Noir)</td></tr>
+              <tr><td class="qty">2 cups</td><td>low-sodium chicken broth</td></tr>
+              <tr><td class="qty">113 g</td><td>salt pork (~75% lean), rinsed</td></tr>
+              <tr><td class="qty">2</td><td>bay leaves</td></tr>
+              <tr><td class="qty">4</td><td>sprigs fresh thyme</td></tr>
+              <tr><td class="qty">450 g</td><td>Yukon Gold potatoes (1 lb), scrubbed, cut into 1-inch pieces</td></tr>
+              <tr><td class="qty">1½ cups</td><td>frozen pearl onions, thawed</td></tr>
+              <tr><td class="qty">1 cup</td><td>frozen peas, thawed</td></tr>
+              <tr><td class="qty">2 tsp</td><td>unflavored powdered gelatin (~1 packet)</td></tr>
+              <tr><td class="qty">½ cup</td><td>water (for gelatin)</td></tr>
+              <tr><td class="qty"></td><td>table salt &amp; ground black pepper</td></tr>
+            </table>
+          </div><div>
+            <div class="mise-col-header">Tools</div>
+            <table class="mise-table">
+              <tr><td class="qty">1</td><td>large heavy-bottomed Dutch oven with lid</td></tr>
+              <tr><td class="qty">1</td><td>large plate (for beef)</td></tr>
+              <tr><td class="qty">1</td><td>small bowl (garlic paste)</td></tr>
+              <tr><td class="qty">1</td><td>small bowl (gelatin)</td></tr>
+              <tr><td class="qty"></td><td>paper towels</td></tr>
+              <tr><td class="qty"></td><td>large spoon (for skimming fat)</td></tr>
+              <tr><td class="qty"></td><td>kitchen scale</td></tr>
+            </table>
+            <div style="margin-top:14px;font-size:12px;color:#888;line-height:1.6;"><strong style="color:#1a1a1a;">Beef note:</strong> Look for well-marbled meat — lean beef will come out dry. Blade steaks (trimmed of gristle and silver skin) can substitute; cut into 1½-inch pieces.<br><br><strong style="color:#1a1a1a;">Make ahead:</strong> Cool, cover tightly, and refrigerate for up to 2 days. Reheat gently before serving.</div>
+          </div></div>
+        </div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 2</div><div class="r-section-title">Prep</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Preheat oven</em> to <em>300°F</em> with rack in the lower-middle position.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Prep beef.</em> Trim and cut <em>chuck-eye roast</em> into <em>1½-inch pieces</em>. Pat thoroughly dry with paper towels. Do not season.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Make garlic paste.</em> Combine <em>2 minced garlic cloves</em> and <em>4 minced anchovy fillets</em> in a small bowl. Press with the back of a fork to form a paste. Stir in <em>1 tbsp tomato paste</em>. Set aside.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Prep vegetables.</em> Halve and slice <em>1 large onion</em> pole to pole into ⅛-inch slices. Peel and cut <em>4 carrots</em> into 1-inch pieces. Scrub and cut <em>450 g Yukon Gold potatoes</em> into 1-inch pieces. Thaw <em>pearl onions</em> and <em>peas</em>.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Bloom gelatin.</em> Sprinkle <em>2 tsp powdered gelatin</em> over <em>½ cup water</em> in a small bowl. Let soften for <em>5 minutes</em> before using.</div></div>
+        </div></div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 3</div><div class="r-section-title">Cook</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Brown beef in two batches.</em> Heat <em>1 tbsp oil</em> in the Dutch oven over high heat until just starting to smoke. Add <em>half the beef</em> and cook until well browned on all sides, about <em>8 minutes</em>, reducing heat if the oil smokes or fond starts to burn. Transfer to a large plate. Repeat with remaining beef and <em>1 tbsp oil</em>, leaving the second batch in the pot after browning.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Cook vegetables.</em> Reduce heat to medium. Return the first batch of beef to the pot. Add the <em>onion</em> and <em>carrots</em> and stir to combine. Cook, scraping up any browned bits, until onion softens, <em>1–2 minutes</em>. Add the <em>garlic paste</em> and cook, stirring constantly, until fragrant, about <em>30 seconds</em>. Add <em>¼ cup flour</em> and cook, stirring, until no dry flour remains, about <em>30 seconds</em>.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Add liquids and braise.</em> Slowly add <em>2 cups red wine</em>, scraping up any browned bits. Increase heat to high and simmer until wine is thickened and slightly reduced, about <em>2 minutes</em>. Stir in <em>2 cups chicken broth</em>, <em>2 bay leaves</em>, <em>4 thyme sprigs</em>, and <em>salt pork</em>. Bring to a simmer, cover, transfer to oven, and cook for <em>1½ hours</em>.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Add potatoes.</em> Remove pot from oven. Discard bay leaves and salt pork. Stir in the <em>potatoes</em>, cover, return to oven, and cook until potatoes are almost tender, about <em>45 minutes</em>.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Add pearl onions.</em> Skim any excess fat from the surface with a large spoon. Stir in the <em>pearl onions</em> and cook over medium heat until potatoes and onions are cooked through and meat offers little resistance when poked with a fork — meat should not be falling apart — about <em>15 minutes</em>.</div></div>
+          <div class="step"><div class="step-num">6</div><div class="step-text"><em>Finish with gelatin and peas.</em> Increase heat to high. Stir in the <em>softened gelatin mixture</em> and <em>1 cup peas</em>. Simmer until gelatin is fully dissolved and stew is thickened, about <em>3 minutes</em>. Season with salt and pepper to taste. Serve.</div></div>
+        </div></div>
+        <div class="r-footer">America's Test Kitchen · Best Beef Stew · J. Kenji Lopez-Alt, 2012 · Serves 6–8</div>
+      </div>
+    </div>
+
+    <!-- PANEL 24: Beer-Battered Onion Rings -->
+    <div class="recipe-panel" id="panel24" style="display:none;">
+      <div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Beer-Battered Onion Rings</div></div>
+      <div class="recipe-wrap">
+        <div class="r-header"><h1>Beer-Battered Onion Rings<br>with Jalapeño Dipping Sauce</h1><div class="r-meta"><div><strong>Yield</strong>&nbsp;serves 2–3</div><div><strong>Total time</strong>&nbsp;1¼ hours</div><div style="margin-top:4px;color:#b07d3a;">America's Test Kitchen · Andrea Geary, 2023</div></div></div>
+        <div class="r-section"><div class="r-section-label">Section 1</div><div class="r-section-title">Mise en Place — Ingredients &amp; Tools</div>
+          <div class="mise-columns"><div>
+            <div class="mise-col-header">Onion Rings</div>
+            <table class="mise-table">
+              <tr><td class="qty">2</td><td>large yellow onions (~450 g each), peeled</td></tr>
+              <tr><td class="qty">150 g</td><td>all-purpose flour (1 cup + 2 tbsp)</td></tr>
+              <tr><td class="qty">355 g</td><td>cold beer — 1 can or bottle, inexpensive lager or nonalcoholic</td></tr>
+              <tr><td class="qty">2 qts</td><td>vegetable oil for frying</td></tr>
+              <tr><td class="qty">1 tbsp</td><td>confectioners' sugar</td></tr>
+              <tr><td class="qty">2 tsp + 1½ tbsp</td><td>cornstarch (divided — 2 tsp for spice mix, 1½ tbsp for batter)</td></tr>
+              <tr><td class="qty">1½ tsp</td><td>table salt (increase to 2 tsp if using sweet onions)</td></tr>
+              <tr><td class="qty">1 tsp</td><td>onion powder</td></tr>
+              <tr><td class="qty">1 tsp</td><td>baking powder</td></tr>
+            </table>
+            <div style="margin-top:14px;"><div class="mise-col-header">Jalapeño Dipping Sauce <span style="font-weight:400;color:#aaa;">(optional)</span></div>
+            <table class="mise-table">
+              <tr><td class="qty">113 g</td><td>mayonnaise (½ cup)</td></tr>
+              <tr><td class="qty">3 tbsp</td><td>ketchup</td></tr>
+              <tr><td class="qty">2 tbsp</td><td>minced jarred jalapeño chiles</td></tr>
+              <tr><td class="qty">1 tbsp</td><td>jalapeño brine (from the jar)</td></tr>
+              <tr><td class="qty">½ tsp</td><td>granulated sugar</td></tr>
+              <tr><td class="qty">¼ tsp</td><td>cayenne</td></tr>
+            </table></div>
+          </div><div>
+            <div class="mise-col-header">Tools</div>
+            <table class="mise-table">
+              <tr><td class="qty">1</td><td>6-quart Dutch oven (or larger)</td></tr>
+              <tr><td class="qty">1</td><td>instant-read thermometer</td></tr>
+              <tr><td class="qty">2</td><td>rimmed baking sheets with wire racks</td></tr>
+              <tr><td class="qty">1</td><td>large bowl (for rings)</td></tr>
+              <tr><td class="qty">1</td><td>medium bowl (for batter)</td></tr>
+              <tr><td class="qty">1</td><td>small bowl (for spice mix) · 1 additional if making sauce</td></tr>
+              <tr><td class="qty"></td><td>paper towels (triple layer)</td></tr>
+              <tr><td class="qty"></td><td>tongs or fingers (for transferring rings)</td></tr>
+              <tr><td class="qty"></td><td>whisk</td></tr>
+              <tr><td class="qty"></td><td>kitchen scale</td></tr>
+            </table>
+            <div style="margin-top:14px;font-size:12px;color:#888;line-height:1.6;"><strong style="color:#1a1a1a;">Sweet onions (Vidalia, Walla Walla):</strong> Do not trim ends — trimming reduces yield. Increase salt to 2 tsp.</div>
+          </div></div>
+        </div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 2</div><div class="r-section-title">Prep</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Make dipping sauce (optional).</em> Whisk together <em>113 g mayonnaise</em>, <em>3 tbsp ketchup</em>, <em>2 tbsp minced jalapeños</em>, <em>1 tbsp brine</em>, <em>½ tsp sugar</em>, and <em>¼ tsp cayenne</em> in a small bowl. Refrigerate until needed.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Make spice mix.</em> Combine in a small bowl: <em>1 tbsp confectioners' sugar</em>, <em>2 tsp cornstarch</em>, <em>1½ tsp salt</em>, and <em>1 tsp onion powder</em>. Set aside.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Prep onions.</em> Trim <em>½-inch slices</em> from each end of both onions (discard). Cut each onion crosswise into <em>½-inch rounds</em>. Separate into rings, discarding the 3 innermost layers of each round. Transfer rings to a large bowl. Sprinkle with the <em>spice mix</em> and toss to coat.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Set up oven and draining rack.</em> Heat oven to <em>200°F</em> with rack in the middle position. Set wire racks in rimmed baking sheets lined with a triple layer of paper towels.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Make batter.</em> Whisk together in a medium bowl: <em>150 g flour</em>, <em>1 tsp baking powder</em>, <em>1½ tbsp cornstarch</em>, and the remaining spice mix. Whisk in <em>355 g cold beer</em> (1 full can or bottle) until almost smooth — small lumps are fine.</div></div>
+        </div></div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 3</div><div class="r-section-title">Fry</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Heat oil.</em> Heat <em>2 quarts vegetable oil</em> in the Dutch oven over medium-high heat to <em>380°F</em>.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Fry in batches.</em> Add <em>one quarter of the rings</em> to the batter and stir to coat. Using tongs or fingers, transfer rings one at a time into the oil until the surface is covered. Fry, turning occasionally and adjusting heat to keep oil between <em>360–375°F</em>, until deep golden brown and crisp, about <em>4 minutes</em>.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Drain and keep warm.</em> Transfer fried rings to the prepared rack and place the sheet in the oven to keep warm. Return oil to <em>380°F</em> before starting the next batch.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Repeat</em> with remaining rings and batter in 3 more batches. Serve immediately with dipping sauce.</div></div>
+        </div></div>
+        <div class="r-footer">America's Test Kitchen · Beer-Battered Onion Rings with Jalapeño Dipping Sauce · Andrea Geary, 2023 · Serves 2–3</div>
+      </div>
+    </div>
+
+    <!-- PANEL 25: Fluffy White Rice -->
+    <div class="recipe-panel" id="panel25" style="display:none;">
+      <div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Fluffy White Rice</div></div>
+      <div class="recipe-wrap">
+        <div class="r-header"><h1>Fluffy White Rice</h1><div class="r-meta"><div><strong>Yield</strong>&nbsp;serves 4</div><div><strong>Total time</strong>&nbsp;45 minutes</div><div style="margin-top:4px;color:#b07d3a;">America's Test Kitchen · 2007</div></div></div>
+        <div class="r-section"><div class="r-section-label">Section 1</div><div class="r-section-title">Mise en Place — Ingredients &amp; Tools</div>
+          <div class="mise-columns"><div>
+            <div class="mise-col-header">Ingredients</div>
+            <table class="mise-table">
+              <tr><td class="qty">1 cup</td><td>long-grain white rice (not converted)</td></tr>
+              <tr><td class="qty">1½ cups</td><td>water</td></tr>
+              <tr><td class="qty">2 tsp</td><td>unsalted butter, vegetable oil, or olive oil</td></tr>
+              <tr><td class="qty">½ tsp</td><td>table salt</td></tr>
+            </table>
+            <div style="margin-top:14px;font-size:12px;color:#888;line-height:1.6;"><strong style="color:#1a1a1a;">Scaling note:</strong> This recipe is calibrated for exactly 1 cup of rice. Do not halve it — results are unreliable with less than 1 cup. For 2 cups of rice use 2½–2¾ cups water.</div>
+          </div><div>
+            <div class="mise-col-header">Tools</div>
+            <table class="mise-table">
+              <tr><td class="qty">1</td><td>medium saucepan with tight-fitting lid</td></tr>
+              <tr><td class="qty">1</td><td>clean dish towel (to line lid)</td></tr>
+              <tr><td class="qty"></td><td>fork (for fluffing)</td></tr>
+            </table>
+          </div></div>
+        </div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 2</div><div class="r-section-title">Prep</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Measure ingredients.</em> Measure <em>1 cup rice</em>, <em>1½ cups water</em>, <em>2 tsp butter or oil</em>, and <em>½ tsp salt</em> and have ready at the stove.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Prepare lid.</em> Line the inside of the saucepan lid with a clean dish towel, folding the corners up so they don't hang over the heat. The towel absorbs steam and prevents condensation from dripping back onto the rice, which is the key to fluffy rather than gummy texture.</div></div>
+        </div></div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 3</div><div class="r-section-title">Cook</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Toast rice.</em> Heat <em>butter or oil</em> in the saucepan over medium heat. Add the <em>rice</em> and cook, stirring constantly, for <em>1–3 minutes</em> depending on how much nutty flavor you want — longer toasting gives a more pronounced flavor.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Add water and bring to boil.</em> Add <em>1½ cups water</em> and <em>½ tsp salt</em>. Bring to a boil, swirling the pot to combine.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Simmer covered.</em> Reduce heat to low. Cover with the towel-lined lid and cook until all liquid is absorbed, about <em>15 minutes</em>. Do not lift the lid.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Rest off heat.</em> Turn off the heat and leave the rice on the burner, still covered, for <em>15 minutes</em>. This resting period is essential — it allows the rice to finish cooking in its own steam and the grains to firm up and separate.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Fluff and serve.</em> Remove lid, fluff with a fork, and serve immediately.</div></div>
+        </div></div>
+        <div class="r-footer">America's Test Kitchen · Fluffy White Rice · 2007 · Serves 4</div>
+      </div>
+    </div>
+
+
+    <!-- PANEL 26: Best Buttermilk Waffles -->
+    <div class="recipe-panel" id="panel26" style="display:none;">
+      <div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Best Buttermilk Waffles</div></div>
+      <div class="recipe-wrap">
+        <div class="r-header"><h1>Best Buttermilk<br>Waffles</h1><div class="r-meta"><div><strong>Yield</strong>&nbsp;8 waffles · 7-inch round</div><div><strong>Total time</strong>&nbsp;40 minutes</div><div style="margin-top:4px;color:#b07d3a;">America's Test Kitchen · 2013</div></div></div>
+        <div class="r-section"><div class="r-section-label">Section 1</div><div class="r-section-title">Mise en Place — Ingredients &amp; Tools</div>
+          <div class="mise-columns"><div>
+            <div class="mise-col-header">Dry Ingredients</div>
+            <table class="mise-table">
+              <tr><td class="qty">283 g</td><td>unbleached all-purpose flour (2 cups)</td></tr>
+              <tr><td class="qty">57 g</td><td>dried buttermilk powder (½ cup)</td></tr>
+              <tr><td class="qty">1 tbsp</td><td>sugar</td></tr>
+              <tr><td class="qty">¾ tsp</td><td>table salt</td></tr>
+              <tr><td class="qty">½ tsp</td><td>baking soda</td></tr>
+            </table>
+            <div style="margin-top:14px;"><div class="mise-col-header">Wet Ingredients</div>
+            <table class="mise-table">
+              <tr><td class="qty">296 g</td><td>unflavored seltzer water (1¼ cups)</td></tr>
+              <tr><td class="qty">120 g</td><td>sour cream (½ cup)</td></tr>
+              <tr><td class="qty">54 g</td><td>vegetable oil (¼ cup)</td></tr>
+              <tr><td class="qty">2</td><td>large eggs</td></tr>
+              <tr><td class="qty">¼ tsp</td><td>vanilla extract</td></tr>
+            </table></div>
+          </div><div>
+            <div class="mise-col-header">Tools</div>
+            <table class="mise-table">
+              <tr><td class="qty">1</td><td>waffle iron</td></tr>
+              <tr><td class="qty">1</td><td>rimmed baking sheet with wire rack</td></tr>
+              <tr><td class="qty">1</td><td>large bowl (dry ingredients)</td></tr>
+              <tr><td class="qty">1</td><td>medium bowl (wet ingredients)</td></tr>
+              <tr><td class="qty"></td><td>whisk</td></tr>
+              <tr><td class="qty"></td><td>rubber spatula</td></tr>
+              <tr><td class="qty"></td><td>⅓-cup measure</td></tr>
+              <tr><td class="qty"></td><td>kitchen scale</td></tr>
+            </table>
+            <div style="margin-top:14px;font-size:12px;color:#888;line-height:1.6;"><strong style="color:#1a1a1a;">Buttermilk powder note:</strong> Found near dried milk products or in the baking aisle. Keeps refrigerated for up to a year.<br><br><strong style="color:#1a1a1a;">Seltzer note:</strong> Use plain unflavored seltzer or club soda. Open just before using for maximum lift.</div>
+          </div></div>
+        </div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 2</div><div class="r-section-title">Prep</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Set up oven.</em> Heat oven to <em>250°F</em> with rack in the middle position. Set a wire rack in a rimmed baking sheet and place in the oven.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Mix dry ingredients.</em> Whisk together in a large bowl: <em>283 g flour</em>, <em>57 g buttermilk powder</em>, <em>1 tbsp sugar</em>, <em>¾ tsp salt</em>, and <em>½ tsp baking soda</em>.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Mix wet ingredients.</em> Whisk together in a medium bowl: <em>120 g sour cream</em>, <em>2 eggs</em>, <em>¼ tsp vanilla</em>, and <em>54 g vegetable oil</em>. Gently stir in <em>296 g seltzer</em> just before combining with dry ingredients to preserve the bubbles.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Combine.</em> Make a well in the dry ingredients and pour in the wet mixture. Fold gently with a rubber spatula until just combined — batter should remain slightly lumpy. Do not overmix.</div></div>
+        </div></div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 3</div><div class="r-section-title">Cook</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Heat waffle iron</em> according to manufacturer's instructions.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Cook waffles.</em> Pour about <em>⅓ cup batter</em> per waffle. Cook according to manufacturer's instructions. Transfer each finished waffle to the wire rack in the warm oven.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Rest and serve.</em> Hold waffles in the oven for up to <em>10 minutes</em> — they crisp up as they rest. Serve with butter and warmed maple syrup.</div></div>
+        </div></div>
+        <div class="r-footer">America's Test Kitchen · Best Buttermilk Waffles · 2013 · Makes 8</div>
+      </div>
+    </div>
+
+    <!-- PANEL 27: Scalloped Potatoes -->
+    <div class="recipe-panel" id="panel27" style="display:none;">
+      <div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Scalloped Potatoes</div></div>
+      <div class="recipe-wrap">
+        <div class="r-header"><h1>Scalloped Potatoes</h1><div class="r-meta"><div><strong>Yield</strong>&nbsp;serves 4–6</div><div><strong>Total time</strong>&nbsp;1 hour</div><div style="margin-top:4px;color:#b07d3a;">America's Test Kitchen · 2011</div></div></div>
+        <div class="r-section"><div class="r-section-label">Section 1</div><div class="r-section-title">Mise en Place — Ingredients &amp; Tools</div>
+          <div class="mise-columns"><div>
+            <div class="mise-col-header">Ingredients</div>
+            <table class="mise-table">
+              <tr><td class="qty">1.1 kg</td><td>russet potatoes (~5 medium), peeled, sliced ⅛-inch thick</td></tr>
+              <tr><td class="qty">113 g</td><td>cheddar cheese, shredded (1 cup) — or Parmesan</td></tr>
+              <tr><td class="qty">1 cup</td><td>heavy cream</td></tr>
+              <tr><td class="qty">1 cup</td><td>low-sodium chicken broth</td></tr>
+              <tr><td class="qty">2 tbsp</td><td>unsalted butter</td></tr>
+              <tr><td class="qty">1</td><td>medium onion, minced (~1 cup)</td></tr>
+              <tr><td class="qty">2</td><td>garlic cloves, minced</td></tr>
+              <tr><td class="qty">1 tbsp</td><td>fresh thyme leaves, chopped</td></tr>
+              <tr><td class="qty">2</td><td>bay leaves</td></tr>
+              <tr><td class="qty">2 tsp</td><td>table salt</td></tr>
+            </table>
+          </div><div>
+            <div class="mise-col-header">Tools</div>
+            <table class="mise-table">
+              <tr><td class="qty">1</td><td>large Dutch oven with lid</td></tr>
+              <tr><td class="qty">1</td><td>8-inch square baking dish</td></tr>
+              <tr><td class="qty"></td><td>sharp knife or mandolin</td></tr>
+              <tr><td class="qty">1</td><td>small bowl (aromatics)</td></tr>
+              <tr><td class="qty"></td><td>paring knife (doneness test)</td></tr>
+              <tr><td class="qty"></td><td>kitchen scale</td></tr>
+            </table>
+          </div></div>
+        </div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 2</div><div class="r-section-title">Prep</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Preheat oven</em> to <em>425°F</em> with rack in the middle position.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Slice potatoes.</em> Peel <em>1.1 kg russet potatoes</em> and slice <em>⅛-inch thick</em>. If slices start to discolor, transfer to a bowl and cover with the cream and broth.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Prep aromatics.</em> Mince <em>1 medium onion</em>. Combine in a small bowl: <em>2 minced garlic cloves</em>, <em>1 tbsp chopped thyme</em>, <em>2 tsp salt</em>, and <em>¼ tsp pepper</em>.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Shred cheese.</em> Shred <em>113 g cheddar</em> just before the baking dish is ready. If shredding ahead, toss with <em>½ tsp cornstarch</em> to prevent clumping.</div></div>
+        </div></div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 3</div><div class="r-section-title">Cook and Bake</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Cook aromatics.</em> Melt <em>2 tbsp butter</em> in the Dutch oven over medium-high heat. Add the onion and cook until soft and lightly browned, about <em>4 minutes</em>. Add the <em>garlic, thyme, salt, and pepper bowl</em> and cook until fragrant, about <em>30 seconds</em>.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Simmer potatoes.</em> Add the potatoes, <em>1 cup chicken broth</em>, <em>1 cup heavy cream</em>, and <em>2 bay leaves</em>. Bring to a simmer. Cover, reduce heat to medium-low, and simmer until potatoes are almost tender — a paring knife should slip in with some resistance — about <em>10 minutes</em>.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Transfer and top.</em> Discard bay leaves. Transfer potato mixture to the baking dish and press into an even layer. Sprinkle evenly with <em>113 g shredded cheddar</em>.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Bake.</em> Bake until cream is bubbling around the edges and top is golden brown, about <em>15 minutes</em>. Cool for <em>10 minutes</em> before serving.</div></div>
+        </div>
+        <div class="note"><strong>Make ahead:</strong> After pressing into the baking dish, wrap tightly and refrigerate up to <em>24 hours</em>. Add cheese, cover with foil, bake at <em>400°F</em> until hot and bubbling, about <em>45 minutes</em>. Remove foil and bake until cheese begins to brown, about <em>30 minutes</em> more.</div>
+        </div>
+        <div class="r-footer">America's Test Kitchen · Scalloped Potatoes · 2011 · Serves 4–6</div>
+      </div>
+    </div>
+
+    <!-- PANEL 28: Mom's Chocolate Cake -->
+    <div class="recipe-panel" id="panel28" style="display:none;">
+      <div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Mom's Chocolate Cake</div></div>
+      <div class="recipe-wrap">
+        <div class="r-header"><h1>Mom's Chocolate Cake</h1><div class="r-meta"><div><strong>Yield</strong>&nbsp;serves 10</div><div><strong>Total time</strong>&nbsp;~3 hours</div><div style="margin-top:4px;color:#b07d3a;">Family recipe</div></div></div>
+        <div class="r-section"><div class="r-section-label">Section 1</div><div class="r-section-title">Mise en Place — Ingredients &amp; Tools</div>
+          <div class="mise-columns"><div>
+            <div class="mise-col-header">Cake</div>
+            <table class="mise-table">
+              <tr><td class="qty">113 g</td><td>unsalted butter (1 stick), room temperature</td></tr>
+              <tr><td class="qty">2</td><td>large eggs, separated, room temperature</td></tr>
+              <tr><td class="qty">365 g</td><td>buttermilk, room temperature</td></tr>
+              <tr><td class="qty">57 g</td><td>unsweetened chocolate (2 oz)</td></tr>
+              <tr><td class="qty">227 g</td><td>cake flour, sifted</td></tr>
+              <tr><td class="qty">298 g</td><td>sugar</td></tr>
+              <tr><td class="qty">2 tsp</td><td>baking soda</td></tr>
+              <tr><td class="qty">½ tsp</td><td>salt</td></tr>
+              <tr><td class="qty">2 tsp</td><td>vanilla extract</td></tr>
+            </table>
+            <div style="margin-top:14px;"><div class="mise-col-header">Frosting</div>
+            <table class="mise-table">
+              <tr><td class="qty">2</td><td>egg whites (reserved from cake)</td></tr>
+              <tr><td class="qty">298 g</td><td>sugar</td></tr>
+              <tr><td class="qty">76 g</td><td>cold water</td></tr>
+              <tr><td class="qty">¼ tsp</td><td>cream of tartar</td></tr>
+              <tr><td class="qty">⅛ tsp</td><td>salt</td></tr>
+              <tr><td class="qty">1½ tsp</td><td>vanilla extract</td></tr>
+            </table></div>
+          </div><div>
+            <div class="mise-col-header">Tools</div>
+            <table class="mise-table">
+              <tr><td class="qty">1</td><td>9 × 13-inch cake pan, lightly greased</td></tr>
+              <tr><td class="qty">1</td><td>stand mixer</td></tr>
+              <tr><td class="qty">1</td><td>hand mixer</td></tr>
+              <tr><td class="qty">1</td><td>double boiler</td></tr>
+              <tr><td class="qty">1</td><td>medium bowl (dry ingredients)</td></tr>
+              <tr><td class="qty">1</td><td>medium heatproof bowl (frosting)</td></tr>
+              <tr><td class="qty">2</td><td>small bowls (egg yolks · egg whites)</td></tr>
+              <tr><td class="qty"></td><td>sifter or fine mesh strainer</td></tr>
+              <tr><td class="qty"></td><td>spatula · toothpick</td></tr>
+              <tr><td class="qty"></td><td>instant-read thermometer</td></tr>
+              <tr><td class="qty"></td><td>kitchen scale</td></tr>
+            </table>
+          </div></div>
+        </div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 2</div><div class="r-section-title">Prep</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Bring to room temperature.</em> Remove <em>113 g butter</em>, <em>2 eggs</em>, and <em>365 g buttermilk</em> from the refrigerator and let come to room temperature, <em>30–60 minutes</em>. Ideal butter temperature is <em>65–68°F</em> — pliable and soft but still cool to the touch.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Preheat oven</em> to <em>350°F conventional</em> or <em>325°F convection</em>.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Melt chocolate.</em> Melt <em>57 g unsweetened chocolate</em> in a double boiler over low heat. Set aside to cool slightly.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Sift dry ingredients.</em> Sift and whisk together: <em>227 g cake flour</em>, <em>2 tsp baking soda</em>, and <em>½ tsp salt</em>.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Separate eggs.</em> Yolks in one small bowl, whites in another. Refrigerate whites until needed for frosting.</div></div>
+          <div class="step"><div class="step-num">6</div><div class="step-text"><em>Prep frosting bowl.</em> In a medium heatproof bowl combine <em>298 g sugar</em>, <em>¼ tsp cream of tartar</em>, and <em>⅛ tsp salt</em>. Set aside.</div></div>
+        </div></div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 3</div><div class="r-section-title">Make Cake</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Cream butter.</em> Fit the stand mixer with the paddle attachment. Beat <em>113 g butter</em> on <em>medium</em> for <em>1 minute</em> until creamy. Butter must be at <em>65–68°F</em>.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Add sugar.</em> Add <em>298 g sugar</em> and beat on <em>high</em> for <em>3 minutes</em> until light, pale, and fluffy. The full 3 minutes is essential — this builds the air structure that makes the cake rise.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Add yolks.</em> Add the <em>egg yolks</em> one at a time, beating on <em>medium-high</em> for <em>30 seconds</em> after each.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Add chocolate and vanilla.</em> Add the <em>melted chocolate</em> and <em>2 tsp vanilla</em>. Mix on <em>medium</em> for <em>10 seconds</em>.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Alternate flour and buttermilk.</em> On <em>low</em>, add in this order: <em>⅓ flour → ½ buttermilk → ⅓ flour → ½ buttermilk → ⅓ flour</em>. Mix until just combined after each addition. Always start and end with flour.</div></div>
+          <div class="step"><div class="step-num">6</div><div class="step-text"><em>Pan and bake.</em> Pour batter into the greased pan, making the center slightly lower than the edges. Bake <em>35–40 minutes</em>. Do not open oven before 30 minutes.</div></div>
+          <div class="step"><div class="step-num">7</div><div class="step-text"><em>Check doneness.</em> The cake smells done, batter has pulled away from the sides, a toothpick in the center comes out clean, and the center springs back when pressed.</div></div>
+          <div class="step"><div class="step-num">8</div><div class="step-text"><em>Cool.</em> Cool in the pan for at least <em>1 hour</em> before frosting.</div></div>
+        </div></div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 4</div><div class="r-section-title">Make Frosting and Frost</div>
+        <div style="font-size:12.5px;color:#666;margin-bottom:14px;">Use the <em style="font-style:normal;font-weight:600;color:#1a1a1a;">hand mixer</em> for all frosting steps — it lets you hold the bowl over the double boiler while beating.</div>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Prepare double boiler.</em> Bring water to a boil in the bottom, then reduce to a steady simmer.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Add egg whites and water.</em> Add the <em>2 reserved egg whites</em> and <em>76 g cold water</em> to the frosting bowl. Bowl and beaters must be scrupulously clean and dry.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Beat off heat</em> for about <em>1 minute</em>.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Beat over double boiler</em> on high for <em>7 minutes</em> until frosting is thick, glossy, and holds stiff peaks. Keep water at a steady simmer — not a rolling boil.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Finish frosting.</em> Remove from heat, add <em>1½ tsp vanilla</em>, and beat for <em>1 minute</em> more.</div></div>
+          <div class="step"><div class="step-num">6</div><div class="step-text"><em>Frost the cake.</em> Spread frosting over the cooled cake immediately — it sets quickly. Cake must be fully cool before frosting.</div></div>
+        </div></div>
+        <div class="r-footer">Family Recipe · Mom's Chocolate Cake · Serves 10</div>
+      </div>
+    </div>
+
+    <!-- PANEL 29: Crispy Tacos -->
+    <div class="recipe-panel" id="panel29" style="display:none;">
+      <div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Crispy Tacos (Tacos Dorados)</div></div>
+      <div class="recipe-wrap">
+        <div class="r-header"><h1>Crispy Tacos<br><span style="font-size:18px;color:#888;">(Tacos Dorados)</span></h1><div class="r-meta"><div><strong>Yield</strong>&nbsp;serves 4 · 12 tacos</div><div><strong>Total time</strong>&nbsp;1¾ hours</div><div style="margin-top:4px;color:#b07d3a;">America's Test Kitchen · Annie Petito, 2018</div></div></div>
+        <div class="r-section"><div class="r-section-label">Section 1</div><div class="r-section-title">Mise en Place — Ingredients &amp; Tools</div>
+          <div class="mise-columns"><div>
+            <div class="mise-col-header">Filling</div>
+            <table class="mise-table">
+              <tr><td class="qty">340 g</td><td>90% lean ground beef</td></tr>
+              <tr><td class="qty">57 g</td><td>cheddar cheese, shredded (½ cup)</td></tr>
+              <tr><td class="qty">1</td><td>onion, chopped fine</td></tr>
+              <tr><td class="qty">2 tbsp</td><td>tomato paste</td></tr>
+              <tr><td class="qty">1 tbsp</td><td>vegetable oil (for filling)</td></tr>
+              <tr><td class="qty"></td><td>chili powder, paprika, cumin, garlic powder, salt, baking soda</td></tr>
+            </table>
+            <div style="margin-top:14px;"><div class="mise-col-header">Tortillas and Toppings</div>
+            <table class="mise-table">
+              <tr><td class="qty">12</td><td>6-inch corn tortillas</td></tr>
+              <tr><td class="qty">6 tbsp</td><td>vegetable oil (2 tbsp brushing + ¼ cup frying)</td></tr>
+              <tr><td class="qty"></td><td>shredded iceberg lettuce</td></tr>
+              <tr><td class="qty"></td><td>chopped tomato</td></tr>
+              <tr><td class="qty"></td><td>sour cream · pickled jalapeños · hot sauce</td></tr>
+            </table></div>
+          </div><div>
+            <div class="mise-col-header">Tools</div>
+            <table class="mise-table">
+              <tr><td class="qty">1</td><td>12-inch nonstick skillet</td></tr>
+              <tr><td class="qty">2</td><td>rimmed baking sheets</td></tr>
+              <tr><td class="qty">1</td><td>wire rack</td></tr>
+              <tr><td class="qty">1</td><td>large bowl (for beef)</td></tr>
+              <tr><td class="qty">1</td><td>medium bowl (for filling)</td></tr>
+              <tr><td class="qty"></td><td>pastry brush · tongs · thin spatula</td></tr>
+              <tr><td class="qty"></td><td>paper towels · wooden spoon</td></tr>
+              <tr><td class="qty"></td><td>kitchen scale</td></tr>
+            </table>
+          </div></div>
+        </div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 2</div><div class="r-section-title">Prep</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Preheat oven</em> to <em>400°F</em> with rack in the middle position.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Season beef.</em> Combine <em>1 tbsp water</em> and <em>¼ tsp baking soda</em> in a large bowl. Add <em>340 g ground beef</em> and mix thoroughly. Set aside.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Prep aromatics and spices.</em> Chop <em>1 onion fine</em>. Shred <em>57 g cheddar</em>. Combine in a small bowl: <em>1½ tbsp chili powder</em>, <em>1½ tbsp paprika</em>, <em>1½ tsp cumin</em>, <em>1½ tsp garlic powder</em>, and <em>1 tsp salt</em>.</div></div>
+        </div></div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 3</div><div class="r-section-title">Cook Filling</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Cook onion.</em> Heat <em>1 tbsp oil</em> in a 12-inch nonstick skillet over medium heat until shimmering. Add onion and cook until softened, <em>4–6 minutes</em>.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Add spices and tomato paste.</em> Add the <em>spice bowl</em> and cook until fragrant, about <em>1 minute</em>. Stir in <em>2 tbsp tomato paste</em> and cook until rust-colored, <em>1–2 minutes</em>.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Cook beef.</em> Add the beef mixture and cook, breaking into pieces no larger than <em>¼ inch</em>, until no longer pink, <em>5–7 minutes</em>. Transfer to a bowl and stir in the <em>cheddar</em> until melted. Wipe skillet clean.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Warm tortillas.</em> Brush both sides of all tortillas with <em>2 tbsp oil</em>. Arrange on a baking sheet and bake until warm and pliable, about <em>5 minutes</em>. Reduce oven to <em>200°F</em>.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Fill tortillas.</em> Place <em>2 tbsp filling</em> on one side of each tortilla. Fold and press to close.</div></div>
+        </div>
+        <div class="note"><strong>Make ahead:</strong> Filled tortillas can be covered and refrigerated for up to <em>12 hours</em> before frying.</div>
+        </div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 4</div><div class="r-section-title">Fry</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Set up draining rack.</em> Set a wire rack in a rimmed baking sheet lined with a double layer of paper towels.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Fry first batch.</em> Heat <em>¼ cup oil</em> in the skillet over medium-high until shimmering. Arrange <em>6 tacos</em> with open sides facing away from you. Cook until <em>deeply browned</em>, <em>2–3 minutes</em> per side.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Drain and keep warm.</em> Transfer tacos to the rack. Blot with paper towels. Place in the <em>200°F oven</em>.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Fry second batch</em> in the same skillet. Serve immediately with toppings. To eat: open each taco, load with toppings, and close.</div></div>
+        </div></div>
+        <div class="r-footer">America's Test Kitchen · Crispy Tacos (Tacos Dorados) · Annie Petito, 2018 · Serves 4</div>
+      </div>
+    </div>
+
+    <!-- PANEL 30: Risotto with Tomatoes and Basil -->
+    <div class="recipe-panel" id="panel30" style="display:none;">
+      <div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Risotto with Tomatoes and Basil</div></div>
+      <div class="recipe-wrap">
+        <div class="r-header"><h1>Risotto with<br>Tomatoes and Basil</h1><div class="r-meta"><div><strong>Yield</strong>&nbsp;serves 4–6</div><div><strong>Total time</strong>&nbsp;~1 hour</div><div style="margin-top:4px;color:#b07d3a;">Modernist Cuisine · adapted</div></div></div>
+        <div class="r-section"><div class="r-section-label">Section 1</div><div class="r-section-title">Mise en Place — Ingredients &amp; Tools</div>
+          <div class="mise-columns"><div>
+            <div class="mise-col-header">Risotto</div>
+            <table class="mise-table">
+              <tr><td class="qty">375 g</td><td>carnaroli risotto rice</td></tr>
+              <tr><td class="qty">600 g</td><td>chicken stock</td></tr>
+              <tr><td class="qty">575 g</td><td>water (combined with stock to make light stock)</td></tr>
+              <tr><td class="qty">~500 g</td><td>additional light chicken stock (for adjusting consistency)</td></tr>
+              <tr><td class="qty">180 g</td><td>sauvignon blanc or other fruity white wine</td></tr>
+              <tr><td class="qty">150 g</td><td>Parmigiano Reggiano, grated (food processor)</td></tr>
+              <tr><td class="qty">300 g</td><td>tiny tomatoes (Sparkle or cherry), rinsed</td></tr>
+              <tr><td class="qty">50 g</td><td>shallots, finely chopped</td></tr>
+              <tr><td class="qty">50 g</td><td>canola oil</td></tr>
+              <tr><td class="qty">1</td><td>large bunch fresh basil</td></tr>
+              <tr><td class="qty">½ tsp</td><td>salt (plus more to taste)</td></tr>
+            </table>
+          </div><div>
+            <div class="mise-col-header">Tools</div>
+            <table class="mise-table">
+              <tr><td class="qty">1</td><td>pressure cooker</td></tr>
+              <tr><td class="qty">1</td><td>food processor (for cheese)</td></tr>
+              <tr><td class="qty">1</td><td>small saucepan (reserve stock)</td></tr>
+              <tr><td class="qty">1</td><td>large bowl or measuring vessel</td></tr>
+              <tr><td class="qty">1</td><td>strainer (for tomatoes)</td></tr>
+              <tr><td class="qty">4</td><td>ingredient bowls</td></tr>
+              <tr><td class="qty"></td><td>spatula · ladle · kitchen scale</td></tr>
+              <tr><td class="qty"></td><td>instant-read thermometer</td></tr>
+            </table>
+          </div></div>
+        </div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 2</div><div class="r-section-title">Prep</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Make light stock.</em> Combine <em>600 g chicken stock</em> and <em>575 g water</em> in a large vessel. Add <em>180 g wine</em>. Add <em>2–3 tsp salt</em> if stock is unsalted. Set aside — no need to warm.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Warm reserve stock.</em> Warm <em>~500 g additional light stock</em> (300 g stock + 290 g water) over low heat and keep at a simmer — for adjusting consistency at the end.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Grate cheese.</em> Grate <em>150 g Parmigiano Reggiano</em> in a food processor. Transfer to an ingredient bowl.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Stage remaining bowls.</em> Set out bowls for <em>375 g rice</em> and <em>½ tsp salt</em>. Rinse <em>300 g tomatoes</em> and leave in the strainer.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Prep basil.</em> Wash basil but do not cut — chiffonade just before adding at the end.</div></div>
+          <div class="step"><div class="step-num">6</div><div class="step-text"><em>Prep pressure cooker.</em> Finely chop <em>50 g shallots</em> and add directly to the pressure cooker. Add <em>50 g canola oil</em> and <em>½ tsp salt</em>.</div></div>
+        </div></div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 3</div><div class="r-section-title">Pressure Cook</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Sauté shallots.</em> Heat pressure cooker over medium-high, stirring, until shallots are soft and translucent, about <em>3 minutes</em>. Do not allow them to color.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Toast rice.</em> Add <em>375 g rice</em> and cook, stirring, for <em>1 minute</em>.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Add liquids.</em> Add the <em>stock and wine mixture</em>. Reduce heat to medium-low.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Pressure cook.</em> Seal and bring to <em>1 bar / 2 lines</em> pressure. Cook for exactly <em>6 minutes</em>, starting the timer only when full pressure is reached.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Release pressure.</em> Let decrease naturally if time allows. For the last bit of pressure, run tepid water over the rim of the cooker.</div></div>
+          <div class="step"><div class="step-num">6</div><div class="step-text"><em>Check rice and add cheese.</em> Rice should be <em>al dente</em>. Let cool until temperature drops to <em>140–160°F / 60–70°C</em> before adding cheese — above 170°F causes proteins to seize. Add <em>Parmigiano gradually</em> in 3–4 additions, stirring constantly after each until creamy and homogeneous.</div></div>
+          <div class="step"><div class="step-num">7</div><div class="step-text"><em>Finish.</em> Adjust salt. Add the <em>tomatoes</em> — they soften gently from residual heat. Chiffonade the <em>basil</em> and fold in. Adjust consistency with warm stock as needed. Serve immediately.</div></div>
+        </div>
+        <div class="note"><strong>Pressure reference:</strong> Hissing = 1.2 bar. Second red line = 0.8 bar. First red line = 0.4 bar. Target is <em>1 bar</em> — between the two red lines.</div>
+        </div>
+        <div class="r-footer">Modernist Cuisine · Risotto with Tomatoes and Basil · adapted · Serves 4–6</div>
+      </div>
+    </div>
+
+    <!-- PANEL 31: Risotto — 2 Serving -->
+    <div class="recipe-panel" id="panel31" style="display:none;">
+      <div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Risotto with Tomatoes and Basil — 2 Serving</div></div>
+      <div class="recipe-wrap">
+        <div class="r-header"><h1>Risotto with<br>Tomatoes and Basil<br><span style="font-family:'Inter',sans-serif;font-size:14px;font-weight:500;color:#999;">— 2-serving scaled version (60%)</span></h1><div class="r-meta"><div><strong>Yield</strong>&nbsp;serves 2 as main</div><div><strong>Total time</strong>&nbsp;~1 hour</div><div style="margin-top:4px;color:#b07d3a;">Modernist Cuisine · adapted</div></div></div>
+        <div class="r-section"><div class="r-section-label">Section 1</div><div class="r-section-title">Mise en Place — Ingredients &amp; Tools</div>
+          <div class="mise-columns"><div>
+            <div class="mise-col-header">Risotto</div>
+            <table class="mise-table">
+              <tr><td class="qty">225 g</td><td>carnaroli risotto rice</td></tr>
+              <tr><td class="qty">360 g</td><td>chicken stock</td></tr>
+              <tr><td class="qty">345 g</td><td>water (combined with stock to make light stock)</td></tr>
+              <tr><td class="qty">~300 g</td><td>additional light chicken stock (for adjusting consistency)</td></tr>
+              <tr><td class="qty">108 g</td><td>sauvignon blanc or other fruity white wine</td></tr>
+              <tr><td class="qty">90 g</td><td>Parmigiano Reggiano, grated (food processor)</td></tr>
+              <tr><td class="qty">180 g</td><td>tiny tomatoes (Sparkle or cherry), rinsed</td></tr>
+              <tr><td class="qty">30 g</td><td>shallots, finely chopped</td></tr>
+              <tr><td class="qty">30 g</td><td>canola oil</td></tr>
+              <tr><td class="qty">1</td><td>large bunch fresh basil</td></tr>
+              <tr><td class="qty">scant ½ tsp</td><td>salt (plus more to taste)</td></tr>
+            </table>
+          </div><div>
+            <div class="mise-col-header">Tools</div>
+            <table class="mise-table">
+              <tr><td class="qty">1</td><td>pressure cooker</td></tr>
+              <tr><td class="qty">1</td><td>food processor (for cheese)</td></tr>
+              <tr><td class="qty">1</td><td>small saucepan (reserve stock)</td></tr>
+              <tr><td class="qty">1</td><td>large bowl or measuring vessel</td></tr>
+              <tr><td class="qty">1</td><td>strainer (for tomatoes)</td></tr>
+              <tr><td class="qty">4</td><td>ingredient bowls</td></tr>
+              <tr><td class="qty"></td><td>spatula · ladle · kitchen scale</td></tr>
+              <tr><td class="qty"></td><td>instant-read thermometer</td></tr>
+            </table>
+          </div></div>
+        </div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 2</div><div class="r-section-title">Prep</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Make light stock.</em> Combine <em>360 g chicken stock</em> and <em>345 g water</em> in a large vessel. Add <em>108 g wine</em>. Add <em>1–2 tsp salt</em> if stock is unsalted. Set aside.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Warm reserve stock.</em> Warm <em>~300 g additional light stock</em> over low heat and keep at a simmer.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Grate cheese.</em> Grate <em>90 g Parmigiano Reggiano</em> in a food processor. Transfer to an ingredient bowl.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Stage remaining bowls.</em> Set out bowls for <em>225 g rice</em> and <em>scant ½ tsp salt</em>. Rinse <em>180 g tomatoes</em> and leave in the strainer.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Prep basil.</em> Wash basil but do not cut — chiffonade just before adding at the end.</div></div>
+          <div class="step"><div class="step-num">6</div><div class="step-text"><em>Prep pressure cooker.</em> Finely chop <em>30 g shallots</em> and add directly to the pressure cooker. Add <em>30 g canola oil</em> and <em>scant ½ tsp salt</em>.</div></div>
+        </div></div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 3</div><div class="r-section-title">Pressure Cook</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Sauté shallots.</em> Heat pressure cooker over medium-high, stirring, until shallots are soft and translucent, about <em>2 minutes</em>. Do not allow them to color.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Toast rice.</em> Add <em>225 g rice</em> and cook, stirring, for <em>1 minute</em>.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Add liquids.</em> Add the <em>stock and wine mixture</em>. Reduce heat to medium-low.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Pressure cook.</em> Seal and bring to <em>1 bar / 2 lines</em> pressure. Cook for exactly <em>6 minutes</em>, starting the timer only when full pressure is reached.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Release pressure.</em> Let decrease naturally if time allows. For the last bit of pressure, run tepid water over the rim of the cooker.</div></div>
+          <div class="step"><div class="step-num">6</div><div class="step-text"><em>Check rice and add cheese.</em> Rice should be <em>al dente</em>. Let cool to <em>140–160°F / 60–70°C</em> before adding cheese. Add <em>Parmigiano gradually</em> in 3–4 additions, stirring constantly after each until creamy and homogeneous.</div></div>
+          <div class="step"><div class="step-num">7</div><div class="step-text"><em>Finish.</em> Adjust salt. Add the <em>tomatoes</em>. Chiffonade the <em>basil</em> and fold in. Adjust consistency with warm stock. Serve immediately.</div></div>
+        </div>
+        <div class="note"><strong>Pressure reference:</strong> Hissing = 1.2 bar. Second red line = 0.8 bar. First red line = 0.4 bar. Target is <em>1 bar</em> — between the two red lines.</div>
+        </div>
+        <div class="r-footer">Modernist Cuisine · Risotto with Tomatoes and Basil · adapted · Serves 2 · 60% scale</div>
+      </div>
+    </div>
+
+    <!-- PANEL 32: Best Ground Beef Chili -->
+    <div class="recipe-panel" id="panel32" style="display:none;">
+      <div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Best Ground Beef Chili</div></div>
+      <div class="recipe-wrap">
+        <div class="r-header"><h1>Best Ground<br>Beef Chili</h1><div class="r-meta"><div><strong>Yield</strong>&nbsp;serves 8–10</div><div><strong>Total time</strong>&nbsp;3¼ hours</div><div style="margin-top:4px;color:#b07d3a;">America's Test Kitchen · Andrew Janjigian, 2015</div></div></div>
+        <div class="r-section"><div class="r-section-label">Section 1</div><div class="r-section-title">Mise en Place — Ingredients &amp; Tools</div>
+          <div class="mise-columns"><div>
+            <div class="mise-col-header">Chili</div>
+            <table class="mise-table">
+              <tr><td class="qty">2 lbs</td><td>85% lean ground beef</td></tr>
+              <tr><td class="qty">6</td><td>dried ancho chiles, stemmed, seeded, torn into 1-inch pieces</td></tr>
+              <tr><td class="qty">1</td><td>14.5-oz can whole peeled tomatoes</td></tr>
+              <tr><td class="qty">1</td><td>15-oz can pinto beans</td></tr>
+              <tr><td class="qty">1</td><td>onion, chopped fine</td></tr>
+              <tr><td class="qty">3</td><td>garlic cloves, minced</td></tr>
+              <tr><td class="qty">28 g</td><td>tortilla chips, crushed (¼ cup)</td></tr>
+              <tr><td class="qty">1–2 tsp</td><td>minced canned chipotle chile in adobo</td></tr>
+              <tr><td class="qty">2 tbsp + 2 cups</td><td>water (divided)</td></tr>
+              <tr><td class="qty">2 tbsp</td><td>cider vinegar</td></tr>
+              <tr><td class="qty">1 tbsp</td><td>vegetable oil</td></tr>
+              <tr><td class="qty">2 tsp</td><td>sugar</td></tr>
+              <tr><td class="qty"></td><td>ground cumin, paprika, garlic powder, coriander, oregano, thyme, baking soda, salt &amp; pepper</td></tr>
+            </table>
+            <div style="margin-top:14px;"><div class="mise-col-header">For Serving</div>
+            <table class="mise-table">
+              <tr><td class="qty"></td><td>lime wedges · cilantro · chopped red onion</td></tr>
+              <tr><td class="qty"></td><td>avocado, sour cream, shredded cheese (optional)</td></tr>
+              <tr><td class="qty"></td><td>tortilla chips or steamed white rice</td></tr>
+            </table></div>
+          </div><div>
+            <div class="mise-col-header">Tools</div>
+            <table class="mise-table">
+              <tr><td class="qty">1</td><td>Dutch oven with lid</td></tr>
+              <tr><td class="qty">1</td><td>food processor</td></tr>
+              <tr><td class="qty">1</td><td>large bowl (for beef)</td></tr>
+              <tr><td class="qty">2</td><td>medium bowls</td></tr>
+              <tr><td class="qty"></td><td>wooden spoon · kitchen scale</td></tr>
+            </table>
+          </div></div>
+        </div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 2</div><div class="r-section-title">Prep</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Preheat oven</em> to <em>275°F</em> with rack in the lower-middle position.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Season beef.</em> Toss <em>2 lbs ground beef</em> with <em>2 tbsp water</em>, <em>1½ tsp salt</em>, and <em>¾ tsp baking soda</em> in a bowl until thoroughly combined. Set aside for <em>20 minutes</em>.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Toast and grind chiles.</em> Toast ancho chile pieces in the Dutch oven over medium-high until fragrant, <em>4–6 minutes</em>. Transfer to food processor and let cool. Add <em>28 g crushed tortilla chips</em>, <em>2 tbsp cumin</em>, <em>1 tbsp paprika</em>, <em>1 tbsp garlic powder</em>, <em>1 tbsp coriander</em>, <em>2 tsp oregano</em>, <em>½ tsp thyme</em>, and <em>2 tsp pepper</em>. Process until finely ground, about <em>2 minutes</em>. Transfer to a bowl.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Purée tomatoes.</em> Process the <em>can of whole peeled tomatoes</em> and their juice in the food processor until smooth, about <em>30 seconds</em>. Set aside.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Prep aromatics and liquids.</em> Chop <em>1 onion fine</em>. Mince <em>3 garlic cloves</em>. Mince <em>1–2 tsp chipotle</em>. In a medium bowl combine the <em>pinto beans and their liquid</em>, <em>2 cups water</em>, <em>2 tsp sugar</em>, and the tomato purée.</div></div>
+        </div></div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 3</div><div class="r-section-title">Cook</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Cook aromatics.</em> Heat <em>1 tbsp vegetable oil</em> in the Dutch oven over medium-high until shimmering. Add onion and cook until softened, <em>4–6 minutes</em>. Add garlic and cook until fragrant, about <em>1 minute</em>.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Brown beef.</em> Add the seasoned beef and cook, breaking into <em>¼-inch pieces</em>, until browned and fond begins to form, <em>12–14 minutes</em>.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Add ancho mixture and chipotle.</em> Add the ancho mixture and the <em>chipotle</em>. Cook, stirring frequently, until fragrant, <em>1–2 minutes</em>. Add the <em>liquid mixture</em> and bring to a boil, scraping up any browned bits.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Braise in oven.</em> Cover, transfer to oven, and cook until meat is tender and chili is slightly thickened, <em>1½–2 hours</em>, stirring occasionally.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Finish and serve.</em> Let stand uncovered for <em>10 minutes</em>. Stir any risen fat back into the chili. Stir in <em>2 tbsp cider vinegar</em> and season with salt to taste. Serve with lime wedges, cilantro, and chopped red onion.</div></div>
+        </div></div>
+        <div class="r-footer">America's Test Kitchen · Best Ground Beef Chili · Andrew Janjigian, 2015 · Serves 8–10</div>
+      </div>
+    </div>
+
+    <!-- PANEL 33: Chicken Enchiladas -->
+    <div class="recipe-panel" id="panel33" style="display:none;">
+      <div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Chicken Enchiladas with Red Chile Sauce</div></div>
+      <div class="recipe-wrap">
+        <div class="r-header"><h1>Chicken Enchiladas<br>with Red Chile Sauce</h1><div class="r-meta"><div><strong>Yield</strong>&nbsp;10 enchiladas · serves 4–5</div><div><strong>Total time</strong>&nbsp;1¾ hours</div><div style="margin-top:4px;color:#b07d3a;">America's Test Kitchen · 2013</div></div></div>
+        <div class="r-section"><div class="r-section-label">Section 1</div><div class="r-section-title">Mise en Place — Ingredients &amp; Tools</div>
+          <div class="mise-columns"><div>
+            <div class="mise-col-header">Sauce and Filling</div>
+            <table class="mise-table">
+              <tr><td class="qty">340 g</td><td>boneless, skinless chicken thighs (~4 thighs), trimmed, cut into ¼-inch-wide strips</td></tr>
+              <tr><td class="qty">2</td><td>8-oz cans tomato sauce</td></tr>
+              <tr><td class="qty">1</td><td>medium onion, chopped fine (~1 cup)</td></tr>
+              <tr><td class="qty">3</td><td>garlic cloves, minced</td></tr>
+              <tr><td class="qty">227 g</td><td>sharp cheddar cheese, grated (2 cups) — for filling</td></tr>
+              <tr><td class="qty">1</td><td>4-oz can pickled jalapeños, drained and chopped (~¼ cup)</td></tr>
+              <tr><td class="qty">½ cup</td><td>fresh cilantro, chopped</td></tr>
+              <tr><td class="qty">177 g</td><td>water (¾ cup)</td></tr>
+              <tr><td class="qty">1½ tbsp</td><td>vegetable or corn oil</td></tr>
+              <tr><td class="qty">2 tsp</td><td>sugar</td></tr>
+              <tr><td class="qty"></td><td>chili powder, coriander, cumin, salt</td></tr>
+            </table>
+            <div style="margin-top:14px;"><div class="mise-col-header">Tortillas and Toppings</div>
+            <table class="mise-table">
+              <tr><td class="qty">10</td><td>6-inch corn tortillas</td></tr>
+              <tr><td class="qty">85 g</td><td>sharp cheddar cheese, grated (¾ cup) — for topping</td></tr>
+              <tr><td class="qty">¾ cup</td><td>sour cream</td></tr>
+              <tr><td class="qty">1</td><td>avocado, diced</td></tr>
+              <tr><td class="qty">5</td><td>romaine lettuce leaves, shredded</td></tr>
+              <tr><td class="qty">2</td><td>limes, quartered</td></tr>
+              <tr><td class="qty"></td><td>vegetable cooking spray</td></tr>
+            </table></div>
+          </div><div>
+            <div class="mise-col-header">Tools</div>
+            <table class="mise-table">
+              <tr><td class="qty">1</td><td>medium saucepan</td></tr>
+              <tr><td class="qty">1</td><td>13 × 9-inch baking dish</td></tr>
+              <tr><td class="qty">2</td><td>rimmed baking sheets</td></tr>
+              <tr><td class="qty">1</td><td>medium-mesh strainer</td></tr>
+              <tr><td class="qty">1</td><td>medium bowl</td></tr>
+              <tr><td class="qty">1</td><td>small bowl (spices)</td></tr>
+              <tr><td class="qty">1</td><td>large plate</td></tr>
+              <tr><td class="qty"></td><td>aluminum foil · kitchen scale</td></tr>
+            </table>
+          </div></div>
+        </div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 2</div><div class="r-section-title">Prep</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Prep chicken.</em> Trim and cut chicken thighs into <em>¼-inch-wide strips</em>.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Prep aromatics and spices.</em> Chop <em>1 onion fine</em>. Drain and chop <em>jalapeños</em>. Chop <em>½ cup cilantro</em>. Combine in a small bowl: <em>3 minced garlic cloves</em>, <em>3 tbsp chili powder</em>, <em>2 tsp coriander</em>, <em>2 tsp cumin</em>, <em>½ tsp salt</em>, and <em>2 tsp sugar</em>.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Grate cheese.</em> Grate all cheese and keep separate — <em>2 cups (227 g)</em> for the filling and <em>¾ cup (85 g)</em> for the topping.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Combine tomato sauce and water.</em> Open both cans of tomato sauce and combine with <em>177 g water</em>. Total liquid: approximately <em>530 g</em>.</div></div>
+        </div></div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 3</div><div class="r-section-title">Cook — Sauce and Filling</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Build sauce.</em> Heat <em>1½ tbsp oil</em> in a medium saucepan over medium-high until shimmering, about <em>2 minutes</em>. Add onion and cook until softened and beginning to brown, about <em>5 minutes</em>. Add the <em>garlic and spice bowl</em> and cook, stirring, until fragrant, about <em>30 seconds</em>. Add chicken and stir to coat, about <em>30 seconds</em>. Add the <em>tomato sauce mixture</em>. Bring to a simmer, reduce heat, and simmer uncovered until chicken is cooked through, about <em>8 minutes</em>.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Separate sauce from filling.</em> Pour through a strainer into a bowl, pressing on the solids to extract as much sauce as possible. Transfer the chicken mixture to a large plate and freeze for <em>10 minutes</em> to cool quickly.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Finish filling.</em> Combine cooled chicken mixture with <em>cilantro</em>, <em>jalapeños</em>, and <em>227 g cheddar</em> in a medium bowl.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Set up oven.</em> Adjust racks to upper and lower-middle positions. Heat oven to <em>300°F</em>.</div></div>
+        </div>
+        <div class="note"><strong>Make ahead:</strong> Sauce and filling can be prepared up to <em>2 days ahead</em> and refrigerated. Assemble shortly before baking.</div>
+        </div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 4</div><div class="r-section-title">Assemble and Bake</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Warm tortillas.</em> Place <em>10 corn tortillas</em> on two baking sheets. Spray both sides lightly with cooking spray. Bake until soft and pliable, about <em>4 minutes</em>.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Increase oven temperature</em> to <em>400°F</em>.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Assemble enchiladas.</em> Smear <em>¾ cup sauce</em> across the bottom of the baking dish. Place <em>⅓ cup filling</em> down the center of each tortilla. Roll tightly and place seam-side down in the dish, side by side.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Top and bake.</em> Pour remaining sauce over the enchiladas, spreading to coat each tortilla. Sprinkle <em>85 g topping cheese</em> down the center. Cover with foil and bake on the lower-middle rack until heated through and cheese is melted, <em>20–25 minutes</em>.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Serve immediately</em> with sour cream, avocado, shredded lettuce, and lime wedges.</div></div>
+        </div></div>
+        <div class="r-footer">America's Test Kitchen · Chicken Enchiladas with Red Chile Sauce · 2013 · Makes 10 · Serves 4–5</div>
+      </div>
+    </div>
+
+
+    <!-- PANEL 34: Corned Beef Hash -->
+    <div class="recipe-panel" id="panel34" style="display:none;">
+      <div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Corned Beef Hash</div></div>
+      <div class="recipe-wrap">
+        <div class="r-header"><h1>Corned Beef Hash</h1><div class="r-meta"><div><strong>Yield</strong>&nbsp;serves 1</div><div><strong>Total time</strong>&nbsp;45 minutes</div><div style="margin-top:4px;color:#b07d3a;">America's Test Kitchen · Lan Lam, 2016</div></div></div>
+        <div class="r-section"><div class="r-section-label">Section 1</div><div class="r-section-title">Mise en Place — Ingredients &amp; Tools</div>
+          <div class="mise-columns"><div>
+            <div class="mise-col-header">Ingredients</div>
+            <table class="mise-table">
+              <tr><td class="qty">½ lb</td><td>russet potatoes, peeled, cut into ½-inch pieces</td></tr>
+              <tr><td class="qty">85 g</td><td>cooked corned beef, shredded into bite-size pieces</td></tr>
+              <tr><td class="qty">¾ tbsp</td><td>unsalted butter</td></tr>
+              <tr><td class="qty">¼</td><td>small onion, chopped fine</td></tr>
+              <tr><td class="qty">½</td><td>small garlic clove, minced</td></tr>
+              <tr><td class="qty">3 tbsp</td><td>water</td></tr>
+              <tr><td class="qty">¾ tsp</td><td>hot sauce, plus extra for serving</td></tr>
+              <tr><td class="qty"></td><td>salt &amp; pepper</td></tr>
+            </table>
+          </div><div>
+            <div class="mise-col-header">Tools</div>
+            <table class="mise-table">
+              <tr><td class="qty">1</td><td>6 or 8-inch nonstick skillet with lid</td></tr>
+              <tr><td class="qty">2</td><td>large plates (for flipping hash)</td></tr>
+              <tr><td class="qty">1</td><td>serving platter</td></tr>
+              <tr><td class="qty"></td><td>spatula or wooden spoon</td></tr>
+              <tr><td class="qty"></td><td>peeler &amp; cutting board</td></tr>
+              <tr><td class="qty"></td><td>kitchen scale</td></tr>
+            </table>
+          </div></div>
+        </div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 2</div><div class="r-section-title">Prep</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Prep potatoes.</em> Peel and cut <em>½ lb russet potatoes</em> into <em>½-inch pieces</em>.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Prep onion and garlic.</em> Chop <em>¼ small onion fine</em>. Mince <em>½ small garlic clove</em>.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Shred corned beef.</em> Break <em>85 g cooked corned beef</em> into bite-size pieces by hand. Set aside.</div></div>
+        </div></div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 3</div><div class="r-section-title">Cook</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Cook onion.</em> Melt <em>¾ tbsp butter</em> in a 6 or 8-inch nonstick skillet over medium heat. Add the onion, <em>a pinch of salt</em>, and <em>a pinch of pepper</em>. Cook, stirring frequently, until translucent, about <em>3 minutes</em>.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Cook potatoes.</em> Increase heat to medium-high. Add the potatoes, garlic, and <em>3 tbsp water</em>. Cover and cook for <em>6 minutes</em>. Remove lid and continue cooking, stirring frequently, until potatoes are cooked through and all water has evaporated, about <em>6 minutes</em> more.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Add corned beef.</em> Remove skillet from heat. Mash approximately <em>⅛ of the potatoes</em> with a spatula. Stir the mashed potatoes into the pieces until lightly coated. Stir in the <em>corned beef</em> and <em>¾ tsp hot sauce</em> and toss until well combined. Press the hash into an even layer.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Brown first side.</em> Return skillet to high heat and cook without stirring for <em>3 minutes</em> until the bottom is browned and crisp.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Flip hash.</em> Carefully slide the hash onto a large plate. Invert a second plate on top, then flip both plates so the hash lands browned-side up. Slide the hash back into the skillet browned-side up.</div></div>
+          <div class="step"><div class="step-num">6</div><div class="step-text"><em>Brown second side.</em> Return to high heat and cook until the second side is browned and crisp around the edges, about <em>3 minutes</em>. Transfer to a platter and serve with extra hot sauce. Serve with poached or fried eggs.</div></div>
+        </div></div>
+        <div class="r-footer">America's Test Kitchen · Corned Beef Hash · Lan Lam, 2016 · Serves 1</div>
+      </div>
+    </div>
+
+    <!-- PANEL 35: Classic Blueberry Muffins -->
+    <div class="recipe-panel" id="panel35" style="display:none;">
+      <div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Classic Blueberry Muffins</div></div>
+      <div class="recipe-wrap">
+        <div class="r-header"><h1>Classic Blueberry<br>Muffins</h1><div class="r-meta"><div><strong>Yield</strong>&nbsp;12 muffins</div><div><strong>Total time</strong>&nbsp;55 minutes</div><div style="margin-top:4px;color:#b07d3a;">America's Test Kitchen · 2007</div></div></div>
+        <div class="r-section"><div class="r-section-label">Section 1</div><div class="r-section-title">Mise en Place — Ingredients &amp; Tools</div>
+          <div class="mise-columns"><div>
+            <div class="mise-col-header">Ingredients</div>
+            <table class="mise-table">
+              <tr><td class="qty">283 g</td><td>unbleached all-purpose flour (2 cups)</td></tr>
+              <tr><td class="qty">198 g</td><td>granulated sugar (1 cup)</td></tr>
+              <tr><td class="qty">283 g</td><td>sour cream (1¼ cups)</td></tr>
+              <tr><td class="qty">4 tbsp</td><td>unsalted butter, melted and cooled slightly</td></tr>
+              <tr><td class="qty">1</td><td>large egg</td></tr>
+              <tr><td class="qty">284 g</td><td>frozen blueberries, preferably wild</td></tr>
+              <tr><td class="qty">1 tbsp</td><td>baking powder</td></tr>
+              <tr><td class="qty">½ tsp</td><td>table salt</td></tr>
+              <tr><td class="qty"></td><td>nonstick cooking spray</td></tr>
+            </table>
+          </div><div>
+            <div class="mise-col-header">Tools</div>
+            <table class="mise-table">
+              <tr><td class="qty">1</td><td>standard 12-cup muffin tin</td></tr>
+              <tr><td class="qty">1</td><td>medium bowl (dry ingredients)</td></tr>
+              <tr><td class="qty">1</td><td>medium bowl (wet ingredients)</td></tr>
+              <tr><td class="qty"></td><td>whisk · rubber spatula</td></tr>
+              <tr><td class="qty"></td><td>ice cream scoop or large spoon</td></tr>
+              <tr><td class="qty"></td><td>instant-read thermometer</td></tr>
+              <tr><td class="qty"></td><td>wire rack · kitchen scale</td></tr>
+            </table>
+          </div></div>
+        </div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 2</div><div class="r-section-title">Prep</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Preheat oven</em> to <em>325°F convection</em>. Spray a standard muffin tin with nonstick cooking spray.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Mix dry ingredients.</em> Whisk together <em>283 g flour</em>, <em>1 tbsp baking powder</em>, and <em>½ tsp salt</em> in a medium bowl.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Mix wet ingredients.</em> Whisk <em>1 large egg</em> until well combined and light-colored, about <em>20 seconds</em>. Add <em>198 g sugar</em> and whisk vigorously until thick and homogeneous, about <em>30 seconds</em>. Add <em>4 tbsp melted butter</em> in 2–3 additions, whisking after each. Add <em>283 g sour cream</em> in 2 additions, whisking just to combine.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Add blueberries and combine.</em> Add <em>284 g frozen blueberries</em> to the dry ingredients and toss gently to coat. Add the wet mixture and fold with a rubber spatula until the batter just comes together, <em>25–30 seconds</em>. Batter will be thick — small spots of flour may remain. Do not overmix.</div></div>
+        </div></div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 3</div><div class="r-section-title">Bake</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Fill and bake.</em> Divide batter evenly among the 12 muffin cups. Bake at <em>325°F convection</em> until light golden brown, <em>35–40 minutes</em>. Muffins are done when a thermometer reads close to <em>205°F</em>. Do not underbake — gluey muffins are a sign of undercooking.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Cool.</em> Let muffins rest in the tin for <em>5 minutes</em>, then invert onto a wire rack, stand upright, and cool another <em>5 minutes</em>. Serve warm.</div></div>
+        </div></div>
+        <div class="r-footer">America's Test Kitchen · Classic Blueberry Muffins · 2007 · Makes 12</div>
+      </div>
+    </div>
+
+    <!-- PANEL 36: Classic Stuffed Bell Peppers -->
+    <div class="recipe-panel" id="panel36" style="display:none;">
+      <div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Classic Stuffed Bell Peppers</div></div>
+      <div class="recipe-wrap">
+        <div class="r-header"><h1>Classic Stuffed<br>Bell Peppers</h1><div class="r-meta"><div><strong>Yield</strong>&nbsp;serves 4</div><div><strong>Total time</strong>&nbsp;1¾ hours</div><div style="margin-top:4px;color:#b07d3a;">America's Test Kitchen · 2007</div></div></div>
+        <div class="r-section"><div class="r-section-label">Section 1</div><div class="r-section-title">Mise en Place — Ingredients &amp; Tools</div>
+          <div class="mise-columns"><div>
+            <div class="mise-col-header">Ingredients</div>
+            <table class="mise-table">
+              <tr><td class="qty">4</td><td>medium red, yellow, or orange bell peppers (~170 g each), ½ inch trimmed off tops, cored and seeded</td></tr>
+              <tr><td class="qty">340 g</td><td>ground beef (preferably ground chuck)</td></tr>
+              <tr><td class="qty">141 g</td><td>Monterey Jack cheese, shredded (1¼ cups)</td></tr>
+              <tr><td class="qty">1</td><td>14.5-oz can diced tomatoes, drained</td></tr>
+              <tr><td class="qty">1</td><td>medium onion, chopped fine (~1 cup)</td></tr>
+              <tr><td class="qty">3</td><td>garlic cloves, minced</td></tr>
+              <tr><td class="qty">½ cup</td><td>long-grain white rice</td></tr>
+              <tr><td class="qty">2 tbsp</td><td>fresh parsley, chopped</td></tr>
+              <tr><td class="qty"></td><td>table salt &amp; ground black pepper</td></tr>
+            </table>
+          </div><div>
+            <div class="mise-col-header">Tools</div>
+            <table class="mise-table">
+              <tr><td class="qty">1</td><td>large stockpot or Dutch oven</td></tr>
+              <tr><td class="qty">1</td><td>12-inch heavy-bottomed skillet</td></tr>
+              <tr><td class="qty">1</td><td>9-inch square baking dish</td></tr>
+              <tr><td class="qty">1</td><td>large bowl</td></tr>
+              <tr><td class="qty"></td><td>slotted spoon · paper towels</td></tr>
+              <tr><td class="qty"></td><td>soup spoon (for filling)</td></tr>
+              <tr><td class="qty"></td><td>kitchen scale</td></tr>
+            </table>
+          </div></div>
+        </div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 2</div><div class="r-section-title">Prep</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Prep vegetables and cheese.</em> Chop <em>1 medium onion fine</em>. Mince <em>3 garlic cloves</em>. Chop <em>2 tbsp fresh parsley</em>. Shred <em>141 g Monterey Jack</em> and set aside <em>¼ cup</em> separately for topping.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Blanch peppers and cook rice.</em> Bring <em>4 quarts water</em> to a boil. Add <em>1 tbsp salt</em> and the peppers. Cook until just beginning to soften, <em>3–8 minutes</em>. Remove with a slotted spoon, drain, and place cut-side up on paper towels. Return water to a boil, add <em>½ cup rice</em>, and boil until tender, about <em>13 minutes</em>. Drain and transfer to a large bowl.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Preheat oven</em> to <em>350°F</em> with rack in the middle position.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Cook filling.</em> Heat the skillet over medium-high heat for about <em>1½ minutes</em>. Add <em>1½ tbsp olive oil</em> and swirl to coat. Add the onion and cook until softened and beginning to brown, about <em>5 minutes</em>. Add <em>340 g ground beef</em> and cook, breaking into small pieces, until no longer pink, about <em>4 minutes</em>. Stir in the garlic and cook until fragrant, about <em>30 seconds</em>.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Combine filling.</em> Transfer beef mixture to the bowl with the rice. Stir in the drained tomatoes, <em>1 cup Monterey Jack</em>, <em>2 tbsp parsley</em>, and salt and pepper to taste.</div></div>
+        </div></div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 3</div><div class="r-section-title">Assemble &amp; Bake</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Fill peppers.</em> Season the inside of each pepper generously with <em>salt</em>. Place cut-side up in the baking dish. Divide the filling evenly among the peppers.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Top and bake.</em> Sprinkle each pepper with <em>1 tbsp of the remaining Monterey Jack</em>. Bake until cheese is browned and filling is heated through, <em>25–30 minutes</em>.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Serve immediately.</em></div></div>
+        </div></div>
+        <div class="r-footer">America's Test Kitchen · Classic Stuffed Bell Peppers · 2007 · Serves 4</div>
+      </div>
+    </div>
+
+    <!-- PANEL 37: Chicken Piccata -->
+    <div class="recipe-panel" id="panel37" style="display:none;">
+      <div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Chicken Piccata</div></div>
+      <div class="recipe-wrap">
+        <div class="r-header"><h1>Chicken Piccata</h1><div class="r-meta"><div><strong>Yield</strong>&nbsp;serves 2</div><div><strong>Total time</strong>&nbsp;~45 minutes</div><div style="margin-top:4px;color:#b07d3a;">Cook's Illustrated</div></div></div>
+        <div class="r-section"><div class="r-section-label">Section 1</div><div class="r-section-title">Mise en Place — Ingredients &amp; Tools</div>
+          <div class="mise-columns"><div>
+            <div class="mise-col-header">Ingredients</div>
+            <table class="mise-table">
+              <tr><td class="qty">2</td><td>boneless chicken breasts</td></tr>
+              <tr><td class="qty">2</td><td>lemons (divided)</td></tr>
+              <tr><td class="qty">1 cup</td><td>chicken stock</td></tr>
+              <tr><td class="qty">1</td><td>small shallot, minced</td></tr>
+              <tr><td class="qty">2 tbsp</td><td>small capers, rinsed</td></tr>
+              <tr><td class="qty">3 tbsp</td><td>unsalted butter, cut into small pieces</td></tr>
+              <tr><td class="qty">2 tbsp</td><td>fresh parsley, chopped fine</td></tr>
+              <tr><td class="qty"></td><td>all-purpose flour (for dredging)</td></tr>
+              <tr><td class="qty"></td><td>canola oil · salt &amp; pepper</td></tr>
+            </table>
+          </div><div>
+            <div class="mise-col-header">Tools</div>
+            <table class="mise-table">
+              <tr><td class="qty">1</td><td>large sauté pan</td></tr>
+              <tr><td class="qty">1</td><td>meat pounder</td></tr>
+              <tr><td class="qty">1</td><td>citrus juicer</td></tr>
+              <tr><td class="qty"></td><td>plastic wrap · tongs</td></tr>
+              <tr><td class="qty">5</td><td>small prep bowls</td></tr>
+              <tr><td class="qty">1</td><td>ovenproof platter</td></tr>
+              <tr><td class="qty"></td><td>disposable gloves (for pounding)</td></tr>
+            </table>
+          </div></div>
+        </div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 2</div><div class="r-section-title">Prep</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Prep lemons.</em> Halve <em>1 lemon</em> pole to pole. Trim the end from one half and cut into <em>⅛-inch slices</em>. Juice the other half plus the <em>second lemon</em> — you should have just under <em>¼ cup juice</em>. Keep slices and juice separate.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Stage mise en place bowls.</em> Set out five small bowls: <em>lemon juice and capers</em> combined; <em>lemon slices and 1 cup chicken stock</em> combined; <em>minced shallot</em>; <em>chopped parsley</em>; <em>butter pieces</em>.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Prep chicken.</em> Rinse and dry the chicken breasts. Cut each into <em>3 pieces</em>. Place between plastic wrap and pound to <em>¼ to ⅜-inch thickness</em>. Season both sides with <em>salt and pepper</em>.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Warm oven.</em> Heat oven to its <em>lowest setting</em> and place a platter inside to keep warm.</div></div>
+        </div></div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 3</div><div class="r-section-title">Cook</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Heat pan.</em> Heat the sauté pan over medium-high heat. Add <em>2 tbsp canola oil</em> and wait until it shimmers.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Dredge and cook cutlets in batches.</em> Dredge <em>3 cutlets</em> in flour, shaking off the excess. Cook <em>1½–2 minutes per side</em> until golden. Transfer to the warm platter in the oven. Repeat with remaining cutlets.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Build sauce.</em> Add the <em>minced shallot</em> to the empty skillet and sauté until fragrant, about <em>30 seconds</em>. Add the <em>chicken stock and lemon slices</em>. Simmer and reduce to about <em>⅓ cup</em>. Add the <em>lemon juice and capers</em> and reduce again to <em>⅓ cup</em>.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Finish sauce.</em> Remove pan from heat. Swirl in <em>butter pieces</em> until melted and sauce is glossy. Stir in <em>parsley</em>.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Serve immediately.</em> Spoon sauce over chicken and serve at once.</div></div>
+        </div></div>
+        <div class="r-footer">Cook's Illustrated · Chicken Piccata · Serves 2</div>
+      </div>
+    </div>
+
+    <!-- PANEL 38: Charcoal-Grilled Sausages with Peppers and Onions -->
+    <div class="recipe-panel" id="panel38" style="display:none;">
+      <div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Charcoal-Grilled Sausages with Peppers and Onions</div></div>
+      <div class="recipe-wrap">
+        <div class="r-header"><h1>Charcoal-Grilled Sausages<br>with Peppers and Onions</h1><div class="r-meta"><div><strong>Yield</strong>&nbsp;serves 2</div><div><strong>Total time</strong>&nbsp;1¼ hours</div><div style="margin-top:4px;color:#b07d3a;">America's Test Kitchen · 2011</div></div></div>
+        <div class="r-section"><div class="r-section-label">Section 1</div><div class="r-section-title">Mise en Place — Ingredients &amp; Tools</div>
+          <div class="mise-columns"><div>
+            <div class="mise-col-header">Ingredients</div>
+            <table class="mise-table">
+              <tr><td class="qty">2</td><td>hot or sweet Italian sausages</td></tr>
+              <tr><td class="qty">2</td><td>medium red bell peppers, seeded and quartered</td></tr>
+              <tr><td class="qty">2</td><td>medium onions, halved, sliced ¼-inch pole to pole</td></tr>
+              <tr><td class="qty"></td><td>table salt &amp; ground black pepper</td></tr>
+            </table>
+          </div><div>
+            <div class="mise-col-header">Tools</div>
+            <table class="mise-table">
+              <tr><td class="qty">1</td><td>charcoal grill</td></tr>
+              <tr><td class="qty">1</td><td>large chimney starter</td></tr>
+              <tr><td class="qty">6 qts</td><td>charcoal briquettes (~100)</td></tr>
+              <tr><td class="qty">1</td><td>13 × 9-inch disposable aluminum roasting pan</td></tr>
+              <tr><td class="qty">1</td><td>medium microwave-safe bowl</td></tr>
+              <tr><td class="qty"></td><td>aluminum foil · tongs · grill brush</td></tr>
+              <tr><td class="qty"></td><td>serving platter</td></tr>
+              <tr><td class="qty"></td><td>sous vide circulator + bags <em style="font-weight:400;color:#888;">(optional — see Variation)</em></td></tr>
+            </table>
+          </div></div>
+        </div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 2</div><div class="r-section-title">Prep</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Light charcoal.</em> Fill a large chimney starter with <em>6 quarts of charcoal briquettes</em> and light. Allow to burn until coals are fully ignited and partially covered with ash, about <em>20 minutes</em>.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Microwave onions.</em> Combine <em>sliced onions</em>, <em>½ tsp salt</em>, and <em>¼ tsp pepper</em> in a microwave-safe bowl. Cover with plastic wrap and microwave on high until onions begin to soften, <em>4–6 minutes</em>, stirring once halfway.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Build grill.</em> Arrange coals in a single even layer across the bottom. Set cooking grate over coals, cover, and heat until grate is hot, about <em>5 minutes</em>. Scrape grate clean.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Assemble roasting pan.</em> Transfer microwaved onions to the disposable roasting pan. Place <em>sausages</em> and <em>quartered peppers</em> in a single layer over onions. Wrap pan tightly with foil.</div></div>
+        </div></div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 3</div><div class="r-section-title">Grill</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Steam in pan.</em> Place the foil-covered roasting pan in the center of the grill. Cover and cook for <em>15 minutes</em>.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Move pan and remove foil.</em> Move pan to one side of the grill. Carefully remove the foil. Transfer sausages and peppers directly onto the grate over the coals.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Grill sausages and peppers.</em> Grill sausages uncovered, turning every <em>1–2 minutes</em>, until golden brown on all sides, <em>5–7 minutes</em>. Grill pepper pieces, turning once, until charred patches form, <em>5–7 minutes</em>. Transfer sausages and peppers to a platter and loosely tent with foil.
+            <div style="margin-top:8px;background:#fdf6ec;border-left:3px solid #d4a45a;padding:10px 14px;font-size:12.5px;color:#555;line-height:1.6;"><strong style="color:#1a1a1a;">Alternative — direct heat peppers:</strong> Skip adding peppers to the roasting pan. After the sausages come off the grate, place quartered peppers <em style="font-style:normal;font-weight:600;color:#1a1a1a;">skin-side down</em> directly over the coals. Leave undisturbed until skin is charred and blistered, <em style="font-style:normal;font-weight:600;color:#1a1a1a;">4–5 minutes</em>. Flip once and cook <em style="font-style:normal;font-weight:600;color:#1a1a1a;">1 minute</em> more.</div>
+          </div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Finish onions.</em> Cover grill and continue cooking onions in the pan, stirring occasionally, until liquid evaporates and onions begin to brown, <em>5–10 minutes</em> more.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Serve</em> sausages immediately, passing onions and peppers separately. Serve as is or in toasted buns.</div></div>
+        </div></div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Variation</div><div class="r-section-title">Sous Vide + Grill Method</div>
+        <div style="font-size:12.5px;color:#666;line-height:1.6;margin-bottom:16px;">Sous vide the sausages first, then finish on the grill for color. The pan-steaming phase is replaced by the water bath. Sausages can be sous vided up to <em style="font-style:normal;font-weight:600;color:#1a1a1a;">2 days ahead</em> and refrigerated in their bags.</div>
+        <div style="margin-bottom:20px;">
+          <div class="mise-col-header" style="margin-bottom:10px;">Temperature Reference</div>
+          <table style="width:100%;border-collapse:collapse;font-size:13px;">
+            <tr style="border-bottom:1px solid #ccc;"><td style="padding:6px 10px 6px 0;font-weight:600;color:#1a1a1a;width:130px;">140°F / 60°C</td><td style="padding:6px 0;color:#2a2a2a;">Extra juicy but quite soft</td></tr>
+            <tr style="border-bottom:1px solid #ccc;background:#fffdf0;"><td style="padding:6px 10px 6px 0;font-weight:600;color:#b07d3a;">150°F / 66°C ★</td><td style="padding:6px 0;color:#2a2a2a;">Fully firm and extra juicy — <strong>recommended</strong></td></tr>
+            <tr><td style="padding:6px 10px 6px 0;font-weight:600;color:#1a1a1a;">160°F / 71°C</td><td style="padding:6px 0;color:#2a2a2a;">Nearly traditional texture — springy and firm</td></tr>
+          </table>
+          <div style="font-size:11.5px;color:#999;margin-top:6px;font-style:italic;">All temperatures: 45 minutes to 4 hours</div>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Sous vide sausages.</em> Set circulator to <em>150°F / 66°C</em>. Seal sausages in vacuum or zip-lock bags. Cook for <em>45 minutes to 4 hours</em>.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>If cooking ahead.</em> Chill in an ice bath until cold. Refrigerate in bags for up to <em>2 days</em>. Remove from refrigerator <em>30 minutes</em> before grilling.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Light charcoal and prep vegetables.</em> Follow Prep Steps 1–4 above for lighting the grill, microwaving onions, and building the fire.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Cook peppers and onions.</em> Place the foil-covered roasting pan with onions on the grill. Cover and cook <em>15 minutes</em>. Move pan to the side, remove foil, and place peppers directly on grate. Grill turning once until charred, <em>5–7 minutes</em>. Transfer to platter. Continue cooking onions until browned, <em>5–10 minutes</em> more.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Sear sausages.</em> Remove sausages from bags and pat <em>thoroughly dry</em>. Place directly on grate over coals. Grill, turning every <em>1–2 minutes</em>, until golden brown, <em>3–5 minutes</em> total. Sausages are already cooked through — you are only developing color.</div></div>
+          <div class="step"><div class="step-num">6</div><div class="step-text"><em>Serve</em> immediately with onions and peppers on the side.</div></div>
+        </div></div>
+        <div class="r-footer">America's Test Kitchen · Charcoal-Grilled Sausages with Peppers and Onions · 2011 · Serves 2</div>
+      </div>
+    </div>
+
+    <!-- PANEL 39: Cheese and Tomato Lasagna -->
+    <div class="recipe-panel" id="panel39" style="display:none;">
+      <div class="topbar"><button class="back-btn" onclick="hideRecipe()">&#8592; Recipes</button><div class="topbar-title">Cheese and Tomato Lasagna</div></div>
+      <div class="recipe-wrap">
+        <div class="r-header"><h1>Cheese and<br>Tomato Lasagna</h1><div class="r-meta"><div><strong>Yield</strong>&nbsp;serves 8</div><div><strong>Total time</strong>&nbsp;2 hours + 20 min cooling</div><div style="margin-top:4px;color:#b07d3a;">America's Test Kitchen · Steve Dunn</div></div></div>
+        <div class="r-section"><div class="r-section-label">Section 1</div><div class="r-section-title">Mise en Place — Ingredients &amp; Tools</div>
+          <div class="mise-columns"><div>
+            <div class="mise-col-header">Cheese Sauce</div>
+            <table class="mise-table">
+              <tr><td class="qty">113 g</td><td>Pecorino Romano, grated (2 cups)</td></tr>
+              <tr><td class="qty">227 g</td><td>cottage cheese (1 cup)</td></tr>
+              <tr><td class="qty">120 g</td><td>heavy cream (½ cup)</td></tr>
+              <tr><td class="qty">2</td><td>garlic cloves, minced</td></tr>
+              <tr><td class="qty">1 tsp</td><td>cornstarch</td></tr>
+              <tr><td class="qty">¼ tsp</td><td>salt · ¼ tsp pepper</td></tr>
+            </table>
+            <div style="margin-top:14px;"><div class="mise-col-header">Tomato Sauce</div>
+            <table class="mise-table">
+              <tr><td class="qty">1</td><td>28-oz can crushed tomatoes</td></tr>
+              <tr><td class="qty">1</td><td>14.5-oz can diced tomatoes, drained</td></tr>
+              <tr><td class="qty">1</td><td>onion, chopped fine</td></tr>
+              <tr><td class="qty">4</td><td>garlic cloves, minced</td></tr>
+              <tr><td class="qty">8</td><td>anchovy fillets, rinsed, dried, minced</td></tr>
+              <tr><td class="qty">28 g</td><td>Pecorino Romano, grated (½ cup)</td></tr>
+              <tr><td class="qty">¼ cup</td><td>tomato paste</td></tr>
+              <tr><td class="qty">¼ cup</td><td>extra-virgin olive oil</td></tr>
+              <tr><td class="qty"></td><td>sugar, red pepper flakes, dried oregano, salt</td></tr>
+            </table></div>
+            <div style="margin-top:14px;"><div class="mise-col-header">Lasagna</div>
+            <table class="mise-table">
+              <tr><td class="qty">14</td><td>curly-edged lasagna noodles (not no-boil)</td></tr>
+              <tr><td class="qty">227 g</td><td>fontina cheese, shredded (2 cups)</td></tr>
+              <tr><td class="qty">28 g</td><td>Pecorino Romano, grated (¼ cup)</td></tr>
+              <tr><td class="qty">3 tbsp</td><td>fresh basil, chopped</td></tr>
+              <tr><td class="qty"></td><td>cornstarch · vegetable oil spray</td></tr>
+            </table></div>
+          </div><div>
+            <div class="mise-col-header">Tools</div>
+            <table class="mise-table">
+              <tr><td class="qty">1</td><td>9 × 13-inch baking dish</td></tr>
+              <tr><td class="qty">1</td><td>large saucepan</td></tr>
+              <tr><td class="qty">1</td><td>large bowl</td></tr>
+              <tr><td class="qty"></td><td>whisk · paring knife</td></tr>
+              <tr><td class="qty"></td><td>clean dish towel</td></tr>
+              <tr><td class="qty"></td><td>aluminum foil · kitchen scale</td></tr>
+            </table>
+          </div></div>
+        </div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 2</div><div class="r-section-title">Prep</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Make cheese sauce.</em> Whisk together <em>113 g Pecorino Romano</em>, <em>227 g cottage cheese</em>, <em>120 g heavy cream</em>, <em>2 minced garlic cloves</em>, <em>1 tsp cornstarch</em>, <em>¼ tsp salt</em>, and <em>¼ tsp pepper</em> in a bowl until homogeneous. Set aside.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Make tomato sauce.</em> Heat <em>¼ cup olive oil</em> in a large saucepan over medium heat. Add the onion, <em>1½ tsp sugar</em>, <em>½ tsp red pepper flakes</em>, <em>½ tsp dried oregano</em>, and <em>½ tsp salt</em>. Cook until softened, about <em>10 minutes</em>. Add <em>4 minced garlic cloves</em> and <em>8 minced anchovies</em> and cook until fragrant, about <em>2 minutes</em>. Stir in crushed tomatoes, drained diced tomatoes, <em>28 g Pecorino Romano</em>, and <em>¼ cup tomato paste</em>. Bring to a simmer and cook until slightly thickened, about <em>20 minutes</em>.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Soak noodles.</em> While sauce simmers, lay noodles in the baking dish and cover with boiling water. Soak until pliable, about <em>15 minutes</em>, separating with a paring knife to prevent sticking. Pour off water, run cold water over noodles, then pat dry with a clean dish towel. Dry the dish. Cut <em>2 noodles in half crosswise</em>.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Preheat oven</em> to <em>375°F</em> with rack in the middle position.</div></div>
+        </div></div>
+        <hr class="r-divider">
+        <div class="r-section"><div class="r-section-label">Section 3</div><div class="r-section-title">Assemble &amp; Bake</div><div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><em>Layer 1 — base.</em> Spread <em>1½ cups tomato sauce</em> in the bottom of the dish. Lay <em>3 noodles lengthwise</em> with ends touching one short side, then lay <em>1 half noodle crosswise</em> in the empty space. Spread <em>half the cheese sauce</em> over noodles, then <em>½ cup fontina</em>.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><em>Layer 2.</em> Repeat noodle layer, alternating which short side gets the half noodle to prevent buckling. Spread <em>1½ cups tomato sauce</em>, then <em>½ cup fontina</em>.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><em>Layer 3.</em> Add <em>3½ noodles</em> (alternating again), remaining <em>cheese sauce</em>, and <em>½ cup fontina</em>.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><em>Top layer.</em> Lay remaining <em>3½ noodles</em> over the cheese sauce. Spread remaining <em>tomato sauce</em> over noodles. Toss remaining <em>½ cup fontina</em> with a pinch of <em>cornstarch</em>, then sprinkle over tomato sauce, followed by <em>28 g Pecorino Romano</em>.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><em>Bake covered.</em> Spray a sheet of foil with vegetable oil spray and cover the lasagna. Bake for <em>35 minutes</em>. Remove from oven and increase temperature to <em>500°F</em>.</div></div>
+          <div class="step"><div class="step-num">6</div><div class="step-text"><em>Bake uncovered.</em> Remove foil and return to oven. Bake until top is lightly browned, <em>10–15 minutes</em>.</div></div>
+          <div class="step"><div class="step-num">7</div><div class="step-text"><em>Rest and serve.</em> Cool for <em>20 minutes</em>. Sprinkle with <em>3 tbsp fresh basil</em>, cut into pieces, and serve.</div></div>
+        </div></div>
+        <div class="r-footer">America's Test Kitchen · Cheese and Tomato Lasagna · Steve Dunn · Serves 8</div>
+      </div>
+    </div>
+
 </div>
 <script>
 function showRecipe(id) {
@@ -1537,6 +3118,18 @@ function showTab(cat, btn) {
   document.querySelectorAll(".tab-btn").forEach(function(b) { b.classList.remove("active"); });
   document.getElementById("cat-" + cat).classList.add("visible");
   btn.classList.add("active");
+  // Reset mains drill-down when switching to mains tab
+  if (cat === "mains") { hideSubcat(); }
+}
+function showSubcat(sub) {
+  document.getElementById("mains-menu").style.display = "none";
+  document.querySelectorAll(".subcat-panel").forEach(function(p) { p.classList.remove("visible"); });
+  document.getElementById("subcat-" + sub).classList.add("visible");
+}
+function hideSubcat() {
+  document.querySelectorAll(".subcat-panel").forEach(function(p) { p.classList.remove("visible"); });
+  var menu = document.getElementById("mains-menu");
+  if (menu) { menu.style.display = "flex"; }
 }
 </script>
 </body>
